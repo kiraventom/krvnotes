@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>warnings</Nullable>
+        <UseWPF>true</UseWPF>
+        <AssemblyName>krvnotes-gui</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="icons\add.png" />
+      <Resource Include="icons\add.png" />
+    </ItemGroup>
+
+</Project>
