@@ -22,8 +22,14 @@
             Grid.Row="0"
             Style="{StaticResource HeaderStyle}">
 
-            <Button Margin="15,0,5,0">
+            <Button Margin="15,0,5,0"
+                    Command="{Binding CreateNoteCommand}">
                 <Image Source="icons/add.png" />
+            </Button>
+            <Button Margin="15,0,5,0"
+                    Command="{Binding SaveNoteCommand}"
+                    CommandParameter="{Binding CurrentNote}">
+                Save
             </Button>
         </StackPanel>
 
@@ -39,10 +45,14 @@
                         </WrapPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="local:NoteModel">
-                        <Button>
+                        <Button
+                            Command="{Binding 
+                                RelativeSource={RelativeSource AncestorType=ItemsControl},
+                                Path=DataContext.DeleteNoteCommand}"
+                            CommandParameter="{Binding}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="2*" />
