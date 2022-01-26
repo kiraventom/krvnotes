@@ -39,13 +39,13 @@
                                 <!-- set own hover color -->
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Opacity" Value="1.0"/>
+                                        <Setter Property="Opacity" Value="0.5"/>
                                     </Trigger>
                                 </Style.Triggers>
                             
                                 <Setter Property="Width" Value="20"/>
                                 <Setter Property="Height" Value="20"/>
-                                <Setter Property="Opacity" Value="0.5"/>
+                                <Setter Property="Opacity" Value="0.25"/>
                                 <Setter Property="Background" Value="Transparent"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                             
