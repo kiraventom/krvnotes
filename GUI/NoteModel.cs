@@ -1,11 +1,21 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace GUI;
 
 public class NoteModel : INotifyPropertyChanged
 {
+    public NoteModel()
+    {
+        Guid = System.Guid.NewGuid().ToString();
+    }
+    
+    public NoteModel(string guid) => Guid = guid;
+
     private string _header;
     private string _text;
+    
+    public string Guid { get; }
 
     public string Header
     {

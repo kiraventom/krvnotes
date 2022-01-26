@@ -2,20 +2,20 @@
 
 namespace Logic;
 
-public class Dumper
+public static class Dumper
 {
-    internal Dumper()
+    static Dumper()
     {
         Directory.CreateDirectory(Constants.FolderPath);
     }
     
-    public void Save(Board board)
+    public static void Save(Board board)
     {
-        string json = JsonSerializer.Serialize(board, Constants.SerializerOptions);
+        string json = JsonSerializer.Serialize(board.Notes, Constants.SerializerOptions);
         File.WriteAllText(Constants.FilePath, json);    
     }
 
-    internal bool TryLoad(out Board board)
+    internal static bool TryLoad(out Board board)
     {
         if (!File.Exists(Constants.FilePath))
         {
@@ -24,7 +24,8 @@ public class Dumper
         }
         
         string json = File.ReadAllText(Constants.FilePath);
-        board = JsonSerializer.Deserialize<Board>(json, Constants.SerializerOptions);
+        var loadedNotes = JsonSerializer.Deserialize<IDictionary<string, Note>>(json, Constants.SerializerOptions);
+        board = new Board(loadedNotes);
         return true;
     }
 }

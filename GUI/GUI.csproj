@@ -13,4 +13,8 @@
       <Resource Include="icons\add.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Logic\Logic.csproj" />
+    </ItemGroup>
+
 </Project>
