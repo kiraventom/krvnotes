@@ -8,7 +8,6 @@ using Logic;
 
 namespace GUI;
 
-// TODO: Add notes editing
 public class BoardViewModel : INotifyPropertyChanged
 {
     public BoardViewModel()
@@ -21,16 +20,16 @@ public class BoardViewModel : INotifyPropertyChanged
                     Header = p.Value.Header,
                     Text = p.Value.Text
                 });
-        
+
         Notes = new ObservableCollection<NoteModel>(loadedNotes);
-        Notes.CollectionChanged += NotesOnCollectionChanged;
-        
+
         CreateNoteCommand = new Command(() => CurrentNote = new NoteModel());
-        SaveNoteCommand = new Command(SaveNote);
-        DeleteNoteCommand = new Command<NoteModel>(note => Notes.Remove(note), note => note is not null);
+        OpenNoteCommand = new Command<NoteModel>(note => CurrentNote = note, note => note is not null);
+        SaveNoteCommand = new Command(SaveAction);
+        DeleteNoteCommand = new Command<NoteModel>(DeleteAction,  note => note is not null);
     }
 
-    
+
     // Exposed properties
     public ObservableCollection<NoteModel> Notes { get; set; }
 
@@ -49,61 +48,49 @@ public class BoardViewModel : INotifyPropertyChanged
 
     public bool IsNoteEditActive => CurrentNote is not null;
 
-    
+
     // Commands
     public ICommand CreateNoteCommand { get; }
+    public ICommand OpenNoteCommand { get; }
     public ICommand SaveNoteCommand { get; }
     public ICommand DeleteNoteCommand { get; }
 
-    
-    // Commands methods
-    private void SaveNote()
+
+    // Commands actions
+    private void SaveAction()
     {
         if (!string.IsNullOrWhiteSpace(CurrentNote.Header) ||
             !string.IsNullOrWhiteSpace(CurrentNote.Text))
         {
-            Notes.Add(CurrentNote);
+            if (!Notes.Contains(CurrentNote))
+                Notes.Add(CurrentNote);
+            
+            Controller.Board.AddOrReplace(CurrentNote.Guid, CurrentNote.Header, CurrentNote.Text);
         }
 
         CurrentNote = null;
     }
-
     
+    private void DeleteAction(NoteModel note)
+    {
+        Notes.Remove(note);
+        Controller.Board.Remove(note!.Guid);
+    }
+
+
     // Events
     public event PropertyChangedEventHandler PropertyChanged;
 
     private void OnPropertyChanged(string propertyName)
     {
-        if (PropertyChanged == null) 
+        if (PropertyChanged == null)
             return;
-        
+
         var e = new PropertyChangedEventArgs(propertyName);
         PropertyChanged(this, e);
     }
-    
-    
+
+
     // Logic
     private Controller Controller { get; }
-    
-    private void NotesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        switch (e.Action)
-        {
-            case NotifyCollectionChangedAction.Add:
-            {
-                var note = (NoteModel)e.NewItems![0];
-                Controller.Board.Add(note!.Guid, note.Header, note.Text);
-                break;
-            }
-
-            case NotifyCollectionChangedAction.Remove:
-            {
-                var note = (NoteModel)e.OldItems![0];
-                Controller.Board.Remove(note!.Guid);
-                break;
-            }
-        }
-
-        Dumper.Save(Controller.Board);
-    }
 }

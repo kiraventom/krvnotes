@@ -34,6 +34,41 @@
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 <Setter Property="VerticalAlignment" Value="Stretch"/>
                             </Style>
+                            
+                            <Style TargetType="{x:Type Button}">
+                                <!-- set own hover color -->
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1.0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            
+                                <Setter Property="Width" Value="20"/>
+                                <Setter Property="Height" Value="20"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            
+                                <!-- disable default hover color -->
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter />
+                                            </Border>
+                            
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                
+                                <Style.Resources>
+                                    <Style TargetType="{x:Type Image}">
+                                    </Style>    
+                                </Style.Resources>
+                            </Style>
                         </Style.Resources>
                     </Style>
                 </Style.Resources>

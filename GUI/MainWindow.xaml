@@ -52,16 +52,36 @@
                         <Button
                             Command="{Binding 
                                 RelativeSource={RelativeSource AncestorType=ItemsControl},
-                                Path=DataContext.DeleteNoteCommand}"
+                                Path=DataContext.OpenNoteCommand}"
                             CommandParameter="{Binding}">
                             <Grid>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="20" />
                                     <RowDefinition Height="2*" />
                                     <RowDefinition Height="8*" />
                                 </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
 
-                                <Label Content="{Binding Path=Header}" />
-                                <TextBlock Grid.Row="1" Text="{Binding Path=Text}" />
+                                <Label
+                                    Grid.Row="0" Grid.Column="0"
+                                    Grid.RowSpan="2" Grid.ColumnSpan="2"
+                                    Content="{Binding Path=Header}" />
+                                
+                                <TextBlock
+                                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                    Text="{Binding Path=Text}" />
+                                
+                                <Button 
+                                    Grid.Row="0" Grid.Column="1"
+                                    Command="{Binding 
+                                        RelativeSource={RelativeSource AncestorType=ItemsControl},
+                                        Path=DataContext.DeleteNoteCommand}"
+                                    CommandParameter="{Binding }">
+                                    <Image Source="icons/close.png" />
+                                </Button>
                             </Grid>
                         </Button>
                     </DataTemplate>
@@ -73,6 +93,7 @@
         <!-- note editor overlay -->
         <Grid 
             Grid.RowSpan="2"
+            
             Visibility="{Binding IsNoteEditActive, Converter={StaticResource BoolToVisibility}}"
             Style="{StaticResource NoteOverlayStyle}">
             

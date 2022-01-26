@@ -1,5 +1,6 @@
 ﻿namespace Logic;
 
+// TODO: Remove 'Note' class completely and replace it with NoteModel
 public class Board
 {
     public Board()
@@ -15,13 +16,21 @@ public class Board
     public IReadOnlyDictionary<string, Note> Notes => _notes;
     private readonly Dictionary<string, Note> _notes;
 
-    public void Add(string guid, string header, string text)
+    public void AddOrReplace(string guid, string header, string text)
     {
         var note = new Note(header, text, DateTime.Now);
-        _notes.Add(guid, note);
+        _notes[guid] = note;
+
+        Dumper.Save(this);
     }
 
-    public bool Remove(string guid) => _notes.Remove(guid);
+    public bool Remove(string guid)
+    {
+        var didDelete = _notes.Remove(guid);
+        
+        Dumper.Save(this);
+        return didDelete;
+    }
 }
 
 public record Note(string Header, string Text, DateTime CreatedAt);
