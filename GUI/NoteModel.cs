@@ -29,7 +29,7 @@ public class NoteModel : INotifyPropertyChanged
     
     public event PropertyChangedEventHandler PropertyChanged;
     
-    protected virtual void OnPropertyChanged(string propertyName)
+    private void OnPropertyChanged(string propertyName)
     {
         if (PropertyChanged == null) 
             return;

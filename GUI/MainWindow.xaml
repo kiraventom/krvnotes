@@ -7,32 +7,33 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
-        Width="800" Height="450">
+        Width="800" Height="600">
     <Window.DataContext>
         <local:BoardViewModel />
     </Window.DataContext>
-
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
+        
+        <!-- header -->
         <StackPanel
             Grid.Row="0"
+            
             Style="{StaticResource HeaderStyle}">
 
             <Button Margin="15,0,5,0"
                     Command="{Binding CreateNoteCommand}">
                 <Image Source="icons/add.png" />
             </Button>
-            <Button Margin="15,0,5,0"
-                    Command="{Binding SaveNoteCommand}"
-                    CommandParameter="{Binding CurrentNote}">
-                Save
-            </Button>
         </StackPanel>
 
+        <!-- board -->
         <ScrollViewer
             Grid.Row="1">
 
@@ -68,5 +69,53 @@
             </ItemsControl>
 
         </ScrollViewer>
+        
+        <!-- note editor overlay -->
+        <Grid 
+            Grid.RowSpan="2"
+            Visibility="{Binding IsNoteEditActive, Converter={StaticResource BoolToVisibility}}"
+            Style="{StaticResource NoteOverlayStyle}">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition />
+                <RowDefinition Height="0.1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="0.1*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button 
+                Grid.RowSpan="3" Grid.ColumnSpan="3"
+                Command="{Binding SaveNoteCommand}">
+            </Button>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition />
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                
+                <TextBox
+                    Text="{Binding CurrentNote.Header}" 
+                    Margin="20, 20, 20, 5" />
+
+                <TextBox  
+                    Grid.Row="1"
+                    Margin="20, 5, 20, 5"
+                    Text="{Binding CurrentNote.Text}"
+                    TextWrapping="Wrap"
+                    AcceptsReturn="True"
+                    AcceptsTab="True"
+                    SpellCheck.IsEnabled="True"/>
+                <StackPanel Grid.Row="2">
+                    <Button
+                        Command="{Binding SaveNoteCommand}"
+                        Content="Сохранить"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

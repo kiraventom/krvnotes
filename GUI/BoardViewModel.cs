@@ -10,21 +10,13 @@ public class BoardViewModel : INotifyPropertyChanged
     public BoardViewModel()
     {
         Notes = new ObservableCollection<NoteModel>();
-        CreateNoteCommand = new Command(CreateNewNote);
-        SaveNoteCommand = new Command<NoteModel>(SaveNote, note => note is not null);
-        DeleteNoteCommand = new Command<NoteModel>(DeleteNote, note => note is not null);
-        
-        Notes.Add(new NoteModel() {Header = "Header", Text = "Text!!!"});
-        Notes.Add(new NoteModel() {Header = "Кошка любимая", Text = "Я люблю её очень сильно мяу мур мяу!!!"});
+        CreateNoteCommand = new Command(() => CurrentNote = new NoteModel());
+        SaveNoteCommand = new Command(SaveNote);
+        DeleteNoteCommand = new Command<NoteModel>(note => Notes.Remove(note), note => note is not null);
     }
 
-    private void DeleteNote(NoteModel note) => Notes.Remove(note);
-
-    private NoteModel _currentNote;
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
     public ObservableCollection<NoteModel> Notes { get; set; }
+    private NoteModel _currentNote;
 
     public NoteModel CurrentNote
     {
@@ -33,25 +25,30 @@ public class BoardViewModel : INotifyPropertyChanged
         {
             _currentNote = value;
             OnPropertyChanged(nameof(CurrentNote));
+            OnPropertyChanged(nameof(IsNoteEditActive));
         }
     }
-    
+
+    public bool IsNoteEditActive => CurrentNote is not null;
+
     public ICommand CreateNoteCommand { get; }
     public ICommand SaveNoteCommand { get; }
     public ICommand DeleteNoteCommand { get; }
 
-    private void CreateNewNote()
+    private void SaveNote()
     {
-        CurrentNote = new NoteModel() {Header = "HeaderTest", Text = "TextTest"};
-    }
+        if (!string.IsNullOrWhiteSpace(CurrentNote.Header) ||
+            !string.IsNullOrWhiteSpace(CurrentNote.Text))
+        {
+            Notes.Add(CurrentNote);
+        }
 
-    private void SaveNote(NoteModel note)
-    {
-        Notes.Add(note);
         CurrentNote = null;
     }
-    
-    protected virtual void OnPropertyChanged(string propertyName)
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void OnPropertyChanged(string propertyName)
     {
         if (PropertyChanged == null) 
             return;
