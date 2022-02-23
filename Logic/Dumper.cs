@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
+using BL;
 
 namespace Logic;
 
-public static class Dumper
+internal static class Dumper
 {
     static Dumper()
     {
@@ -25,7 +26,8 @@ public static class Dumper
         
         string json = File.ReadAllText(Constants.FilePath);
         var loadedNotes = JsonSerializer.Deserialize<IDictionary<string, Note>>(json, Constants.SerializerOptions);
-        board = new Board(loadedNotes);
+        ArgumentNullException.ThrowIfNull(loadedNotes); // I know it's not argument, idc
+        board = new Board(loadedNotes.ToDictionary(p => p.Key, p => p.Value as INote));
         return true;
     }
 }

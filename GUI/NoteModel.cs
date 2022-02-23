@@ -1,9 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿namespace GUI;
 
-namespace GUI;
-
-public class NoteModel : INotifyPropertyChanged
+public class NoteModel : BasicNotifier
 {
     public NoteModel()
     {
@@ -23,7 +20,7 @@ public class NoteModel : INotifyPropertyChanged
         set
         {
             _header = value;
-            OnPropertyChanged(nameof(Header));
+            OnPropertyChanged();
         }
     }
 
@@ -33,18 +30,7 @@ public class NoteModel : INotifyPropertyChanged
         set
         {
             _text = value;
-            OnPropertyChanged(nameof(Text));
+            OnPropertyChanged();
         }
-    }
-    
-    public event PropertyChangedEventHandler PropertyChanged;
-    
-    private void OnPropertyChanged(string propertyName)
-    {
-        if (PropertyChanged == null) 
-            return;
-        
-        var e = new PropertyChangedEventArgs(propertyName);
-        PropertyChanged(this, e);
     }
 }

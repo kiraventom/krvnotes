@@ -5,7 +5,8 @@
         <TargetFramework>net6.0-windows</TargetFramework>
         <Nullable>warnings</Nullable>
         <UseWPF>true</UseWPF>
-        <AssemblyName>krvnotes-gui</AssemblyName>
+        <Authors>kiraventom</Authors>
+        <AssemblyName>krvnotes-GUI</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Logic\Logic.csproj" />
+      <ProjectReference Include="..\BL\BL.csproj" />
     </ItemGroup>
 
 </Project>

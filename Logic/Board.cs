@@ -1,20 +1,30 @@
 ﻿namespace Logic;
 
-// TODO: Remove 'Note' class completely and replace it with NoteModel
-public class Board
+using BL;
+
+public class Board : IBoard
 {
-    public Board()
+    public static void OnStartup()
     {
-        _notes = new Dictionary<string, Note>();
-    }
-    
-    public Board(IDictionary<string, Note> loadedNotes)
-    {
-        _notes = new Dictionary<string, Note>(loadedNotes);
+        Controller.BoardRequested += (_, _) =>
+        {
+            var didLoad = Dumper.TryLoad(out var board);
+            Controller.SetBoard(didLoad ? board : new Board());
+        };
     }
 
-    public IReadOnlyDictionary<string, Note> Notes => _notes;
-    private readonly Dictionary<string, Note> _notes;
+    private Board()
+    {
+        _notes = new Dictionary<string, INote>();
+    }
+
+    internal Board(IDictionary<string, INote> loadedNotes)
+    {
+        _notes = new Dictionary<string, INote>(loadedNotes);
+    }
+
+    public IReadOnlyDictionary<string, INote> Notes => _notes;
+    private readonly Dictionary<string, INote> _notes;
 
     public void AddOrReplace(string guid, string header, string text)
     {
@@ -27,10 +37,10 @@ public class Board
     public bool Remove(string guid)
     {
         var didDelete = _notes.Remove(guid);
-        
+
         Dumper.Save(this);
         return didDelete;
     }
 }
 
-public record Note(string Header, string Text, DateTime CreatedAt);
+public record Note(string Header, string Text, DateTime CreatedAt) : INote;

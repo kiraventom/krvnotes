@@ -2,12 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GUI"
-             StartupUri="MainWindow.xaml">
+             StartupUri="BoardView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary 
-                    Source="Styles.xaml"/>
+                <ResourceDictionary Source="Styles/Header.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorHeader.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorOverlay.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorText.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorOverlayBackground.xaml"/>
+                <ResourceDictionary Source="Styles/NotesPanel.xaml"/>
+                <ResourceDictionary Source="Styles/Note.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

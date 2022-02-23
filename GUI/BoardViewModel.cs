@@ -1,20 +1,35 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Input;
 using GUI.Commands;
-using Logic;
+using BL;
 
 namespace GUI;
 
-public class BoardViewModel : INotifyPropertyChanged
+public class BoardViewModel : BasicNotifier
 {
     public BoardViewModel()
     {
-        Controller = new Controller();
+        try
+        {
+            Board = Controller.GetBoard();
+        }
+        catch (WrongAppEntryPointException)
+        {
+            EventLog.WriteEntry(
+                Assembly.GetExecutingAssembly().FullName, 
+                "krvnotes should be run from krvnotes-Starter.exe!",
+                EventLogEntryType.Error);
+            
+            Environment.Exit(1);
+        }
+        
         var loadedNotes =
-            Controller.Board.Notes
+            Board.Notes
                 .Select(p => new NoteModel(p.Key)
                 {
                     Header = p.Value.Header,
@@ -39,7 +54,7 @@ public class BoardViewModel : INotifyPropertyChanged
         set
         {
             _currentNote = value;
-            OnPropertyChanged(nameof(CurrentNote));
+            OnPropertyChanged();
             OnPropertyChanged(nameof(IsNoteEditActive));
         }
     }
@@ -65,7 +80,7 @@ public class BoardViewModel : INotifyPropertyChanged
             if (!Notes.Contains(CurrentNote))
                 Notes.Add(CurrentNote);
             
-            Controller.Board.AddOrReplace(CurrentNote.Guid, CurrentNote.Header, CurrentNote.Text);
+            Board.AddOrReplace(CurrentNote.Guid, CurrentNote.Header, CurrentNote.Text);
         }
 
         CurrentNote = null;
@@ -74,23 +89,9 @@ public class BoardViewModel : INotifyPropertyChanged
     private void DeleteAction(NoteModel note)
     {
         Notes.Remove(note);
-        Controller.Board.Remove(note!.Guid);
+        Board.Remove(note!.Guid);
     }
-
-
-    // Events
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void OnPropertyChanged(string propertyName)
-    {
-        if (PropertyChanged == null)
-            return;
-
-        var e = new PropertyChangedEventArgs(propertyName);
-        PropertyChanged(this, e);
-    }
-
-
+    
     // Logic
-    private Controller Controller { get; }
+    private IBoard Board { get; }
 }
