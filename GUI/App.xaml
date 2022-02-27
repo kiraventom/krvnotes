@@ -6,13 +6,16 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Header.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorHeader.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorOverlay.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorText.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorOverlayBackground.xaml"/>
-                <ResourceDictionary Source="Styles/NotesPanel.xaml"/>
-                <ResourceDictionary Source="Styles/Note.xaml"/>
+                <ResourceDictionary Source="Styles/HeaderStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorHeaderStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorOverlayStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorTextStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorOverlayBackgroundStyle.xaml"/>
+                <ResourceDictionary Source="Styles/NotesPanelStyle.xaml"/>
+                <ResourceDictionary Source="Styles/NoteStyle.xaml"/>
+                
+                <ResourceDictionary Source="ControlTemplates/PlaceholderTemplate.xaml"/>
+                <ResourceDictionary Source="ControlTemplates/NoteTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

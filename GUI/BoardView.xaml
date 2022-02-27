@@ -4,32 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
+        xmlns:controlTemplates="clr-namespace:GUI.ControlTemplates"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
         Width="800" Height="600">
-    
+
     <Window.DataContext>
         <local:BoardViewModel />
     </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        
+
         <!-- header -->
         <StackPanel
             Grid.Row="0"
-            Style="{StaticResource Header}">
+            Style="{StaticResource HeaderStyle}">
 
             <Button
                 Command="{Binding CreateNoteCommand}">
-                <Image 
+                <Image
                     Source="icons/add.png" />
             </Button>
         </StackPanel>
@@ -43,154 +44,88 @@
                     <ItemsPanelTemplate>
                         <WrapPanel
                             IsItemsHost="True"
-                            Style="{StaticResource NotesPanel}">
+                            Style="{StaticResource NotesPanelStyle}">
                         </WrapPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="local:NoteModel">
-                        <Button
-                            Style="{StaticResource Note}"
-                            Command="{Binding 
+                        
+                        <controlTemplates:NoteTemplate
+                            Template="{StaticResource NoteTemplate}"
+                            Header="{Binding Path=Header}"
+                            Text="{Binding Path=Text}"
+                            OpenNoteCommand="{Binding 
                                 RelativeSource={RelativeSource AncestorType=ItemsControl},
                                 Path=DataContext.OpenNoteCommand}"
-                            CommandParameter="{Binding}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20" />
-                                    <RowDefinition Height="2*" />
-                                    <RowDefinition Height="8*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="20"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Label
-                                    Grid.Row="0" Grid.Column="0"
-                                    Grid.RowSpan="2" Grid.ColumnSpan="2"
-                                    Content="{Binding Path=Header}" />
-                                
-                                <TextBlock
-                                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                    Text="{Binding Path=Text}" />
-                                
-                                <Button 
-                                    Grid.Row="0" Grid.Column="1"
-                                    Command="{Binding 
-                                        RelativeSource={RelativeSource AncestorType=ItemsControl},
-                                        Path=DataContext.DeleteNoteCommand}"
-                                    CommandParameter="{Binding }">
-                                    <Image Source="icons/close.png" />
-                                </Button>
-                            </Grid>
-                        </Button>
+                            OpenNoteCommandParameter="{Binding}"
+                            DeleteNoteCommand="{Binding
+                                RelativeSource={RelativeSource AncestorType=ItemsControl},
+                                Path=DataContext.DeleteNoteCommand}"
+                            DeleteNoteCommandParameter="{Binding}">
+                        </controlTemplates:NoteTemplate>
+                        
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
         </ScrollViewer>
-        
+
         <!-- editor overlay -->
         <Grid
             Grid.Row="0"
             Grid.RowSpan="2"
-            
+
             Visibility="{Binding IsNoteEditActive, Converter={StaticResource BoolToVisibility}}"
-            Style="{StaticResource EditorOverlay}">
-            
-            <!-- TODO: maybe replace with margin -->
+            Style="{StaticResource EditorOverlayStyle}">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*" />
                 <RowDefinition />
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.1*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.1*" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.1*" />
             </Grid.ColumnDefinitions>
-            
-            <Button 
+
+            <Button
                 Grid.RowSpan="3" Grid.ColumnSpan="3"
-                Style="{StaticResource EditorOverlayBackground}"
+                Style="{StaticResource EditorOverlayBackgroundStyle}"
                 Command="{Binding SaveNoteCommand}">
             </Button>
 
-            <Grid 
+            <Grid
                 Grid.Row="1" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60" />
                     <RowDefinition />
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
-                
-                <!-- TODO: wrap this into control -->
-                <!-- stolen from https://stackoverflow.com/a/28634583/10466326 -->
-                <Grid 
+
+                <controlTemplates:PlaceholderTextBox
+                    Style="{StaticResource EditorHeaderStyle}"
+                    Template="{StaticResource PlaceholderTemplate}"
                     Grid.Row="0"
                     Margin="20, 20, 20, 5"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    
-                    <TextBlock 
-                        Text="Заголовок" 
-                        FontSize="18"
-                        Foreground="LightSteelBlue"
-                        IsHitTestVisible="False"
-                        Margin="3, 0, 0, 0"
-                        VerticalAlignment="Center">
-                        
-                        <TextBlock.Visibility>
-                            <Binding 
-                                ElementName="Header" 
-                                Path="Text.IsEmpty" 
-                                Converter="{StaticResource BoolToVisibility}" />
-                        </TextBlock.Visibility>
-                    </TextBlock>
-                    
-                    <TextBox x:Name="Header"
-                        Style="{StaticResource EditorHeader}"
-                        Text="{Binding CurrentNote.Header}"
-                        Background="Transparent"/>
-                </Grid>
-                
-                <!-- stolen from https://stackoverflow.com/a/28634583/10466326 -->
-                <Grid 
+                    Placeholder="Заголовок"
+                    Text="{Binding CurrentNote.Header, Mode=TwoWay}" />
+
+                <controlTemplates:PlaceholderTextBox
+                    Style="{StaticResource EditorTextStyle}"
+                    Template="{StaticResource PlaceholderTemplate}"
                     Grid.Row="1"
                     Margin="20, 20, 20, 5"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    
-                    <TextBlock 
-                        Text="Текст заметки" 
-                        FontSize="18"
-                        Foreground="LightSteelBlue"
-                        IsHitTestVisible="False"
-                        Margin="3, 1, 0, 0"
-                        VerticalAlignment="Top">
-                        
-                        <TextBlock.Visibility>
-                            <Binding 
-                                ElementName="Text" 
-                                Path="Text.IsEmpty" 
-                                Converter="{StaticResource BoolToVisibility}" />
-                        </TextBlock.Visibility>
-                    </TextBlock>
-                    
-                    <TextBox
-                        x:Name="Text"
-                        Style="{StaticResource EditorText}"
-                        Text="{Binding CurrentNote.Text}"
-                        Background="Transparent"/>
-                </Grid>
+                    Placeholder="Текст заметки"
+                    Text="{Binding CurrentNote.Text, Mode=TwoWay}" />
 
-                
-                
-                <StackPanel 
+                <StackPanel
                     Grid.Row="2">
                     <Button
                         Command="{Binding SaveNoteCommand}"
-                        Content="Сохранить"/>
+                        Content="Сохранить" />
                 </StackPanel>
             </Grid>
         </Grid>

@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="Header" TargetType="StackPanel">
+    <Style x:Key="HeaderStyle" TargetType="StackPanel">
         <Setter Property="Background" Value="Goldenrod" />
         <Setter Property="Orientation" Value="Horizontal" />
         <Style.Resources>

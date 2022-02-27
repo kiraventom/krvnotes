@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:GUI.ControlTemplates">
+    <ControlTemplate x:Key="NoteTemplate" TargetType="local:NoteTemplate">
+
+        <Button
+            Style="{StaticResource NoteStyle}"
+            Command="{TemplateBinding OpenNoteCommand}"
+            CommandParameter="{TemplateBinding OpenNoteCommandParameter}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Row="0" Grid.Column="0"
+                    Grid.RowSpan="2" Grid.ColumnSpan="2"
+                    Content="{TemplateBinding Header}"/>
+
+                <TextBlock
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    Text="{TemplateBinding Text}" />
+
+                <Button
+                    Grid.Row="0" Grid.Column="1"
+                    Command="{TemplateBinding DeleteNoteCommand}"
+                    CommandParameter="{TemplateBinding DeleteNoteCommandParameter}">
+                    <Image Source="..\icons\close.png" />
+                </Button>
+            </Grid>
+        </Button>
+    </ControlTemplate>
+</ResourceDictionary>

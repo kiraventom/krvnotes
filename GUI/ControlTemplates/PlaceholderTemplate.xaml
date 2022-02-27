@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:GUI.ControlTemplates">
+    <ControlTemplate x:Key="PlaceholderTemplate" TargetType="local:PlaceholderTextBox">
+        <ControlTemplate.Resources>
+            <local:LengthToVisibilityConverter x:Key="LengthToVisibility" />
+        </ControlTemplate.Resources>
+
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+
+            <TextBlock
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Text="{TemplateBinding Placeholder}">
+                <TextBlock.Visibility>
+                    <Binding
+                        ElementName="TextBox"
+                        Path="Text.Length"
+                        Converter="{StaticResource LengthToVisibility}" />
+                </TextBlock.Visibility>
+            </TextBlock>
+            <TextBox x:Name="TextBox"
+                     Text="{Binding 
+                        Path=Text,
+                        RelativeSource={RelativeSource AncestorType=local:PlaceholderTextBox},
+                        Mode=TwoWay}"
+                     Background="Transparent"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch" />
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>
