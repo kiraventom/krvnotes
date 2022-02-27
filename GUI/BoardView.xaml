@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
-        xmlns:controlTemplates="clr-namespace:GUI.ControlTemplates"
+        xmlns:cts="clr-namespace:GUI.ControlTemplates"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
@@ -52,7 +52,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="local:NoteModel">
                         
-                        <controlTemplates:NoteTemplate
+                        <cts:NoteTemplate
                             Template="{StaticResource NoteTemplate}"
                             Header="{Binding Path=Header}"
                             Text="{Binding Path=Text}"
@@ -64,7 +64,7 @@
                                 RelativeSource={RelativeSource AncestorType=ItemsControl},
                                 Path=DataContext.DeleteNoteCommand}"
                             DeleteNoteCommandParameter="{Binding}">
-                        </controlTemplates:NoteTemplate>
+                        </cts:NoteTemplate>
                         
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -105,7 +105,7 @@
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
 
-                <controlTemplates:PlaceholderTextBox
+                <cts:PlaceholderTextBox
                     Style="{StaticResource EditorHeaderStyle}"
                     Template="{StaticResource PlaceholderTemplate}"
                     Grid.Row="0"
@@ -113,7 +113,7 @@
                     Placeholder="Заголовок"
                     Text="{Binding CurrentNote.Header, Mode=TwoWay}" />
 
-                <controlTemplates:PlaceholderTextBox
+                <cts:PlaceholderTextBox
                     Style="{StaticResource EditorTextStyle}"
                     Template="{StaticResource PlaceholderTemplate}"
                     Grid.Row="1"

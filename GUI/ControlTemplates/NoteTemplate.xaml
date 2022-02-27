@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:GUI.ControlTemplates">
     <ControlTemplate x:Key="NoteTemplate" TargetType="local:NoteTemplate">
-
         <Button
             Style="{StaticResource NoteStyle}"
             Command="{TemplateBinding OpenNoteCommand}"
