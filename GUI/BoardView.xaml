@@ -30,8 +30,7 @@
 
             <Button
                 Command="{Binding CreateNoteCommand}">
-                <Image
-                    Source="icons/add.png" />
+                <Image Source="icons/add.png" />
             </Button>
         </StackPanel>
 

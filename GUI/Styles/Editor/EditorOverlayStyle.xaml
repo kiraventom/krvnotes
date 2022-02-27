@@ -2,6 +2,39 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="EditorOverlayStyle" TargetType="Grid">
+        <!-- set own hover color -->
+        <!-- TODO: move editor overlay into own controltemplate and implement event IsShown. Then connect to it via EventTrigger, removing Visibility Binding -->
+        <Style.Triggers>
+            <!-- <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsVisible}" -->
+            <!--              Value="True"> -->
+            <!--     <DataTrigger.EnterActions> -->
+            <!--         <BeginStoryboard> -->
+            <!--             <Storyboard> -->
+            <!--                 <DoubleAnimation -->
+            <!--                     Storyboard.TargetProperty="Opacity" -->
+            <!--                     From="0.1" To="1.0" -->
+            <!--                     Duration="0:0:0.5"/> -->
+            <!--             </Storyboard> -->
+            <!--         </BeginStoryboard> -->
+            <!--     </DataTrigger.EnterActions> -->
+            <!-- </DataTrigger> -->
+            
+            <!-- <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsVisible}" -->
+            <!--              Value="False"> -->
+            <!-- -->
+            <!--     <DataTrigger.EnterActions> -->
+            <!--         <BeginStoryboard> -->
+            <!--             <Storyboard> -->
+            <!--                 <DoubleAnimation -->
+            <!--                     Storyboard.TargetProperty="Opacity" -->
+            <!--                     From="1.0" To="0.1" -->
+            <!--                     Duration="0:0:0.5"/> -->
+            <!--             </Storyboard> -->
+            <!--         </BeginStoryboard> -->
+            <!--     </DataTrigger.EnterActions> -->
+            <!-- </DataTrigger> -->
+        </Style.Triggers>
+        
         <Style.Resources>
             <Style TargetType="{x:Type Grid}">
                 <Setter Property="Background" Value="White" />
@@ -18,9 +51,28 @@
 
                                 <!-- set own hover color -->
                                 <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#20000000" />
-                                    </Trigger>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation
+                                                    To="#20000000"
+                                                    Storyboard.TargetProperty="Background.Color"
+                                                    FillBehavior="HoldEnd"
+                                                    Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation
+                                                    To="Transparent"
+                                                    Storyboard.TargetProperty="Background.Color"
+                                                    FillBehavior="HoldEnd"
+                                                    Duration="0:0:0.15" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
                                 </Style.Triggers>
 
                                 <Setter Property="Width" Value="100" />

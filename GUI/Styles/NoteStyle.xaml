@@ -3,9 +3,28 @@
     <Style x:Key="NoteStyle" TargetType="{x:Type Button}">
         <!-- set own hover color -->
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#ffededed" />
-            </Trigger>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation
+                            To="#ffe2e2e2"
+                            Storyboard.TargetProperty="Background.Color"
+                            FillBehavior="HoldEnd"
+                            Duration="0:0:0.1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation
+                            To="White"
+                            Storyboard.TargetProperty="Background.Color"
+                            FillBehavior="HoldEnd"
+                            Duration="0:0:0.1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
         </Style.Triggers>
 
         <Style.Resources>
