@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <PackageVersion>1.1.0</PackageVersion>
+        <Company>kiraventom</Company>
+        <Product>Starter</Product>
+        <AssemblyVersion>1.1</AssemblyVersion>
+        <RootNamespace>Starter</RootNamespace>
+        <ApplicationIcon>appicon.ico</ApplicationIcon>
+        <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GUI\GUI.csproj" />
+      <ProjectReference Include="..\Logic\Logic.csproj" />
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="del $(OutDir)GUI.exe" />
+    </Target>
+
+</Project>

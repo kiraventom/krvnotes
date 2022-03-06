@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
         <TargetFramework>net6.0-windows</TargetFramework>
         <Nullable>disable</Nullable>
         <UseWPF>true</UseWPF>
         <Authors>kiraventom</Authors>
-        <AssemblyName>krvnotes-GUI</AssemblyName>
+        <Product>GUI</Product>
+        <AssemblyVersion>1.1</AssemblyVersion>
+        <OutputType>WinExe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>

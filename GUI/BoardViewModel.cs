@@ -16,20 +16,7 @@ public class BoardViewModel : BasicNotifiable
 {
     public BoardViewModel()
     {
-        try
-        {
-            _board = Controller.GetBoard();
-        }
-        catch (WrongAppEntryPointException)
-        {
-            MessageBox.Show(
-                "App should be started from krvnotes-starter.exe",
-                "Error",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-            
-            Environment.Exit(1);
-        }
+        _board = Controller.GetBoard();
         
         var loadedNotes =
             _board.Notes.Select(p => 
