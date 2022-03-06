@@ -8,11 +8,12 @@
         <IsPackable>false</IsPackable>
         <PackageVersion>1.1.0</PackageVersion>
         <Company>kiraventom</Company>
-        <Product>Starter</Product>
+        <Product>krvnotes</Product>
         <AssemblyVersion>1.1</AssemblyVersion>
         <RootNamespace>Starter</RootNamespace>
         <ApplicationIcon>appicon.ico</ApplicationIcon>
         <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+        <AssemblyName>krvnotes</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
