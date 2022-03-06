@@ -2,7 +2,8 @@
 
 public interface IBoard
 {
-    void AddOrReplace(string guid, string header, string text);
+    bool Add(string guid, string header, string text);
+    bool Edit(string guid, string header, string text);
     bool Remove(string guid);
     IReadOnlyDictionary<string, INote> Notes { get; }
 }

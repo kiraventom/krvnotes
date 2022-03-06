@@ -7,45 +7,45 @@ using System.Windows.Input;
 
 namespace GUI.ControlTemplates;
 
-public class NoteTemplate : Control
+public class Note : Control
 {
     public static readonly DependencyProperty HeaderProperty =
         DependencyProperty.Register(
             nameof(Header), 
             typeof(string), 
-            typeof(NoteTemplate),
+            typeof(Note),
             new PropertyMetadata(string.Empty));
 
     public static readonly DependencyProperty TextProperty =
         DependencyProperty.Register(
             nameof(Text), 
             typeof(string), 
-            typeof(NoteTemplate),
+            typeof(Note),
             new PropertyMetadata(string.Empty));
 
     public static readonly DependencyProperty OpenNoteCommandProperty =
         DependencyProperty.Register(
             nameof(OpenNoteCommand), 
             typeof(ICommand), 
-            typeof(NoteTemplate));
+            typeof(Note));
     
     public static readonly DependencyProperty OpenNoteCommandParameterProperty =
         DependencyProperty.Register(
             nameof(OpenNoteCommandParameter), 
             typeof(object), 
-            typeof(NoteTemplate));
+            typeof(Note));
     
     public static readonly DependencyProperty DeleteNoteCommandProperty =
         DependencyProperty.Register(
             nameof(DeleteNoteCommand), 
             typeof(ICommand), 
-            typeof(NoteTemplate));
+            typeof(Note));
     
     public static readonly DependencyProperty DeleteNoteCommandParameterProperty =
         DependencyProperty.Register(
             nameof(DeleteNoteCommandParameter), 
             typeof(object), 
-            typeof(NoteTemplate));
+            typeof(Note));
 
     public string Header
     {

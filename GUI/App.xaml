@@ -7,15 +7,18 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/HeaderStyle.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorHeaderStyle.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorOverlayStyle.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorTextStyle.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorOverlayBackgroundStyle.xaml"/>
                 <ResourceDictionary Source="Styles/NotesPanelStyle.xaml"/>
                 <ResourceDictionary Source="Styles/NoteStyle.xaml"/>
                 
-                <ResourceDictionary Source="ControlTemplates/PlaceholderTemplate.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorHeaderStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorOverlayStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorTextStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorBackgroundStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorButtonStyle.xaml"/>
+                
+                <ResourceDictionary Source="ControlTemplates/PlaceholderTextBoxTemplate.xaml"/>
                 <ResourceDictionary Source="ControlTemplates/NoteTemplate.xaml"/>
+                <ResourceDictionary Source="ControlTemplates/EditorOverlayTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Input;
 using GUI.Commands;
 using BL;
 
 namespace GUI;
 
-public class BoardViewModel : BasicNotifier
+public class BoardViewModel : BasicNotifiable
 {
     public BoardViewModel()
     {
         try
         {
-            Board = Controller.GetBoard();
+            _board = Controller.GetBoard();
         }
         catch (WrongAppEntryPointException)
         {
@@ -29,24 +30,34 @@ public class BoardViewModel : BasicNotifier
         }
         
         var loadedNotes =
-            Board.Notes
-                .Select(p => new NoteModel(p.Key)
+            _board.Notes.Select(p => 
+                new NoteModel(p.Key)
                 {
                     Header = p.Value.Header,
                     Text = p.Value.Text
                 });
 
-        Notes = new ObservableCollection<NoteModel>(loadedNotes);
+        Notes = new ObservableCollection<NoteModel>();
+        Notes.CollectionChanged += NotesOnCollectionChanged;
+        foreach (var loadedNote in loadedNotes) 
+            Notes.Add(loadedNote);
 
         CreateNoteCommand = new Command(() => CurrentNote = new NoteModel());
-        OpenNoteCommand = new Command<NoteModel>(note => CurrentNote = note, note => note is not null);
+        OpenNoteCommand = new Command<NoteModel>(
+            note => CurrentNote = note,
+            note => note is not null);
         SaveNoteCommand = new Command(SaveAction);
-        DeleteNoteCommand = new Command<NoteModel>(DeleteAction,  note => note is not null);
+        CancelEditingCommand = new Command(() => CurrentNote = null);
+        DeleteNoteCommand = new Command<NoteModel>(
+            note => Notes.Remove(note),  
+            note => note is not null);
     }
-
+    
+    private readonly IBoard _board;
+    private NoteModel _currentNote;
 
     // Exposed properties
-    public ObservableCollection<NoteModel> Notes { get; set; }
+    public ObservableCollection<NoteModel> Notes { get; }
 
     public NoteModel CurrentNote
     {
@@ -59,39 +70,57 @@ public class BoardViewModel : BasicNotifier
         }
     }
 
-    private NoteModel _currentNote;
-
     public bool IsNoteEditActive => CurrentNote is not null;
-
 
     // Commands
     public ICommand CreateNoteCommand { get; }
     public ICommand OpenNoteCommand { get; }
     public ICommand SaveNoteCommand { get; }
+    public ICommand CancelEditingCommand { get; }
     public ICommand DeleteNoteCommand { get; }
 
-
-    // Commands actions
+    // Commands
     private void SaveAction()
     {
-        if (!string.IsNullOrWhiteSpace(CurrentNote.Header) ||
-            !string.IsNullOrWhiteSpace(CurrentNote.Text))
-        {
-            if (!Notes.Contains(CurrentNote))
-                Notes.Add(CurrentNote);
-            
-            Board.AddOrReplace(CurrentNote.Guid, CurrentNote.Header, CurrentNote.Text);
-        }
-
+        if (!Notes.Contains(CurrentNote))
+            Notes.Add(CurrentNote);
+        
         CurrentNote = null;
     }
-    
-    private void DeleteAction(NoteModel note)
+
+    // Event handlers
+    private void NotesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        Notes.Remove(note);
-        Board.Remove(note!.Guid);
+        switch (e.Action)
+        {
+            case NotifyCollectionChangedAction.Add:
+                foreach (NoteModel newNote in e.NewItems!)
+                {
+                    _board.Add(newNote.Guid, newNote.Header, newNote.Text);
+                    newNote.PropertyChanged += NotesOnContentEdited;
+                }
+                break;
+            
+            case NotifyCollectionChangedAction.Remove:
+                foreach (NoteModel oldNote in e.OldItems!)
+                {
+                    _board.Remove(oldNote.Guid);
+                    oldNote.PropertyChanged -= NotesOnContentEdited;
+                }
+                break;
+            
+            case NotifyCollectionChangedAction.Replace:
+            case NotifyCollectionChangedAction.Move:
+            case NotifyCollectionChangedAction.Reset:
+                throw new NotSupportedException();
+        }
     }
-    
-    // Logic
-    private IBoard Board { get; }
+
+    private void NotesOnContentEdited(object sender, PropertyChangedEventArgs e)
+    {
+        if (sender is not NoteModel note)
+            return;
+        
+        _board.Edit(note.Guid, note.Header, note.Text);
+    }
 }

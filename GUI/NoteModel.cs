@@ -1,6 +1,6 @@
 ﻿namespace GUI;
 
-public class NoteModel : BasicNotifier
+public class NoteModel : BasicNotifiable
 {
     public NoteModel()
     {

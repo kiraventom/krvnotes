@@ -26,19 +26,34 @@ public class Board : IBoard
     public IReadOnlyDictionary<string, INote> Notes => _notes;
     private readonly Dictionary<string, INote> _notes;
 
-    public void AddOrReplace(string guid, string header, string text)
+    public bool Add(string guid, string header, string text)
     {
-        var note = new Note(header, text, DateTime.Now);
-        _notes[guid] = note;
+        if (_notes.ContainsKey(guid))
+            return false;
+        
+        _notes[guid] = new Note(header, text, DateTime.Now);
 
         Dumper.Save(this);
+        return true;
+    }
+    
+    public bool Edit(string guid, string header, string text)
+    {
+        if (!_notes.ContainsKey(guid))
+            return false;
+        
+        _notes[guid] = new Note(header, text, DateTime.Now);
+
+        Dumper.Save(this);
+        return true;
     }
 
     public bool Remove(string guid)
     {
         var didDelete = _notes.Remove(guid);
-
-        Dumper.Save(this);
+        
+        if (didDelete)
+            Dumper.Save(this);
         return didDelete;
     }
 }

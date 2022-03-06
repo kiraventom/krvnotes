@@ -9,18 +9,22 @@
                         <Setter Property="FontSize" Value="18" />
                         <Setter Property="Foreground" Value="LightSteelBlue" />
                         <Setter Property="IsHitTestVisible" Value="False" />
-                        <Setter Property="Margin" Value="3, 1, 0, 0" />
+                        <Setter Property="Margin" Value="7, 5, 0, 0" />
                         <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
                     <Style TargetType="{x:Type TextBox}">
+                        <Style.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="7" />
+                            </Style>
+                        </Style.Resources>
                         <Setter Property="FontSize" Value="18" />
                         <Setter Property="VerticalContentAlignment" Value="Top" />
+                        <Setter Property="Padding" Value="4,4,0,0" />
                         <Setter Property="TextWrapping" Value="Wrap" />
                         <Setter Property="AcceptsReturn" Value="True" />
-                        <Setter Property="AcceptsTab" Value="True" />
-                        <Setter Property="SpellCheck.IsEnabled" Value="True" />
-                    </Style>        
-                </Style.Resources>    
+                    </Style>
+                </Style.Resources>
             </Style>
         </Style.Resources>
     </Style>

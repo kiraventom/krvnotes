@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace GUI;
 
-public abstract class BasicNotifier : INotifyPropertyChanged
+public abstract class BasicNotifiable : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
     

@@ -5,18 +5,39 @@
         <Setter Property="Orientation" Value="Horizontal" />
         <Style.Resources>
             <Style TargetType="{x:Type Button}">
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    To="#20000000"
+                                    Storyboard.TargetProperty="Background.Color"
+                                    FillBehavior="HoldEnd"
+                                    Duration="0:0:0.15" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    To="Transparent"
+                                    Storyboard.TargetProperty="Background.Color"
+                                    FillBehavior="HoldEnd"
+                                    Duration="0:0:0.15" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+                
                 <Style.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="7"/>
+                    </Style>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Margin" Value="5" />
                     </Style>
                 </Style.Resources>
-
-                <!-- set own hover color -->
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#20000000" />
-                    </Trigger>
-                </Style.Triggers>
 
                 <Setter Property="Margin" Value="15, 0, 5,0" />
                 <Setter Property="Background" Value="Transparent" />

@@ -13,9 +13,6 @@
     <Window.DataContext>
         <local:BoardViewModel />
     </Window.DataContext>
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
-    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -37,7 +34,7 @@
         <!-- board -->
         <ScrollViewer
             Grid.Row="1">
-
+<!-- TODO: CurrentNote не обновляется -->
             <ItemsControl ItemsSource="{Binding Path=Notes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -50,9 +47,9 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="local:NoteModel">
-                        
-                        <cts:NoteTemplate
+                        <cts:Note
                             Template="{StaticResource NoteTemplate}"
+                            Style="{StaticResource NoteStyle}"
                             Header="{Binding Path=Header}"
                             Text="{Binding Path=Text}"
                             OpenNoteCommand="{Binding 
@@ -63,70 +60,22 @@
                                 RelativeSource={RelativeSource AncestorType=ItemsControl},
                                 Path=DataContext.DeleteNoteCommand}"
                             DeleteNoteCommandParameter="{Binding}">
-                        </cts:NoteTemplate>
-                        
+                        </cts:Note>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-
         </ScrollViewer>
 
         <!-- editor overlay -->
-        <Grid
+        <cts:EditorOverlay
             Grid.Row="0"
             Grid.RowSpan="2"
-
-            Visibility="{Binding IsNoteEditActive, Converter={StaticResource BoolToVisibility}}"
-            Style="{StaticResource EditorOverlayStyle}">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*" />
-                <RowDefinition />
-                <RowDefinition Height="0.1*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.1*" />
-            </Grid.ColumnDefinitions>
-
-            <Button
-                Grid.RowSpan="3" Grid.ColumnSpan="3"
-                Style="{StaticResource EditorOverlayBackgroundStyle}"
-                Command="{Binding SaveNoteCommand}">
-            </Button>
-
-            <Grid
-                Grid.Row="1" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60" />
-                    <RowDefinition />
-                    <RowDefinition Height="50" />
-                </Grid.RowDefinitions>
-
-                <cts:PlaceholderTextBox
-                    Style="{StaticResource EditorHeaderStyle}"
-                    Template="{StaticResource PlaceholderTemplate}"
-                    Grid.Row="0"
-                    Margin="20, 20, 20, 5"
-                    Placeholder="Заголовок"
-                    Text="{Binding CurrentNote.Header, Mode=TwoWay}" />
-
-                <cts:PlaceholderTextBox
-                    Style="{StaticResource EditorTextStyle}"
-                    Template="{StaticResource PlaceholderTemplate}"
-                    Grid.Row="1"
-                    Margin="20, 20, 20, 5"
-                    Placeholder="Текст заметки"
-                    Text="{Binding CurrentNote.Text, Mode=TwoWay}" />
-
-                <StackPanel
-                    Grid.Row="2">
-                    <Button
-                        Command="{Binding SaveNoteCommand}"
-                        Content="Сохранить" />
-                </StackPanel>
-            </Grid>
-        </Grid>
+            Style="{StaticResource EditorOverlayStyle}"
+            Template="{StaticResource EditorOverlayTemplate}"
+            Header="{Binding CurrentNote.Header, Mode=TwoWay}"
+            Text="{Binding CurrentNote.Text, Mode=TwoWay}"
+            SaveNoteCommand="{Binding SaveNoteCommand}"
+            CancelEditingCommand="{Binding CancelEditingCommand}"
+            IsActive="{Binding IsNoteEditActive}"/>
     </Grid>
 </Window>
