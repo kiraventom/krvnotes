@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Input;
 using GUI.Commands;
 using BL;
@@ -21,10 +22,11 @@ public class BoardViewModel : BasicNotifiable
         }
         catch (WrongAppEntryPointException)
         {
-            EventLog.WriteEntry(
-                Assembly.GetExecutingAssembly().FullName, 
-                "krvnotes should be run from krvnotes-Starter.exe!",
-                EventLogEntryType.Error);
+            MessageBox.Show(
+                "App should be started from krvnotes-starter.exe",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
             
             Environment.Exit(1);
         }
