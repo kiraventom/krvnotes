@@ -24,17 +24,16 @@
         <StackPanel
             Grid.Row="0"
             Style="{StaticResource HeaderStyle}">
-
             <Button
+                Style="{StaticResource HeaderButtonStyle}"
                 Command="{Binding CreateNoteCommand}">
                 <Image Source="icons/add.png" />
             </Button>
         </StackPanel>
-
+        
         <!-- board -->
         <ScrollViewer
             Grid.Row="1">
-<!-- TODO: CurrentNote не обновляется -->
             <ItemsControl ItemsSource="{Binding Path=Notes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -76,6 +75,6 @@
             Text="{Binding CurrentNote.Text, Mode=TwoWay}"
             SaveNoteCommand="{Binding SaveNoteCommand}"
             CancelEditingCommand="{Binding CancelEditingCommand}"
-            IsActive="{Binding IsNoteEditActive}"/>
+            IsActive="{Binding IsNoteEditActive}" />
     </Grid>
 </Window>

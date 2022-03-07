@@ -1,12 +1,12 @@
 ﻿<Application x:Class="GUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GUI"
              StartupUri="BoardView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/HeaderStyle.xaml"/>
+                <ResourceDictionary Source="Styles/HeaderButtonStyle.xaml"/>
                 <ResourceDictionary Source="Styles/NotesPanelStyle.xaml"/>
                 <ResourceDictionary Source="Styles/NoteStyle.xaml"/>
                 
@@ -16,9 +16,9 @@
                 <ResourceDictionary Source="Styles/Editor/EditorBackgroundStyle.xaml"/>
                 <ResourceDictionary Source="Styles/Editor/EditorButtonStyle.xaml"/>
                 
-                <ResourceDictionary Source="ControlTemplates/PlaceholderTextBoxTemplate.xaml"/>
-                <ResourceDictionary Source="ControlTemplates/NoteTemplate.xaml"/>
-                <ResourceDictionary Source="ControlTemplates/EditorOverlayTemplate.xaml"/>
+                <ResourceDictionary Source="Templates/PlaceholderTextBoxTemplate.xaml"/>
+                <ResourceDictionary Source="Templates/NoteTemplate.xaml"/>
+                <ResourceDictionary Source="Templates/EditorOverlayTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

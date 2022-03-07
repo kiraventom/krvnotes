@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:GUI.ControlTemplates">
-    <ControlTemplate x:Key="NoteTemplate" TargetType="local:Note">
+    <ControlTemplate x:Key="NoteTemplate" TargetType="{x:Type local:Note}">
         <Button
             Command="{TemplateBinding OpenNoteCommand}"
             CommandParameter="{TemplateBinding OpenNoteCommandParameter}">

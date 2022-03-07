@@ -3,7 +3,7 @@
                     xmlns:cts="clr-namespace:GUI.ControlTemplates">
     <Style x:Key="NoteStyle" TargetType="{x:Type cts:Note}">
         <Style.Resources>
-            <Style TargetType="Button">
+            <Style TargetType="{x:Type Button}">
                 <Style.Triggers>
                     <EventTrigger RoutedEvent="MouseEnter">
                         <BeginStoryboard>
@@ -30,7 +30,7 @@
                 </Style.Triggers>
                 
                 <Style.Resources>
-                    <Style TargetType="Border">
+                    <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="7"/>
                     </Style>
                     <Style TargetType="{x:Type Grid}">
