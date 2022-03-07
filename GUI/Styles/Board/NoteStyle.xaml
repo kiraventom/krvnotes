@@ -56,38 +56,10 @@
                             </Style>
 
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource NoDefaultHoverButtonStyle}">
-                                <Style.Triggers>
-                                    <EventTrigger RoutedEvent="MouseEnter">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation
-                                                        Storyboard.TargetProperty="Opacity"
-                                                        From="0.25" To="0.5"
-                                                        Duration="0:0:0.1" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="MouseLeave">
-                                        <EventTrigger.Actions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation
-                                                        Storyboard.TargetProperty="Opacity"
-                                                        From="0.5" To="0.25"
-                                                        Duration="0:0:0.1" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger.Actions>
-                                    </EventTrigger>
-                                </Style.Triggers>
-
-                                <Setter Property="Width" Value="20" />
-                                <Setter Property="Height" Value="20" />
-                                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                <Setter Property="VerticalContentAlignment" Value="Bottom" />
-                                <Setter Property="Opacity" Value="0.25" />
+                                <Setter Property="Width" Value="15" />
+                                <Setter Property="Height" Value="15" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
                                 <Setter Property="Background" Value="Transparent" />
                                 <Setter Property="BorderThickness" Value="0" />
                             </Style>

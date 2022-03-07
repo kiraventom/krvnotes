@@ -5,6 +5,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Icons/AddIcon.xaml"/>
+                <ResourceDictionary Source="Icons/CloseIcon.xaml"/>
+                
                 <ResourceDictionary Source="Styles/NoDefaultHoverButtonStyle.xaml"/>
                 
                 <ResourceDictionary Source="Styles/Board/HeaderButtonStyle.xaml"/>

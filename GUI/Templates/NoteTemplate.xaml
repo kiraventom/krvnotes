@@ -27,9 +27,11 @@
 
                 <Button
                     Grid.Row="0" Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
                     Command="{TemplateBinding DeleteNoteCommand}"
                     CommandParameter="{TemplateBinding DeleteNoteCommandParameter}">
-                    <Image Source="..\icons\close.png" />
+                    <StaticResource ResourceKey="CloseIcon" />
                 </Button>
             </Grid>
         </Button>

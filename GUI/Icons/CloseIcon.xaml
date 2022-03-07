@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="CloseIconStyle" TargetType="{x:Type Path}">
+        <!-- <Setter Property="Fill" Value="#ff8393a3" /> -->
+        <Setter Property="Fill" Value="#ffbfbfbf" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                Storyboard.TargetProperty="Fill.Color"
+                                From="#ffbfbfbf" To="#ff717171"
+                                Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                Storyboard.TargetProperty="Fill.Color"
+                                From="#ff717171" To="#ffbfbfbf"
+                                Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Path x:Key="CloseIcon"
+          x:Shared="False"
+          Style="{StaticResource CloseIconStyle}">
+        <Path.Data>
+            M 1.4,0 L 5,3.6 8.6,0 10,1.4 6.4,5 10,8.6 8.6,10 5,6.4 1.4,10 0,8.6 3.6,5 0,1.4 Z 
+        </Path.Data>
+    </Path>
+
+</ResourceDictionary>

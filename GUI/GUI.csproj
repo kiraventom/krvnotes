@@ -12,9 +12,7 @@
 
     <ItemGroup>
       <None Remove="icons\add.png" />
-      <Resource Include="icons\add.png" />
       <None Remove="icons\close.png" />
-      <Resource Include="icons\close.png" />
     </ItemGroup>
 
     <ItemGroup>

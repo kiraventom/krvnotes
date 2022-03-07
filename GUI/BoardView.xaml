@@ -32,6 +32,9 @@
             Orientation="Vertical"
             Style="{StaticResource LeftPanelStyle}">
             
+            <Button 
+                Style="{StaticResource LeftPanelButtonStyle}" />
+
         </StackPanel>
         
         <!-- header -->
@@ -40,9 +43,8 @@
             Orientation="Horizontal"
             Style="{StaticResource HeaderStyle}">
             <Button
-                Command="{Binding CreateNoteCommand}">
-                <Image Source="icons/add.png" />
-            </Button>
+                Command="{Binding CreateNoteCommand}"
+                Content="{StaticResource AddIcon}"/>
         </StackPanel>
         
         <!-- board -->
