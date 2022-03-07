@@ -5,6 +5,11 @@
         <Setter Property="Height" Value="60" />
         <Setter Property="BorderThickness" Value="0" />
         
+        <!-- TODO: Make LeftPanelButton togglable, apply #ff17212b to Background when toggled -->
+        <!-- TODO: Shapes on button should be #ff8393a3 and white (?) on hover -->
+        
+        <!-- <Setter Property="Fill" Value="#ff8393a3" /> -->
+        
         <!-- <Style.Triggers> -->
         <!--     <EventTrigger RoutedEvent="MouseEnter"> -->
         <!--         <BeginStoryboard> -->

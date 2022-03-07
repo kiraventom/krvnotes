@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="CloseIconStyle" TargetType="{x:Type Path}">
-        <!-- <Setter Property="Fill" Value="#ff8393a3" /> -->
         <Setter Property="Fill" Value="#ffbfbfbf" />
         <Setter Property="Stretch" Value="Uniform" />
         <Style.Triggers>
