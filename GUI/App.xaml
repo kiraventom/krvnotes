@@ -5,17 +5,22 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/HeaderStyle.xaml"/>
-                <ResourceDictionary Source="Styles/HeaderButtonStyle.xaml"/>
-                <ResourceDictionary Source="Styles/NotesPanelStyle.xaml"/>
-                <ResourceDictionary Source="Styles/NoteStyle.xaml"/>
+                <ResourceDictionary Source="Styles/NoDefaultHoverButtonStyle.xaml"/>
+                
+                <ResourceDictionary Source="Styles/Board/HeaderButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Board/HeaderStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Board/NoteStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Board/NotesPanelStyle.xaml"/>
+                
+                <ResourceDictionary Source="Styles/Left Panel/LeftPanelButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Left Panel/LeftPanelStyle.xaml"/>
                 
                 <ResourceDictionary Source="Styles/Editor/EditorHeaderStyle.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorOverlayStyle.xaml"/>
                 <ResourceDictionary Source="Styles/Editor/EditorTextStyle.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorBackgroundStyle.xaml"/>
                 <ResourceDictionary Source="Styles/Editor/EditorButtonStyle.xaml"/>
-                
+                <ResourceDictionary Source="Styles/Editor/EditorOverlayStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Editor/EditorBackgroundStyle.xaml"/>
+
                 <ResourceDictionary Source="Templates/PlaceholderTextBoxTemplate.xaml"/>
                 <ResourceDictionary Source="Templates/NoteTemplate.xaml"/>
                 <ResourceDictionary Source="Templates/EditorOverlayTemplate.xaml"/>

@@ -20,12 +20,26 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <!-- left panel -->
+        <StackPanel
+            Grid.Row="0" Grid.Column="0"
+            Grid.RowSpan="2"
+            Orientation="Vertical"
+            Style="{StaticResource LeftPanelStyle}">
+            
+        </StackPanel>
+        
         <!-- header -->
         <StackPanel
-            Grid.Row="0"
+            Grid.Row="0" Grid.Column="1"
+            Orientation="Horizontal"
             Style="{StaticResource HeaderStyle}">
             <Button
-                Style="{StaticResource HeaderButtonStyle}"
                 Command="{Binding CreateNoteCommand}">
                 <Image Source="icons/add.png" />
             </Button>
@@ -33,7 +47,7 @@
         
         <!-- board -->
         <ScrollViewer
-            Grid.Row="1">
+            Grid.Row="1" Grid.Column="1">
             <ItemsControl ItemsSource="{Binding Path=Notes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -48,7 +62,6 @@
                     <DataTemplate DataType="local:NoteModel">
                         <cts:Note
                             Template="{StaticResource NoteTemplate}"
-                            Style="{StaticResource NoteStyle}"
                             Header="{Binding Path=Header}"
                             Text="{Binding Path=Text}"
                             OpenNoteCommand="{Binding 
@@ -67,8 +80,8 @@
 
         <!-- editor overlay -->
         <cts:EditorOverlay
-            Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.Row="0" Grid.Column="0"
+            Grid.RowSpan="2" Grid.ColumnSpan="2"
             Style="{StaticResource EditorOverlayStyle}"
             Template="{StaticResource EditorOverlayTemplate}"
             Header="{Binding CurrentNote.Header, Mode=TwoWay}"

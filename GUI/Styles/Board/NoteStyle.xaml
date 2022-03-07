@@ -3,7 +3,7 @@
                     xmlns:cts="clr-namespace:GUI.ControlTemplates">
     <Style x:Key="NoteStyle" TargetType="{x:Type cts:Note}">
         <Style.Resources>
-            <Style TargetType="{x:Type Button}">
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource NoDefaultHoverButtonStyle}">
                 <Style.Triggers>
                     <EventTrigger RoutedEvent="MouseEnter">
                         <BeginStoryboard>
@@ -55,7 +55,7 @@
                                 <Setter Property="VerticalAlignment" Value="Stretch" />
                             </Style>
 
-                            <Style TargetType="{x:Type Button}">
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource NoDefaultHoverButtonStyle}">
                                 <Style.Triggers>
                                     <EventTrigger RoutedEvent="MouseEnter">
                                         <EventTrigger.Actions>
@@ -90,21 +90,6 @@
                                 <Setter Property="Opacity" Value="0.25" />
                                 <Setter Property="Background" Value="Transparent" />
                                 <Setter Property="BorderThickness" Value="0" />
-
-                                <!-- disable default hover color -->
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border
-                                                Background="{TemplateBinding Background}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}">
-                                                <ContentPresenter />
-                                            </Border>
-
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
                             </Style>
                         </Style.Resources>
                     </Style>
@@ -118,24 +103,9 @@
                 <Setter Property="BorderBrush" Value="DarkGray" />
                 <Setter Property="Padding" Value="0, 5, 0, 0" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
                 <Setter Property="FontSize" Value="17" />
-
-                <!-- disable default hover color -->
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter />
-                            </Border>
-
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
             </Style>
-
         </Style.Resources>
     </Style>
 </ResourceDictionary>
