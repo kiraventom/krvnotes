@@ -31,9 +31,13 @@
             Grid.RowSpan="2"
             Orientation="Vertical"
             Style="{StaticResource LeftPanelStyle}">
+            <Button 
+                Style="{StaticResource LeftPanelButtonStyle}"
+                Content="{StaticResource NoteIcon}"/>
             
             <Button 
-                Style="{StaticResource LeftPanelButtonStyle}" />
+                Style="{StaticResource LeftPanelButtonStyle}"
+                Content="{StaticResource RecycleBinIcon}"/>
 
         </StackPanel>
         
