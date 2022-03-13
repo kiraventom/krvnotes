@@ -1,17 +1,30 @@
-﻿namespace GUI;
+﻿using System;
+using BL;
 
-public class NoteModel : BasicNotifiable
+namespace GUI;
+
+public class NoteModel : BasicNotifiable, INote
 {
     public NoteModel()
     {
         Guid = System.Guid.NewGuid().ToString();
+        EditedAt = DateTime.Now;
+    }
+
+    public NoteModel(INote note)
+    {
+        Guid = note.Guid;
+        Header = note.Header;
+        Text = note.Text;
+        EditedAt = note.EditedAt;
     }
     
     public NoteModel(string guid) => Guid = guid;
 
     private string _header;
     private string _text;
-    
+    private DateTime _editedAt;
+
     public string Guid { get; }
 
     public string Header
@@ -30,6 +43,16 @@ public class NoteModel : BasicNotifiable
         set
         {
             _text = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public DateTime EditedAt
+    {
+        get => _editedAt;
+        set
+        {
+            _editedAt = value;
             OnPropertyChanged();
         }
     }

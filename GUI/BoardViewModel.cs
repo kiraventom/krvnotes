@@ -2,34 +2,31 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using System.Windows;
 using System.Windows.Input;
 using GUI.Commands;
 using BL;
 
 namespace GUI;
 
+// TODO: Implement folders properly
+
 public class BoardViewModel : BasicNotifiable
 {
     public BoardViewModel()
     {
         _board = Controller.GetBoard();
-        
-        var loadedNotes =
-            _board.Notes.Select(p => 
-                new NoteModel(p.Key)
-                {
-                    Header = p.Value.Header,
-                    Text = p.Value.Text
-                });
 
-        Notes = new ObservableCollection<NoteModel>();
+        var folders = _board.Folders;
+        var unsorted = folders.First(f => f.Name == "unsorted");
+        _currentFolder = unsorted;
+        var notes = unsorted.Notes.Select(note => new NoteModel(note));
+
+        Notes = new ObservableCollection<NoteModel>(notes);
+        foreach (var note in Notes)
+            note.PropertyChanged += NotesOnContentEdited;
+        
         Notes.CollectionChanged += NotesOnCollectionChanged;
-        foreach (var loadedNote in loadedNotes) 
-            Notes.Add(loadedNote);
 
         CreateNoteCommand = new Command(() => CurrentNote = new NoteModel());
         OpenNoteCommand = new Command<NoteModel>(
@@ -44,6 +41,7 @@ public class BoardViewModel : BasicNotifiable
     
     private readonly IBoard _board;
     private NoteModel _currentNote;
+    private IFolder _currentFolder;
 
     // Exposed properties
     public ObservableCollection<NoteModel> Notes { get; }
@@ -85,7 +83,7 @@ public class BoardViewModel : BasicNotifiable
             case NotifyCollectionChangedAction.Add:
                 foreach (NoteModel newNote in e.NewItems!)
                 {
-                    _board.Add(newNote.Guid, newNote.Header, newNote.Text);
+                    _board.AddNote(_currentFolder, newNote);
                     newNote.PropertyChanged += NotesOnContentEdited;
                 }
                 break;
@@ -93,7 +91,7 @@ public class BoardViewModel : BasicNotifiable
             case NotifyCollectionChangedAction.Remove:
                 foreach (NoteModel oldNote in e.OldItems!)
                 {
-                    _board.Remove(oldNote.Guid);
+                    _board.RemoveNote(_currentFolder, oldNote.Guid);
                     oldNote.PropertyChanged -= NotesOnContentEdited;
                 }
                 break;
@@ -110,6 +108,6 @@ public class BoardViewModel : BasicNotifiable
         if (sender is not NoteModel note)
             return;
         
-        _board.Edit(note.Guid, note.Header, note.Text);
+        _board.EditNote(_currentFolder, note);
     }
 }

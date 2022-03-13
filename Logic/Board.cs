@@ -1,9 +1,13 @@
-﻿namespace Logic;
+﻿using System.Linq;
+
+namespace Logic;
 
 using BL;
 
 public class Board : IBoard
 {
+    // TODO: move these methods to IFolder, implement here folder list editing
+    // TODO: implement ReadOnlyDictionaryWrapper to support upcasting https://stackoverflow.com/a/13602918/10466326
     public static void OnStartup()
     {
         Controller.BoardRequested += (_, _) =>
@@ -15,47 +19,75 @@ public class Board : IBoard
 
     private Board()
     {
-        _notes = new Dictionary<string, INote>();
+        _folders = new List<Folder>();
+        Folder unsorted;
+        unsorted = new Folder(nameof(unsorted));
+        _folders.Add(unsorted);
     }
 
-    internal Board(IDictionary<string, INote> loadedNotes)
+    internal Board(IEnumerable<Folder> loadedFolders)
     {
-        _notes = new Dictionary<string, INote>(loadedNotes);
+        _folders = loadedFolders.ToList();
     }
 
-    public IReadOnlyDictionary<string, INote> Notes => _notes;
-    private readonly Dictionary<string, INote> _notes;
+    public IEnumerable<IFolder> Folders => _folders.AsReadOnly();
+    private readonly List<Folder> _folders;
 
-    public bool Add(string guid, string header, string text)
+    bool IBoard.AddNote(IFolder folder, INote note)
     {
-        if (_notes.ContainsKey(guid))
+        var rawFolder = GetRawFolder(folder);
+        return rawFolder is not null && AddNote(rawFolder, new Note(note));
+    }
+
+    private bool AddNote(Folder folder, Note note)
+    {
+        if (folder.Notes.Any(n => n.Guid == note.Guid))
             return false;
         
-        _notes[guid] = new Note(header, text, DateTime.Now);
+        folder.Notes.Add(note);
 
         Dumper.Save(this);
         return true;
+    }
+
+    bool IBoard.EditNote(IFolder folder, INote note)
+    {
+        var rawFolder = GetRawFolder(folder);
+        return rawFolder is not null && EditNote(rawFolder, new Note(note));
     }
     
-    public bool Edit(string guid, string header, string text)
+    private bool EditNote(Folder folder, Note note)
     {
-        if (!_notes.ContainsKey(guid))
+        var index = folder.Notes.FindIndex(n => n.Guid == note.Guid);
+        if (index == -1)
             return false;
         
-        _notes[guid] = new Note(header, text, DateTime.Now);
+        folder.Notes[index] = note;
 
         Dumper.Save(this);
         return true;
     }
 
-    public bool Remove(string guid)
+    bool IBoard.RemoveNote(IFolder folder, string guid)
     {
-        var didDelete = _notes.Remove(guid);
+        var rawFolder = GetRawFolder(folder);
+        return rawFolder is not null && RemoveNote(rawFolder, guid);
+    }
+
+    private bool RemoveNote(Folder folder, string guid)
+    {
+        var index = folder.Notes.FindIndex(n => n.Guid == guid);
+        if (index == -1)
+            return false;
         
-        if (didDelete)
-            Dumper.Save(this);
-        return didDelete;
+        folder.Notes.RemoveAt(index);
+        Dumper.Save(this);
+        
+        return true;
+    }
+
+    private Folder GetRawFolder(IFolder folder)
+    {
+        return _folders.FirstOrDefault(f => f.Name == folder.Name);
     }
 }
-
-public record Note(string Header, string Text, DateTime CreatedAt) : INote;

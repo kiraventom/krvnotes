@@ -1,20 +1,5 @@
 ﻿namespace BL;
 
-public interface IBoard
-{
-    bool Add(string guid, string header, string text);
-    bool Edit(string guid, string header, string text);
-    bool Remove(string guid);
-    IReadOnlyDictionary<string, INote> Notes { get; }
-}
-
-public interface INote
-{
-    string Header { get; }
-    string Text { get; }
-    DateTime CreatedAt { get; }
-}
-
 public class WrongAppEntryPointException : Exception
 {
     

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using BL;
 
 namespace Logic;
 
@@ -12,7 +11,7 @@ internal static class Dumper
     
     public static void Save(Board board)
     {
-        string json = JsonSerializer.Serialize(board.Notes, Constants.SerializerOptions);
+        string json = JsonSerializer.Serialize(board.Folders, Constants.SerializerOptions);
         File.WriteAllText(Constants.FilePath, json);    
     }
 
@@ -25,9 +24,10 @@ internal static class Dumper
         }
         
         string json = File.ReadAllText(Constants.FilePath);
-        var loadedNotes = JsonSerializer.Deserialize<IDictionary<string, Note>>(json, Constants.SerializerOptions);
-        ArgumentNullException.ThrowIfNull(loadedNotes); // I know it's not argument, idc
-        board = new Board(loadedNotes.ToDictionary(p => p.Key, p => p.Value as INote));
+        
+        var loadedFolders = JsonSerializer.Deserialize<IEnumerable<Folder>>(json, Constants.SerializerOptions);
+        ArgumentNullException.ThrowIfNull(loadedFolders); // I know it's not argument, idc
+        board = new Board(loadedFolders);
         return true;
     }
 }

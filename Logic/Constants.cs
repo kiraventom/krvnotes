@@ -12,10 +12,13 @@ internal static class Constants
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             AppName);
   
-    public static readonly string FilePath =
-        Path.Combine(FolderPath, Filename);
+    public static readonly string FilePath = Path.Combine(FolderPath, Filename);
 
-    public static readonly JsonSerializerOptions SerializerOptions = new (){WriteIndented = true};
+    public static readonly JsonSerializerOptions SerializerOptions = new ()
+    {
+        WriteIndented = true, 
+        PropertyNameCaseInsensitive = true
+    };
 
     public static readonly Random Random = new();
 }
