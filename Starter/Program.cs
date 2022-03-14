@@ -1,4 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using GUI;
+using Logic;
+using Starter;
 
 [DllImport("kernel32.dll")]
 static extern IntPtr GetConsoleWindow();
@@ -11,8 +14,10 @@ const int swHide = 0;
 var handle = GetConsoleWindow();
 var thread = new Thread(() =>
 {
-    Logic.Board.OnStartup();
-    var app = new GUI.App();
+    var board = new Board();
+    var controller = new Controller(board);
+
+    var app = App.Create(controller);
     app.InitializeComponent();
     app.Run();
 });

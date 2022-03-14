@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using GUI.Commands;
 using BL;
@@ -15,7 +16,11 @@ public class BoardViewModel : BasicNotifiable
 {
     public BoardViewModel()
     {
-        _board = Controller.GetBoard();
+        var app = Application.Current as App;
+        if (app!.Controller is null)
+            throw new NotSupportedException("Wrong app entry point");
+        
+        _board = app.Controller.Board;
 
         var folders = _board.Folders;
         var unsorted = folders.First(f => f.Name == "unsorted");

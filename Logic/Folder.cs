@@ -11,6 +11,12 @@ internal class Folder : IFolder
         Name = name;
         Notes = notes;
     }
+    
+    public Folder(IFolder folder)
+    {
+        Name = folder.Name;
+        Notes = folder.Notes.Select(n => new Note(n)).ToList();
+    }
 
     internal Folder(string name)
     {
@@ -21,6 +27,6 @@ internal class Folder : IFolder
     public string Name { get; }
     
     IEnumerable<INote> IFolder.Notes => Notes.AsReadOnly();
-    
+
     public List<Note> Notes { get; }
 }

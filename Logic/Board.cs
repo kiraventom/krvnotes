@@ -1,42 +1,57 @@
-﻿using System.Linq;
-
-namespace Logic;
+﻿namespace Logic;
 
 using BL;
 
 public class Board : IBoard
 {
-    // TODO: move these methods to IFolder, implement here folder list editing
-    // TODO: implement ReadOnlyDictionaryWrapper to support upcasting https://stackoverflow.com/a/13602918/10466326
-    public static void OnStartup()
-    {
-        Controller.BoardRequested += (_, _) =>
-        {
-            var didLoad = Dumper.TryLoad(out var board);
-            Controller.SetBoard(didLoad ? board : new Board());
-        };
-    }
+    // TODO: move these methods to IFolder, implement here folder list editing. UPD: not possible, cuz there's nothing to pass into Dumper. Mayble later
 
-    private Board()
+    // TODO: implement ReadOnlyDictionaryWrapper to support upcasting https://stackoverflow.com/a/13602918/10466326
+    
+    public Board()
     {
+        var didLoad = Dumper.TryLoad(out var folders);
+        if (didLoad)
+        {
+            _folders = folders.ToList();
+            return;
+        }
+        
         _folders = new List<Folder>();
         Folder unsorted;
         unsorted = new Folder(nameof(unsorted));
-        _folders.Add(unsorted);
-    }
-
-    internal Board(IEnumerable<Folder> loadedFolders)
-    {
-        _folders = loadedFolders.ToList();
+        AddFolder(unsorted);
     }
 
     public IEnumerable<IFolder> Folders => _folders.AsReadOnly();
     private readonly List<Folder> _folders;
 
+    public bool AddFolder(IFolder folder)
+    {
+        if (_folders.Any(f => f.Name == folder.Name))
+            return false;
+        
+        _folders.Add(new Folder(folder));
+        Dumper.Save(Folders);
+        return true;
+    }
+
     bool IBoard.AddNote(IFolder folder, INote note)
     {
         var rawFolder = GetRawFolder(folder);
         return rawFolder is not null && AddNote(rawFolder, new Note(note));
+    }
+
+    // TODO: this shit is strange, we can "edit" all of the notes in the folder. Think abt it
+    public bool EditFolder(IFolder folder)
+    {
+        var index = _folders.FindIndex(f => f.Name == folder.Name);
+        if (index == -1)
+            return false;
+
+        _folders[index] = new Folder(folder);
+        Dumper.Save(Folders);
+        return true;
     }
 
     private bool AddNote(Folder folder, Note note)
@@ -46,7 +61,7 @@ public class Board : IBoard
         
         folder.Notes.Add(note);
 
-        Dumper.Save(this);
+        Dumper.Save(Folders);
         return true;
     }
 
@@ -55,7 +70,18 @@ public class Board : IBoard
         var rawFolder = GetRawFolder(folder);
         return rawFolder is not null && EditNote(rawFolder, new Note(note));
     }
-    
+
+    public bool RemoveFolder(string name)
+    {
+        var index = _folders.FindIndex(f => f.Name == name);
+        if (index == -1)
+            return false;
+        
+        _folders.RemoveAt(index);
+        Dumper.Save(Folders);
+        return true;
+    }
+
     private bool EditNote(Folder folder, Note note)
     {
         var index = folder.Notes.FindIndex(n => n.Guid == note.Guid);
@@ -64,7 +90,7 @@ public class Board : IBoard
         
         folder.Notes[index] = note;
 
-        Dumper.Save(this);
+        Dumper.Save(Folders);
         return true;
     }
 
@@ -81,7 +107,7 @@ public class Board : IBoard
             return false;
         
         folder.Notes.RemoveAt(index);
-        Dumper.Save(this);
+        Dumper.Save(Folders);
         
         return true;
     }

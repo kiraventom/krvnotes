@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using BL;
 
 namespace Logic;
 
@@ -9,25 +10,24 @@ internal static class Dumper
         Directory.CreateDirectory(Constants.FolderPath);
     }
     
-    public static void Save(Board board)
+    public static void Save(IEnumerable<IFolder> folders)
     {
-        string json = JsonSerializer.Serialize(board.Folders, Constants.SerializerOptions);
+        string json = JsonSerializer.Serialize(folders, Constants.SerializerOptions);
         File.WriteAllText(Constants.FilePath, json);    
     }
 
-    internal static bool TryLoad(out Board board)
+    internal static bool TryLoad(out IEnumerable<Folder> folders)
     {
         if (!File.Exists(Constants.FilePath))
         {
-            board = null;
+            folders = null;
             return false;
         }
         
         string json = File.ReadAllText(Constants.FilePath);
         
-        var loadedFolders = JsonSerializer.Deserialize<IEnumerable<Folder>>(json, Constants.SerializerOptions);
-        ArgumentNullException.ThrowIfNull(loadedFolders); // I know it's not argument, idc
-        board = new Board(loadedFolders);
+        folders = JsonSerializer.Deserialize<IEnumerable<Folder>>(json, Constants.SerializerOptions);
+        ArgumentNullException.ThrowIfNull(folders); // I know it's not argument, idc
         return true;
     }
 }
