@@ -5,18 +5,18 @@ namespace Logic;
 internal static class Constants
 {
     private const string AppName = "krvnotes";
-    private const string Filename = "board.json";  
-    
+    private const string Filename = "board.json";
+
     public static readonly string FolderPath =
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             AppName);
-  
+
     public static readonly string FilePath = Path.Combine(FolderPath, Filename);
 
-    public static readonly JsonSerializerOptions SerializerOptions = new ()
+    public static readonly JsonSerializerOptions SerializerOptions = new()
     {
-        WriteIndented = true, 
+        WriteIndented = true,
         PropertyNameCaseInsensitive = true
     };
 

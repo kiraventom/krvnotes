@@ -1,119 +1,68 @@
-﻿namespace Logic;
+﻿using Logic.Dumping;
+using Logic.Utils.Observable.Dict;
+
+namespace Logic;
 
 using BL;
 
 public class Board : IBoard
 {
-    // TODO: move these methods to IFolder, implement here folder list editing. UPD: not possible, cuz there's nothing to pass into Dumper. Mayble later
-
-    // TODO: implement ReadOnlyDictionaryWrapper to support upcasting https://stackoverflow.com/a/13602918/10466326
-    
-    public Board()
+    internal Board(IDumper dumper)
     {
-        var didLoad = Dumper.TryLoad(out var folders);
-        if (didLoad)
-        {
-            _folders = folders.ToList();
-            return;
-        }
+        _dumper = dumper;
+
+        _folders = new ObservableDict<string, Folder>();
+        _folders.Changed += (_, _) => _dumper.Save(this);
         
-        _folders = new List<Folder>();
-        Folder unsorted;
-        unsorted = new Folder(nameof(unsorted));
+        // TEMP
+        var unsorted = new Folder(_dumper, this, "Unsorted");
         AddFolder(unsorted);
+        // TEMP
     }
 
-    public IEnumerable<IFolder> Folders => _folders.AsReadOnly();
-    private readonly List<Folder> _folders;
+    internal Board(IDumper dumper, IBoard board)
+    {
+        _dumper = dumper;
+        var rawFolders = 
+            board.Folders
+                .Select(f => new Folder(_dumper, this, f))
+                .ToDictionary(f => f.Name, f => f);
+        
+        _folders = new ObservableDict<string, Folder>(rawFolders);
+        _folders.Changed += (_, _) => _dumper.Save(this);
+    }
+
+    private readonly IDumper _dumper;
+
+    public IEnumerable<IFolder> Folders => _folders.Values;
+    
+    private readonly ObservableDict<string, Folder> _folders;
 
     public bool AddFolder(IFolder folder)
     {
-        if (_folders.Any(f => f.Name == folder.Name))
+        if (_folders.ContainsKey(folder.Name))
             return false;
+
+        _folders.Add(folder.Name, new Folder(_dumper, this, folder));
+        return true;
+    }
+    
+    public bool EditFolder(string oldName, string newName)
+    {
+        var contains = _folders.ContainsKey(oldName);
+        if (!contains)
+            return false;
+
+        var folder = _folders[oldName];
+        _folders.Remove(oldName);
         
-        _folders.Add(new Folder(folder));
-        Dumper.Save(Folders);
+        var newFolder = new Folder(_dumper, this, newName, folder.Notes);
+        _folders.Add(newName, newFolder);
         return true;
-    }
-
-    bool IBoard.AddNote(IFolder folder, INote note)
-    {
-        var rawFolder = GetRawFolder(folder);
-        return rawFolder is not null && AddNote(rawFolder, new Note(note));
-    }
-
-    // TODO: this shit is strange, we can "edit" all of the notes in the folder. Think abt it
-    public bool EditFolder(IFolder folder)
-    {
-        var index = _folders.FindIndex(f => f.Name == folder.Name);
-        if (index == -1)
-            return false;
-
-        _folders[index] = new Folder(folder);
-        Dumper.Save(Folders);
-        return true;
-    }
-
-    private bool AddNote(Folder folder, Note note)
-    {
-        if (folder.Notes.Any(n => n.Guid == note.Guid))
-            return false;
-        
-        folder.Notes.Add(note);
-
-        Dumper.Save(Folders);
-        return true;
-    }
-
-    bool IBoard.EditNote(IFolder folder, INote note)
-    {
-        var rawFolder = GetRawFolder(folder);
-        return rawFolder is not null && EditNote(rawFolder, new Note(note));
     }
 
     public bool RemoveFolder(string name)
     {
-        var index = _folders.FindIndex(f => f.Name == name);
-        if (index == -1)
-            return false;
-        
-        _folders.RemoveAt(index);
-        Dumper.Save(Folders);
-        return true;
-    }
-
-    private bool EditNote(Folder folder, Note note)
-    {
-        var index = folder.Notes.FindIndex(n => n.Guid == note.Guid);
-        if (index == -1)
-            return false;
-        
-        folder.Notes[index] = note;
-
-        Dumper.Save(Folders);
-        return true;
-    }
-
-    bool IBoard.RemoveNote(IFolder folder, string guid)
-    {
-        var rawFolder = GetRawFolder(folder);
-        return rawFolder is not null && RemoveNote(rawFolder, guid);
-    }
-
-    private bool RemoveNote(Folder folder, string guid)
-    {
-        var index = folder.Notes.FindIndex(n => n.Guid == guid);
-        if (index == -1)
-            return false;
-        
-        folder.Notes.RemoveAt(index);
-        Dumper.Save(Folders);
-        
-        return true;
-    }
-
-    private Folder GetRawFolder(IFolder folder)
-    {
-        return _folders.FirstOrDefault(f => f.Name == folder.Name);
+        return _folders.Remove(name);
     }
 }

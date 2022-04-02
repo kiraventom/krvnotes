@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using GUI;
 using Logic;
+using Logic.Dumping;
 using Starter;
 
 [DllImport("kernel32.dll")]
@@ -14,7 +15,8 @@ const int swHide = 0;
 var handle = GetConsoleWindow();
 var thread = new Thread(() =>
 {
-    var board = new Board();
+    var dumper = new Dumper();
+    var board = dumper.CreateBoard();
     var controller = new Controller(board);
 
     var app = App.Create(controller);

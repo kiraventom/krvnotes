@@ -1,22 +1,15 @@
-﻿using System.Text.Json.Serialization;
-using BL;
+﻿using BL;
 
 namespace Logic;
 
 public class Note : INote
 {
-    public Note(INote note) : this(note.Guid, note.Header, note.Text, note.EditedAt)
+    public Note(INote note)
     {
-        
-    }
-    
-    [JsonConstructor]
-    public Note(string guid, string header, string text, DateTime editedAt)
-    {
-        Guid = guid;
-        Header = header;
-        Text = text;
-        EditedAt = editedAt;
+        Guid = note.Guid;
+        Header = note.Header;
+        Text = note.Text;
+        EditedAt = note.EditedAt;
     }
 
     public string Guid { get; }

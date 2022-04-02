@@ -22,11 +22,13 @@ public class BoardViewModel : BasicNotifiable
         
         _board = app.Controller.Board;
 
+        // TEMP
         var folders = _board.Folders;
-        var unsorted = folders.First(f => f.Name == "unsorted");
+        var unsorted = folders.First(f => f.Name == "Unsorted");
         _currentFolder = unsorted;
         var notes = unsorted.Notes.Select(note => new NoteModel(note));
-
+        // TEMP
+        
         Notes = new ObservableCollection<NoteModel>(notes);
         foreach (var note in Notes)
             note.PropertyChanged += NotesOnContentEdited;
@@ -88,7 +90,7 @@ public class BoardViewModel : BasicNotifiable
             case NotifyCollectionChangedAction.Add:
                 foreach (NoteModel newNote in e.NewItems!)
                 {
-                    _board.AddNote(_currentFolder, newNote);
+                    _currentFolder.AddNote(newNote);
                     newNote.PropertyChanged += NotesOnContentEdited;
                 }
                 break;
@@ -96,7 +98,7 @@ public class BoardViewModel : BasicNotifiable
             case NotifyCollectionChangedAction.Remove:
                 foreach (NoteModel oldNote in e.OldItems!)
                 {
-                    _board.RemoveNote(_currentFolder, oldNote.Guid);
+                    _currentFolder.RemoveNote(oldNote.Guid);
                     oldNote.PropertyChanged -= NotesOnContentEdited;
                 }
                 break;
@@ -113,6 +115,6 @@ public class BoardViewModel : BasicNotifiable
         if (sender is not NoteModel note)
             return;
         
-        _board.EditNote(_currentFolder, note);
+        _currentFolder.EditNote(note);
     }
 }
