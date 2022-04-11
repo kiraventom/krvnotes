@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
-        xmlns:cts="clr-namespace:GUI.ControlTemplates"
+        xmlns:cts="clr-namespace:GUI.Templates"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
@@ -31,13 +31,16 @@
             Grid.RowSpan="2"
             Orientation="Vertical"
             Style="{StaticResource LeftPanelStyle}">
-            <Button 
-                Style="{StaticResource LeftPanelButtonStyle}"
-                Content="{StaticResource NoteIcon}"/>
-            
-            <Button 
-                Style="{StaticResource LeftPanelButtonStyle}"
-                Content="{StaticResource RecycleBinIcon}"/>
+
+            <ToggleButton 
+                Style="{StaticResource LeftPanelToggleButtonStyle}">
+                <StaticResource ResourceKey="NoteIcon" />
+            </ToggleButton>
+
+            <ToggleButton 
+                Style="{StaticResource LeftPanelToggleButtonStyle}">
+                <StaticResource ResourceKey="RecycleBinIcon" />
+            </ToggleButton>
 
         </StackPanel>
         

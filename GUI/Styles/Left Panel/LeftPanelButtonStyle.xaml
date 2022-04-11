@@ -1,39 +1,40 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="LeftPanelButtonStyle" BasedOn="{StaticResource NoDefaultHoverButtonStyle}" TargetType="{x:Type Button}">
+    <Style x:Key="LeftPanelIconStyle" TargetType="{x:Type Path}">
+        <Setter Property="Stroke" Value="#ff8393a3" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Margin" Value="7" />
+    </Style>
+
+    <Style x:Key="LeftPanelToggleButtonStyle" 
+           BasedOn="{StaticResource NoDefaultHoverToggleButtonStyle}" 
+           TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="60" />
         <Setter Property="BorderThickness" Value="0" />
-        
-        <!-- TODO: Make LeftPanelButton togglable, apply #ff17212b to Background when toggled -->
-        <!-- TODO: Shapes on button should be #ff8393a3 and white (?) on hover -->
-        
-        <!-- <Setter Property="Fill" Value="#ff8393a3" /> -->
-        
-        <!-- <Style.Triggers> -->
-        <!--     <EventTrigger RoutedEvent="MouseEnter"> -->
-        <!--         <BeginStoryboard> -->
-        <!--             <Storyboard> -->
-        <!--                 <ColorAnimation -->
-        <!--                     To="#ff17212b" -->
-        <!--                     Storyboard.TargetProperty="Background.Color" -->
-        <!--                     FillBehavior="HoldEnd" -->
-        <!--                     Duration="0:0:0.0" /> -->
-        <!--             </Storyboard> -->
-        <!--         </BeginStoryboard> -->
-        <!--     </EventTrigger> -->
-        <!--     <EventTrigger RoutedEvent="MouseLeave"> -->
-        <!--         <BeginStoryboard> -->
-        <!--             <Storyboard> -->
-        <!--                 <ColorAnimation -->
-        <!--                     To="#ff293a4c" -->
-        <!--                     Storyboard.TargetProperty="Background.Color" -->
-        <!--                     FillBehavior="HoldEnd" -->
-        <!--                     Duration="0:0:0.0" /> -->
-        <!--             </Storyboard> -->
-        <!--         </BeginStoryboard> -->
-        <!--     </EventTrigger> -->
-        <!-- </Style.Triggers> -->
+        <Setter Property="Foreground" Value="#ff8393a3" />
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#ffc9d3dc"/>
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="#ffc9d3dc"/>
+                <Setter Property="Background" Value="#ff17212b"/>
+            </Trigger>
+        </Style.Triggers>
+
+        <Style.Resources>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource LeftPanelIconStyle}">
+                <Setter 
+                    Property="Stroke"
+                    Value="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=Foreground}">
+                </Setter>
+            </Style>
+        </Style.Resources>
         
     </Style>
 </ResourceDictionary>

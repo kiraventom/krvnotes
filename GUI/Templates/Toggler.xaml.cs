@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace GUI.Templates;
+namespace GUI.ControlTemplates;
 
 public class Note : Control
 {

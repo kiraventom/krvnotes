@@ -5,30 +5,9 @@
         <Setter Property="StrokeThickness" Value="3" />
         <Setter Property="Stretch" Value="Uniform" />
         <Style.Triggers>
-            <EventTrigger RoutedEvent="MouseEnter">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                Storyboard.TargetProperty="Stroke.Color"
-                                From="#ffbfbfbf" To="#ff717171"
-                                Duration="0:0:0.1" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-            <EventTrigger RoutedEvent="MouseLeave">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                Storyboard.TargetProperty="Stroke.Color"
-                                From="#ff717171" To="#ffbfbfbf"
-                                Duration="0:0:0.1" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#ff717171" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 

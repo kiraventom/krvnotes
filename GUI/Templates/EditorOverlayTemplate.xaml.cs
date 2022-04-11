@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace GUI.ControlTemplates;
+namespace GUI.Templates;
 
 public class EditorOverlay : Control
 {

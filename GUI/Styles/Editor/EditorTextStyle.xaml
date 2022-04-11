@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controlTemplates="clr-namespace:GUI.ControlTemplates">
+                    xmlns:controlTemplates="clr-namespace:GUI.Templates">
     <Style x:Key="EditorTextStyle" TargetType="{x:Type controlTemplates:PlaceholderTextBox}">
         <Style.Resources>
             <Style TargetType="{x:Type Grid}">

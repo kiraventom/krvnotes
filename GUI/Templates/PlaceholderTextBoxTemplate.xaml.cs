@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace GUI.ControlTemplates;
+namespace GUI.Templates;
 
 public class PlaceholderTextBox : Control
 {
