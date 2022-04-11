@@ -16,7 +16,9 @@ public class Command : ICommand
 
     public void Execute(object parameter) => _action.Invoke();
 
+#pragma warning disable 67
     public event EventHandler CanExecuteChanged;
+#pragma warning restore 67
 }
 
 public class Command<T> : ICommand
@@ -48,7 +50,7 @@ public class Command<T> : ICommand
         if (parameter is T t)
             Execute(t);
         else
-            throw new ArgumentException();
+            throw new ArgumentException("Invalid parameter type", nameof(parameter));
     }
 
     public void Execute(T parameter)
