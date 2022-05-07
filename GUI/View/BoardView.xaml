@@ -1,17 +1,18 @@
-﻿<Window x:Class="GUI.BoardView"
+﻿<Window x:Class="GUI.View.BoardView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         xmlns:cts="clr-namespace:GUI.Templates"
+        xmlns:viewModel="clr-namespace:GUI.ViewModel"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
-        Width="800" Height="600">
+        Width="850" Height="600">
 
     <Window.DataContext>
-        <local:BoardViewModel />
+        <viewModel:BoardViewModel />
     </Window.DataContext>
 
     <Grid>
@@ -24,7 +25,10 @@
             <ColumnDefinition Width="60" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
+        <ItemsControl>
+
+        </ItemsControl>
         <!-- left panel -->
         <StackPanel
             Grid.Row="0" Grid.Column="0"
@@ -32,18 +36,20 @@
             Orientation="Vertical"
             Style="{StaticResource LeftPanelStyle}">
 
-            <ToggleButton 
+            <RadioButton
+                IsChecked="True"
+                GroupName="LeftPanel"
                 Style="{StaticResource LeftPanelToggleButtonStyle}">
                 <StaticResource ResourceKey="NoteIcon" />
-            </ToggleButton>
+            </RadioButton>
 
-            <ToggleButton 
+            <RadioButton
+                GroupName="LeftPanel"
                 Style="{StaticResource LeftPanelToggleButtonStyle}">
                 <StaticResource ResourceKey="RecycleBinIcon" />
-            </ToggleButton>
-
+            </RadioButton>
         </StackPanel>
-        
+
         <!-- header -->
         <StackPanel
             Grid.Row="0" Grid.Column="1"
@@ -53,7 +59,7 @@
                 Command="{Binding CreateNoteCommand}"
                 Content="{StaticResource AddIcon}"/>
         </StackPanel>
-        
+
         <!-- board -->
         <ScrollViewer
             Grid.Row="1" Grid.Column="1">
@@ -68,7 +74,7 @@
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="local:NoteModel">
+                    <DataTemplate DataType="local:NoteWrapper">
                         <cts:Note
                             Template="{StaticResource NoteTemplate}"
                             Header="{Binding Path=Header}"
@@ -95,8 +101,7 @@
             Template="{StaticResource EditorOverlayTemplate}"
             Header="{Binding CurrentNote.Header, Mode=TwoWay}"
             Text="{Binding CurrentNote.Text, Mode=TwoWay}"
-            SaveNoteCommand="{Binding SaveNoteCommand}"
-            CancelEditingCommand="{Binding CancelEditingCommand}"
+            CloseNoteCommand="{Binding CloseNoteCommand}"
             IsActive="{Binding IsNoteEditActive}" />
     </Grid>
 </Window>

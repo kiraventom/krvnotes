@@ -1,5 +1,5 @@
-﻿using Logic.Dumping;
-using Logic.Utils.Observable.Dict;
+﻿using Common.Utils.Observable.Dict;
+using Logic.Dumping;
 
 namespace Logic;
 
@@ -7,6 +7,10 @@ using BL;
 
 public class Board : IBoard
 {
+    private readonly IDumper _dumper;
+
+    private readonly ObservableDict<string, Folder> _folders;
+
     internal Board(IDumper dumper)
     {
         _dumper = dumper;
@@ -15,49 +19,30 @@ public class Board : IBoard
         _folders.Changed += (_, _) => _dumper.Save(this);
         
         // TEMP
-        var unsorted = new Folder(_dumper, this, "Unsorted");
-        AddFolder(unsorted);
+        AddFolder("Unsorted");
         // TEMP
     }
 
-    internal Board(IDumper dumper, IBoard board)
+    internal Board(IDumper dumper, DtoBoardWrapper loadedBoard)
     {
         _dumper = dumper;
-        var rawFolders = 
-            board.Folders
-                .Select(f => new Folder(_dumper, this, f))
-                .ToDictionary(f => f.Name, f => f);
+
+        var folders = 
+            loadedBoard.Folders
+                .ToDictionary(f => f.Name, f => new Folder(_dumper, this, f.Name, f));
         
-        _folders = new ObservableDict<string, Folder>(rawFolders);
+        _folders = new ObservableDict<string, Folder>(folders);
         _folders.Changed += (_, _) => _dumper.Save(this);
     }
 
-    private readonly IDumper _dumper;
-
     public IEnumerable<IFolder> Folders => _folders.Values;
-    
-    private readonly ObservableDict<string, Folder> _folders;
 
-    public bool AddFolder(IFolder folder)
+    public bool AddFolder(string name)
     {
-        if (_folders.ContainsKey(folder.Name))
+        if (_folders.ContainsKey(name))
             return false;
 
-        _folders.Add(folder.Name, new Folder(_dumper, this, folder));
-        return true;
-    }
-    
-    public bool EditFolder(string oldName, string newName)
-    {
-        var contains = _folders.ContainsKey(oldName);
-        if (!contains)
-            return false;
-
-        var folder = _folders[oldName];
-        _folders.Remove(oldName);
-        
-        var newFolder = new Folder(_dumper, this, newName, folder.Notes);
-        _folders.Add(newName, newFolder);
+        _folders.Add(name, new Folder(_dumper, this, name));
         return true;
     }
 

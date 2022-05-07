@@ -1,19 +1,63 @@
 ﻿using BL;
+using Common.Utils;
 
 namespace Logic;
 
-public class Note : INote
+public class BaseNote : Notifiable
 {
-    public Note(INote note)
+    private string _header;
+    private string _text;
+    private DateTime _editedAt;
+
+    internal BaseNote(string guid, string header, string text, DateTime editedAt)
     {
-        Guid = note.Guid;
-        Header = note.Header;
-        Text = note.Text;
-        EditedAt = note.EditedAt;
+        Guid = guid;
+        Header = header;
+        Text = text;
+        EditedAt = editedAt;
+    }
+
+    internal BaseNote(BaseNote baseNote) : this(baseNote.Guid, baseNote.Header, baseNote.Text, baseNote.EditedAt)
+    {
+
     }
 
     public string Guid { get; }
-    public string Header { get; }
-    public string Text { get; }
-    public DateTime EditedAt { get; }
+
+    public string Header
+    {
+        get => _header;
+        protected set => SetAndRaise(ref _header, value);
+    }
+
+    public string Text
+    {
+        get => _text;
+        protected set => SetAndRaise(ref _text, value);
+    }
+
+    public DateTime EditedAt
+    {
+        get => _editedAt;
+        protected set => SetAndRaise(ref _editedAt, value);
+    }
+}
+
+public class Note : BaseNote, INote
+{
+    public Note(string header, string text)
+        : base(System.Guid.NewGuid().ToString(), header, text, DateTime.Now)
+    {
+    }
+
+    public Note(BaseNote baseNote) : base(baseNote)
+    {
+    }
+
+    public void Edit(string header, string text)
+    {
+        Header = header;
+        Text = text;
+        EditedAt = DateTime.Now;
+    }
 }
