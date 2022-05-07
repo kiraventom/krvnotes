@@ -21,19 +21,19 @@ public partial class BoardViewModel : Notifiable
         if (App!.Controller is null)
             throw new NotSupportedException("Wrong app entry point");
 
+        SetCommands();
         var board = App.Controller.Board;
 
         var folders = board.Folders.Select(FolderWrapper.FromFolder);
         Folders = new ObservableCollection<FolderWrapper>(folders);
-
+        
         App.Controller.SetViewModel(this);
+        AfterLoad();
+    }
 
+    private void AfterLoad()
+    {
         CurrentFolder = Folders.First();
-
-        CreateNoteCommand = new Command(CreateAction);
-        OpenNoteCommand = new Command<NoteWrapper>(OpenAction, OpenCondition);
-        CloseNoteCommand = new Command(CloseAction);
-        DeleteNoteCommand = new Command<NoteWrapper>(DeleteAction, DeleteCondition);
     }
 
     public event Action<FolderWrapper, FolderWrapper> ActiveFolderChanged;

@@ -22,13 +22,14 @@ namespace Common
 
         public static readonly Random Random = new();
 
-        public enum DefaultFolder
+        public enum FolderType
         {
+            Custom,
             Unsorted,
             Archive,
             RecycleBin
         }
 
-        public static IEnumerable<string> DefaultFolders => Enum.GetNames<DefaultFolder>();
+        public static IEnumerable<string> DefaultFolders => Enum.GetNames<FolderType>().Skip(1);
     }
 }

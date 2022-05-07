@@ -1,31 +1,47 @@
 ﻿using System.Windows.Input;
+using GUI.Commands;
 using GUI.Templates;
 
 namespace GUI.ViewModel
 {
     public partial class BoardViewModel
     {
-        // Commands
-        public ICommand CreateNoteCommand { get; }
-        public ICommand OpenNoteCommand { get; }
-        public ICommand CloseNoteCommand { get; }
-        public ICommand DeleteNoteCommand { get; }
+        public ICommand CreateNoteCommand { get; private set; }
+        public ICommand OpenNoteCommand { get; private set; }
+        public ICommand CloseNoteCommand { get; private set; }
+        public ICommand DeleteNoteCommand { get; private set; }
+        
+        public ICommand PickFolderCommand { get; private set; }
 
-        private void CreateAction()
+        private void SetCommands()
+        {
+            CreateNoteCommand = new Command(CreateNoteAction);
+            OpenNoteCommand = new Command<NoteWrapper>(OpenNoteAction, OpenNoteCondition);
+            CloseNoteCommand = new Command(CloseNoteAction);
+            DeleteNoteCommand = new Command<NoteWrapper>(DeleteNoteAction, DeleteNoteCondition);
+
+            PickFolderCommand = new Command<FolderWrapper>(PickFolderAction, PickFolderCondition);
+        }
+
+        private void CreateNoteAction()
         {
             var note = new NoteWrapper();
             CurrentFolder.Notes.Add(note);
             CurrentNote = note;
         }
 
-        private void OpenAction(NoteWrapper note) => CurrentNote = note;
+        private void OpenNoteAction(NoteWrapper note) => CurrentNote = note;
 
-        private static bool OpenCondition(NoteWrapper note) => note is not null;
+        private static bool OpenNoteCondition(NoteWrapper note) => note is not null;
 
-        private void CloseAction() => CurrentNote = null;
+        private void CloseNoteAction() => CurrentNote = null;
 
-        private void DeleteAction(NoteWrapper note) => CurrentFolder.Notes.Remove(note);
+        private void DeleteNoteAction(NoteWrapper note) => CurrentFolder.Notes.Remove(note);
 
-        private static bool DeleteCondition(NoteWrapper note) => note is not null;
+        private static bool DeleteNoteCondition(NoteWrapper note) => note is not null;
+
+        private void PickFolderAction(FolderWrapper f) => CurrentFolder = f;
+
+        private static bool PickFolderCondition(FolderWrapper f) => f is not null;
     }
 }

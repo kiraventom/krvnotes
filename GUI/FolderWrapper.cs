@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using BL;
+using Common;
 using Common.Utils;
 
 namespace GUI
@@ -23,6 +24,8 @@ namespace GUI
             Notes = new ObservableCollection<NoteWrapper>(notes);
         }
 
+        public Constants.FolderType FolderType => ParseFolderName(Name);
+
         public static FolderWrapper FromFolder(IFolder folder) => new(folder);
 
         public string Name
@@ -38,5 +41,11 @@ namespace GUI
         }
 
         public ObservableCollection<NoteWrapper> Notes { get; }
+
+        private static Constants.FolderType ParseFolderName(string name)
+        {
+            var didParse = Enum.TryParse<Constants.FolderType>(name, out var type);
+            return didParse ? type : Constants.FolderType.Custom;
+        }
     }
 }
