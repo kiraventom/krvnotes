@@ -1,4 +1,4 @@
-﻿namespace Logic.Utils.Observable.List;
+﻿namespace Common.Utils.Observable.List;
 
 public class ListChangedEventArgs<T> : EventArgs
 {

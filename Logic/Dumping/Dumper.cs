@@ -3,7 +3,7 @@ using BL;
 
 namespace Logic.Dumping;
 
-public partial class Dumper : IDumper
+public class Dumper : IDumper
 {
     public Dumper()
     {
@@ -16,18 +16,18 @@ public partial class Dumper : IDumper
             return new Board(this);
         
         string json = File.ReadAllText(Constants.FilePath);
-        var dumpBoard = JsonSerializer.Deserialize<DumpBoard>(json, Constants.SerializerOptions);
-        if (dumpBoard is null)
+        var loadedBoard = JsonSerializer.Deserialize<DtoBoardWrapper>(json, Constants.SerializerOptions);
+        if (loadedBoard is null)
             throw new FormatException($"Could not parse {Constants.FilePath}");
 
-        return new Board(this, dumpBoard);
+        return new Board(this, loadedBoard);
     }
 
     void IDumper.Save(IBoard board) => Save(board);
 
     private static void Save(IBoard board)
     {
-        var dumpBoard = new DumpBoard(board.Folders);
+        var dumpBoard = new DtoBoardWrapper(board);
         string json = JsonSerializer.Serialize(dumpBoard, Constants.SerializerOptions);
         File.WriteAllText(Constants.FilePath, json);
     }

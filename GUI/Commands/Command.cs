@@ -23,14 +23,14 @@ public class Command : ICommand
 
 public class Command<T> : ICommand
 {
+    private readonly Action<T> _action;
+    private readonly Predicate<T> _predicate;
+
     public Command(Action<T> action, Predicate<T> predicate)
     {
         _action = action;
         _predicate = predicate;
     }
-
-    private readonly Action<T> _action;
-    private readonly Predicate<T> _predicate;
     
     public bool CanExecute(object parameter)
     {

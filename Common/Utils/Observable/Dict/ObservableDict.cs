@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 
-namespace Logic.Utils.Observable.Dict;
+namespace Common.Utils.Observable.Dict;
 
-public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue>
+interface IObservableDict<TKey, TValue>
 {
+    public event EventHandler<DictChangedEventArgs<TKey, TValue>> Changed;
+}
+
+public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue> where TKey : notnull
+{
+    private readonly Dictionary<TKey, TValue> _items;
+
     public ObservableDict()
     {
         _items = new Dictionary<TKey, TValue>();
@@ -15,8 +22,6 @@ public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue>
     }
 
     public event EventHandler<DictChangedEventArgs<TKey, TValue>> Changed;
-
-    private readonly Dictionary<TKey, TValue> _items;
 
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _items.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

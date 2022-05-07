@@ -1,4 +1,4 @@
-﻿namespace Logic.Utils.Observable;
+﻿namespace Common.Utils.Observable;
 
 public enum CollectionChangeType
 {

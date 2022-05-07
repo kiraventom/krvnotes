@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 
-namespace Logic.Utils.Observable.List;
+namespace Common.Utils.Observable.List;
 
 public class ObservableList<T> : ICollection<T>
 {
+    private readonly List<T> _items;
+
     public ObservableList()
     {
         _items = new List<T>();
@@ -15,8 +17,6 @@ public class ObservableList<T> : ICollection<T>
     }
 
     public event EventHandler<ListChangedEventArgs<T>> Changed;
-
-    private readonly List<T> _items;
     
     public T this[int index]
     {

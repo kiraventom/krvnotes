@@ -3,77 +3,48 @@ using BL;
 
 namespace Logic.Dumping
 {
-    public partial class Dumper
+    internal class DtoBoardWrapper
     {
-        private class DumpBoard : IBoard
+
+        [JsonConstructor] // ctor for STJ
+        public DtoBoardWrapper()
         {
-            [JsonConstructor] // ctor for STJ
-            public DumpBoard()
-            {
-            }
-
-            internal DumpBoard(IEnumerable<IFolder> folders)
-            {
-                Folders = folders.Select(f => new DumpFolder(f.Name, f.Notes));
-            }
-
-            public IEnumerable<DumpFolder> Folders { get; set; }
-            IEnumerable<IFolder> IBoard.Folders => Folders;
-
-            #region Methods
-
-            public bool AddFolder(IFolder folder) => throw new NotSupportedException();
-            public bool EditFolder(string oldName, string newName) => throw new NotSupportedException();
-            public bool RemoveFolder(string name) => throw new NotSupportedException();
-
-            #endregion
         }
 
-        private class DumpFolder : IFolder
+        internal DtoBoardWrapper(IBoard board)
         {
-            [JsonConstructor] // ctor for STJ
-            public DumpFolder()
-            {
-            }
-
-            internal DumpFolder(string name, IEnumerable<INote> notes)
-            {
-                Name = name;
-                Notes = notes.Select(n => new DumpNote(n.Guid, n.Header, n.Text, n.EditedAt));
-            }
-
-            public string Name { get; set; }
-            public IEnumerable<DumpNote> Notes { get; set; }
-            IEnumerable<INote> IFolder.Notes => Notes;
-
-            #region Methods
-
-            public bool AddNote(INote note) => throw new NotSupportedException();
-            public bool EditNote(INote note) => throw new NotSupportedException();
-            public bool RemoveNote(string guid) => throw new NotSupportedException();
-
-            #endregion
+            Folders = board.Folders.Select(f => new DtoFolderWrapper(f));
         }
 
-        private class DumpNote : INote
+        public IEnumerable<DtoFolderWrapper> Folders { get; set; }
+    }
+
+    internal class DtoFolderWrapper
+    {
+        [JsonConstructor] // ctor for STJ
+        public DtoFolderWrapper()
         {
-            [JsonConstructor] // ctor for STJ
-            public DumpNote()
-            {
-            }
+        }
 
-            internal DumpNote(string guid, string header, string text, DateTime editedAt)
-            {
-                Guid = guid;
-                Header = header;
-                Text = text;
-                EditedAt = editedAt;
-            }
+        internal DtoFolderWrapper(IFolder folder)
+        {
+            Name = folder.Name;
+            Notes = folder.Notes.Select(n => new DtoNoteWrapper(n));
+        }
+        
+        public string Name { get; set; }
+        public IEnumerable<DtoNoteWrapper> Notes { get; set; }
+    }
 
-            public string Guid { get; set; }
-            public string Header { get; set; }
-            public string Text { get; set; }
-            public DateTime EditedAt { get; set; }
+    internal class DtoNoteWrapper : BaseNote
+    {
+        [JsonConstructor] // ctor for STJ
+        public DtoNoteWrapper(string guid, string header, string text, DateTime editedAt) : base(guid, header, text, editedAt)
+        {
+        }
+
+        internal DtoNoteWrapper(INote note) : base(note.Guid, note.Header, note.Text, note.EditedAt)
+        {
         }
     }
 }

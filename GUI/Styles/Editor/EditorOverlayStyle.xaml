@@ -5,6 +5,7 @@
     <Style x:Key="EditorOverlayStyle" TargetType="{x:Type cts:EditorOverlay}">
         <Style.Triggers>
             <!-- TODO: подумать о том тобы сделать переход от заметки к оверлэю через SizeAnimation -->
+            <!-- TODO: исправить то, что при закрытии формы видно исчезающий текст в текстбоксах -->
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsActive}"
                          Value="True">
                 <DataTrigger.EnterActions>

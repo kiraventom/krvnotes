@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GUI
+namespace GUI.View
 {
     /// <summary>
     /// Interaction logic for BoardView.xaml

@@ -6,15 +6,9 @@ namespace GUI.Templates;
 
 public class EditorOverlay : Control
 {
-    public static readonly DependencyProperty SaveNoteCommandProperty =
+    public static readonly DependencyProperty CloseNoteCommandProperty =
         DependencyProperty.Register(
-            nameof(SaveNoteCommand), 
-            typeof(ICommand), 
-            typeof(EditorOverlay));
-    
-    public static readonly DependencyProperty CancelEditingCommandProperty =
-        DependencyProperty.Register(
-            nameof(CancelEditingCommand), 
+            nameof(CloseNoteCommand), 
             typeof(ICommand), 
             typeof(EditorOverlay));
     
@@ -39,16 +33,10 @@ public class EditorOverlay : Control
             typeof(EditorOverlay),
             new PropertyMetadata(false));
     
-    public ICommand SaveNoteCommand
+    public ICommand CloseNoteCommand
     {
-        get => (ICommand)GetValue(SaveNoteCommandProperty);
-        set => SetValue(SaveNoteCommandProperty, value);
-    }
-    
-    public ICommand CancelEditingCommand
-    {
-        get => (ICommand)GetValue(CancelEditingCommandProperty);
-        set => SetValue(CancelEditingCommandProperty, value);
+        get => (ICommand)GetValue(CloseNoteCommandProperty);
+        set => SetValue(CloseNoteCommandProperty, value);
     }
     
     public string Header

@@ -1,8 +1,8 @@
-﻿namespace Logic.Utils.Observable.Dict;
+﻿namespace Common.Utils.Observable.Dict;
 
 public class DictChangedEventArgs<TKey, TValue> : EventArgs
 {
-    public DictChangedEventArgs(CollectionChangeType change, TKey key, TValue value)
+    internal DictChangedEventArgs(CollectionChangeType change, TKey key, TValue value)
     {
         Change = change;
         Key = key;
