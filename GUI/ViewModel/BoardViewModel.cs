@@ -52,9 +52,7 @@ public partial class BoardViewModel : Notifiable
         get => _currentNote;
         internal set
         {
-            _currentNote = value;
-
-            OnPropertyChanged();
+            SetAndRaise(ref _currentNote, value);
             OnPropertyChanged(nameof(IsNoteEditActive));
         }
     }

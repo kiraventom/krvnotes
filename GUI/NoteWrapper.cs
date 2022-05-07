@@ -36,20 +36,12 @@ public class NoteWrapper : Notifiable
     public string Header
     {
         get => _header;
-        set
-        {
-            _header = value;
-            OnPropertyChanged();
-        }
+        set => SetAndRaise(ref _header, value);
     }
 
     public string Text
     {
         get => _text;
-        set
-        {
-            _text = value;
-            OnPropertyChanged();
-        }
+        set => SetAndRaise(ref _text, value);
     }
 }
