@@ -26,10 +26,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <ItemsControl>
-
-        </ItemsControl>
-        <!-- left panel -->
+         <!--left panel--> 
         <StackPanel
             Grid.Row="0" Grid.Column="0"
             Grid.RowSpan="2"
@@ -50,6 +47,35 @@
             </RadioButton>
         </StackPanel>
 
+        <!--<ItemsControl ItemsSource="{Binding Path=Folders}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel
+                        IsItemsHost="True"
+                        Style="{StaticResource NotesPanelStyle}">
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="local:NoteWrapper">
+                    <cts:Note
+                        Template="{StaticResource NoteTemplate}"
+                        Header="{Binding Path=Header}"
+                        Text="{Binding Path=Text}"
+                        OpenNoteCommand="{Binding 
+                                RelativeSource={RelativeSource AncestorType=ItemsControl},
+                                Path=DataContext.OpenNoteCommand}"
+                        OpenNoteCommandParameter="{Binding}"
+                        DeleteNoteCommand="{Binding
+                                RelativeSource={RelativeSource AncestorType=ItemsControl},
+                                Path=DataContext.DeleteNoteCommand}"
+                        DeleteNoteCommandParameter="{Binding}">
+                    </cts:Note>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>-->
+
         <!-- header -->
         <StackPanel
             Grid.Row="0" Grid.Column="1"
@@ -63,7 +89,7 @@
         <!-- board -->
         <ScrollViewer
             Grid.Row="1" Grid.Column="1">
-            <ItemsControl ItemsSource="{Binding Path=Notes}">
+            <ItemsControl ItemsSource="{Binding Path=CurrentFolder.Notes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel

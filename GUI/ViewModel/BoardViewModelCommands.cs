@@ -14,7 +14,7 @@ namespace GUI.ViewModel
         private void CreateAction()
         {
             var note = new NoteWrapper();
-            Notes.Add(note);
+            CurrentFolder.Notes.Add(note);
             CurrentNote = note;
         }
 
@@ -24,7 +24,7 @@ namespace GUI.ViewModel
 
         private void CloseAction() => CurrentNote = null;
 
-        private void DeleteAction(NoteWrapper note) => Notes.Remove(note);
+        private void DeleteAction(NoteWrapper note) => CurrentFolder.Notes.Remove(note);
 
         private static bool DeleteCondition(NoteWrapper note) => note is not null;
     }

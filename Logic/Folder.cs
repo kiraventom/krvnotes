@@ -23,7 +23,7 @@ internal class Folder : IFolder
     internal Folder(IDumper dumper, IBoard board, string name, DtoFolderWrapper loadedFolder)
     {
         var rawNotes = loadedFolder.Notes
-            .ToDictionary(n => n.Guid, n => new Note(n));
+            .ToDictionary(dto => dto.Guid, dto => new Note(dto));
 
         Name = name;
         _notes = new ObservableDict<string, Note>(rawNotes);

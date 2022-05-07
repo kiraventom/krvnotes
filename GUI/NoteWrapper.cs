@@ -14,12 +14,14 @@ public class NoteWrapper : Notifiable
     {
     }
 
-    public NoteWrapper(INote note)
+    private NoteWrapper(INote note)
     {
         Guid = note.Guid;
         Header = note.Header;
         Text = note.Text;
     }
+
+    public static NoteWrapper FromNote(INote note) => new(note);
 
     public string Guid
     {
