@@ -18,6 +18,7 @@
 
     <Window.Resources>
         <folderIcons:FolderTypeToIcon x:Key="FolderTypeToIcon" />
+        <cts:AreFoldersEqual x:Key="AreFoldersEqual" />
     </Window.Resources>
 
     <Grid>
@@ -55,6 +56,18 @@
                             RelativeSource={RelativeSource AncestorType=ItemsControl},
                             Path=DataContext.PickFolderCommand}"
                         PickFolderCommandParameter="{Binding}">
+
+                        <!-- костыль для того, чтобы на старте приложение была выбрана папка, которая лежит в CurrentFolder -->
+                        <cts:Folder.IsChecked>
+                            <MultiBinding 
+                                Converter="{StaticResource AreFoldersEqual}"
+                                Mode="OneTime">
+                                <Binding 
+                                    RelativeSource="{RelativeSource AncestorType=ItemsControl}" 
+                                    Path="DataContext.CurrentFolder" />
+                                <Binding />
+                            </MultiBinding>
+                        </cts:Folder.IsChecked>
                     </cts:Folder>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

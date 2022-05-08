@@ -15,7 +15,7 @@ namespace GUI.Icons.FolderIcons
             {
                 Constants.FolderType.Custom => Application.Current.FindResource("NoteIcon"),
                 Constants.FolderType.Unsorted => Application.Current.FindResource("NoteIcon"),
-                Constants.FolderType.Archive => Application.Current.FindResource("NoteIcon"),
+                Constants.FolderType.Archive => Application.Current.FindResource("ArchiveIcon"),
                 Constants.FolderType.RecycleBin => Application.Current.FindResource("RecycleBinIcon"),
                 _ => throw new NotImplementedException()
             };

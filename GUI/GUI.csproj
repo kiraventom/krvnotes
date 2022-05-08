@@ -20,6 +20,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Page Update="Icons\FolderIcons\ArchiveIcon.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
       <Page Update="Templates\FolderTemplate.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>

@@ -12,7 +12,10 @@
             Command="{TemplateBinding PickFolderCommand}"
             CommandParameter="{TemplateBinding PickFolderCommandParameter}"
             GroupName="{TemplateBinding GroupName}"
-            Content="{TemplateBinding FolderType, Converter={StaticResource FolderTypeToIcon}}">
+            Content="{TemplateBinding FolderType, Converter={StaticResource FolderTypeToIcon}}"
+            IsChecked="{TemplateBinding IsChecked}"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center">
             
         </RadioButton>
     </ControlTemplate>

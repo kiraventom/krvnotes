@@ -3,11 +3,15 @@
     <Path x:Key="RecycleBinIcon"
           x:Shared="False">
         <Path.Data>
+            <!--cover-->
             M 1 1.5 H 15
             M 7 1.5 V 0 H 9 V 1.5
         
+            <!--bin-->
             M 3 3 L 4 16 H 12 L 13 3
+            M 2 3 h 12
             
+            <!--lines-->
             M 8 5 V 13
             M 5.5 5 L 6 13
             M 10.5 5 L 10 13

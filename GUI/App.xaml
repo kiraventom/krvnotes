@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Icons/CloseIcon.xaml"/>
                 <ResourceDictionary Source="Icons/FolderIcons/NoteIcon.xaml"/>
                 <ResourceDictionary Source="Icons/FolderIcons/RecycleBinIcon.xaml"/>
+                <ResourceDictionary Source="Icons/FolderIcons/ArchiveIcon.xaml"/>
 
                 <ResourceDictionary Source="Styles/NoDefaultHoverButtonStyle.xaml"/>
                 
