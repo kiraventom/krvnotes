@@ -1,12 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:GUI.Templates">
+                    xmlns:local="clr-namespace:GUI.Templates"
+                    xmlns:folderIcons="clr-namespace:GUI.Icons.FolderIcons">
     <ControlTemplate x:Key="FolderTemplate" TargetType="{x:Type local:Folder}">
+        <ControlTemplate.Resources>
+            <folderIcons:FolderTypeToIcon x:Key="FolderTypeToIcon" />
+        </ControlTemplate.Resources>
+
         <RadioButton
             Style="{StaticResource LeftPanelToggleButtonStyle}"
             Command="{TemplateBinding PickFolderCommand}"
             CommandParameter="{TemplateBinding PickFolderCommandParameter}"
-            GroupName="{TemplateBinding GroupName}">
+            GroupName="{TemplateBinding GroupName}"
+            Content="{TemplateBinding FolderType, Converter={StaticResource FolderTypeToIcon}}">
+            
         </RadioButton>
     </ControlTemplate>
 </ResourceDictionary>

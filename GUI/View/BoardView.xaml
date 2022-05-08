@@ -32,27 +32,7 @@
         </Grid.ColumnDefinitions>
 
          <!--left panel--> 
-        <!--<StackPanel
-            Grid.Row="0" Grid.Column="0"
-            Grid.RowSpan="2"
-            Orientation="Vertical"
-            Style="{StaticResource LeftPanelStyle}">
-
-            <RadioButton
-                IsChecked="True"
-                GroupName="LeftPanel"
-                Style="{StaticResource LeftPanelToggleButtonStyle}">
-                <StaticResource ResourceKey="NoteIcon" />
-            </RadioButton>
-
-            <RadioButton
-                GroupName="LeftPanel"
-                Style="{StaticResource LeftPanelToggleButtonStyle}">
-                <StaticResource ResourceKey="RecycleBinIcon" />
-            </RadioButton>
-        </StackPanel>-->
-
-        <ItemsControl
+         <ItemsControl
             Grid.Row="0" Grid.Column="0"
             Grid.RowSpan="2"
             ItemsSource="{Binding Path=Folders}">
@@ -69,7 +49,7 @@
                 <DataTemplate DataType="{x:Type local:FolderWrapper}">
                     <cts:Folder
                         Template="{StaticResource FolderTemplate}"
-                        Content="{Binding FolderType, Converter={StaticResource FolderTypeToIcon}}"
+                        FolderType="{Binding FolderType}"
                         GroupName="LeftPanel"
                         PickFolderCommand="{Binding 
                             RelativeSource={RelativeSource AncestorType=ItemsControl},

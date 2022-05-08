@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using Common;
+using GUI.Icons.FolderIcons;
 
 namespace GUI.Templates;
 
@@ -25,6 +27,12 @@ public class Folder : ContentControl
             typeof(string),
             typeof(Folder));
 
+    public static readonly DependencyProperty FolderTypeProperty =
+        DependencyProperty.Register(
+            nameof(FolderType),
+            typeof(Constants.FolderType),
+            typeof(Folder));
+
     public ICommand PickFolderCommand
     {
         get => (ICommand)GetValue(PickFolderCommandProperty);
@@ -41,5 +49,11 @@ public class Folder : ContentControl
     {
         get => (string)GetValue(GroupNameProperty);
         set => SetValue(GroupNameProperty, value);
+    }
+
+    public Constants.FolderType FolderType
+    {
+        get => (Constants.FolderType)GetValue(FolderTypeProperty);
+        set => SetValue(FolderTypeProperty, value);
     }
 }
