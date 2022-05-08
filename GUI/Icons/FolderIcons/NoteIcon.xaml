@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Path x:Key="NoteIcon"
-          x:Shared="False">
+    <Path x:Key="NoteIcon">
         <Path.Data>
             <!--note-->
             M 1 0 V 8 H 7 V 2 h -2 v -2 Z

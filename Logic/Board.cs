@@ -13,9 +13,7 @@ public class Board : IBoard
     private readonly IDumper _dumper;
 
     private readonly ObservableDict<string, Folder> _folders;
-
-    // TODO: Move note between folders
-    // TODO: Add custom folders
+    
 
     internal Board(IDumper dumper)
     {

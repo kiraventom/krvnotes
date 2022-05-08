@@ -3,11 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Common.Utils;
-using GUI.Commands;
 
 namespace GUI.ViewModel;
 
-// TODO: Implement folders properly
+// TODO: Disable adding in archive and recycle bin
+// TODO: Move to recycle bin on delete
+// TODO: Move to archive by button
+// TODO: Add custom folders
 
 public partial class BoardViewModel : Notifiable
 {
