@@ -8,7 +8,7 @@ public class BaseNote : Notifiable
     private string _header;
     private string _text;
     private DateTime _editedAt;
-
+    
     internal BaseNote(string guid, string header, string text, DateTime editedAt)
     {
         Guid = guid;
@@ -50,9 +50,11 @@ public class Note : BaseNote, INote
     {
     }
 
-    public Note(BaseNote baseNote) : base(baseNote)
+    private Note(BaseNote baseNote) : base(baseNote)
     {
     }
+
+    public static Note FromBaseNote(BaseNote baseNote) => new Note(baseNote);
 
     public void Edit(string header, string text)
     {

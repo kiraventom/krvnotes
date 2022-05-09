@@ -30,6 +30,33 @@ namespace Common
             RecycleBin
         }
 
-        public static IEnumerable<string> DefaultFolders => Enum.GetNames<FolderType>().Skip(1);
+        private static IEnumerable<DefaultFolder> _defaultFolders;
+        public static IEnumerable<DefaultFolder> DefaultFolders => _defaultFolders ??= CreateDefaultFolders();
+
+        private static IEnumerable<DefaultFolder> CreateDefaultFolders()
+        {
+            var list = new []
+            {
+                new DefaultFolder(FolderType.Unsorted, @"unsorted-guid", "Unsorted"),
+                new DefaultFolder(FolderType.Archive, @"archive-guid", "Archive"),
+                new DefaultFolder(FolderType.RecycleBin, @"recycle-bin-guid", "Recycle bin")
+            };
+
+            return list;
+        }
+    }
+
+    public struct DefaultFolder
+    {
+        public DefaultFolder(Constants.FolderType folderType, string guid, string name)
+        {
+            FolderType = folderType;
+            Guid = guid;
+            Name = name;
+        }
+
+        public Constants.FolderType FolderType { get; }
+        public string Guid { get; }
+        public string Name { get; }
     }
 }

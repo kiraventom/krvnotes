@@ -18,16 +18,20 @@ namespace GUI
 
         private FolderWrapper(IFolder folder)
         {
+            Guid = folder.Guid;
             Name = folder.Name;
             var notes = folder.Notes.Select(NoteWrapper.FromNote);
             Notes = new ObservableCollection<NoteWrapper>(notes);
+            FolderType = folder.FolderType;
         }
-
-        public Constants.FolderType FolderType => ParseFolderName(Name);
 
         public bool CanUserAdd => FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
 
         public static FolderWrapper FromFolder(IFolder folder) => new(folder);
+
+        public string Guid { get; }
+
+        public Constants.FolderType FolderType { get; }
 
         public string Name
         {
@@ -42,11 +46,5 @@ namespace GUI
         }
 
         public ObservableCollection<NoteWrapper> Notes { get; }
-
-        private static Constants.FolderType ParseFolderName(string name)
-        {
-            var didParse = Enum.TryParse<Constants.FolderType>(name, out var type);
-            return didParse ? type : Constants.FolderType.Custom;
-        }
     }
 }

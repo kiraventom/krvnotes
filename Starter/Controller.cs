@@ -20,7 +20,7 @@ internal class Controller : IController
     
     public IBoard Board { get; }
 
-    private IFolder CurrentFolder => Board.Folders[_viewModel.CurrentFolder.Name];
+    private IFolder CurrentFolder => Board.Folders[_viewModel.CurrentFolder.Guid];
 
     public void SetViewModel(object viewModel)
     { 

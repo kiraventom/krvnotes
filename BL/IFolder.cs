@@ -1,8 +1,12 @@
-﻿namespace BL;
+﻿using Common;
+
+namespace BL;
 
 public interface IFolder
 {
+    string Guid { get; }
     string Name { get; }
+    Constants.FolderType FolderType { get; }
     INotesCollection Notes { get; }
     
     INote AddNote(string header, string text);

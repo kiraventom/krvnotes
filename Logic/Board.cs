@@ -14,7 +14,9 @@ public class Board : IBoard
 
     private readonly ObservableDict<string, Folder> _folders;
     
-
+    /// <summary>
+    /// Create new board.
+    /// </summary>
     internal Board(IDumper dumper)
     {
         _dumper = dumper;
@@ -22,47 +24,61 @@ public class Board : IBoard
         _folders = new ObservableDict<string, Folder>();
         _folders.Changed += (_, _) => _dumper.Save(this);
 
-        Folders = new FoldersWrapper(_folders);
-        Constants.DefaultFolders.ForEach(name => AddFolder(name));
+        Folders = new FoldersCollection(_folders);
+        Constants.DefaultFolders.ForEach(df => AddDefaultFolder(df));
     }
 
+    /// <summary>
+    /// Load board.
+    /// </summary>
     internal Board(IDumper dumper, DtoBoardWrapper loadedBoard)
     {
         _dumper = dumper;
 
         var folders = loadedBoard.Folders
-            .ToDictionary(dto => dto.Name, dto => new Folder(_dumper, this, dto.Name, dto));
+            .ToDictionary(dto => dto.Guid, dto => Folder.Load(_dumper, this, dto));
 
-        if (Constants.DefaultFolders.Any(name => !folders.ContainsKey(name)))
+        if (Constants.DefaultFolders.Any(df => folders.Values.All(f => f.FolderType != df.FolderType)))
             throw new NotSupportedException("Default folders were not found");
 
         _folders = new ObservableDict<string, Folder>(folders);
         _folders.Changed += (_, _) => _dumper.Save(this);
-        Folders = new FoldersWrapper(_folders);
+        Folders = new FoldersCollection(_folders);
     }
 
     public IFoldersCollection Folders { get; }
 
     public bool AddFolder(string name)
     {
-        if (_folders.ContainsKey(name))
-            return false;
-
-        _folders.Add(name, new Folder(_dumper, this, name));
+        var folder = Folder.CreateCustom(_dumper, this, name);
+        _folders.Add(folder.Guid, folder);
         return true;
     }
 
-    public bool RemoveFolder(string name)
+    private bool AddDefaultFolder(DefaultFolder defaultFolder)
     {
-        return _folders.Remove(name);
+        if (_folders.ContainsKey(defaultFolder.Guid))
+            throw new NotSupportedException();
+
+        var folder = Folder.CreateDefault(_dumper, this, defaultFolder);
+        _folders.Add(folder.Guid, folder);
+        return true;
+    }
+
+    public bool RemoveFolder(string guid)
+    {
+        if (_folders[guid].FolderType != Constants.FolderType.Custom)
+            throw new NotSupportedException();
+
+        return _folders.Remove(guid);
     }
 }
 
-internal class FoldersWrapper : IFoldersCollection
+internal class FoldersCollection : IFoldersCollection
 {
     private readonly ObservableDict<string, Folder> _folders;
 
-    public FoldersWrapper(ObservableDict<string, Folder> folders)
+    public FoldersCollection(ObservableDict<string, Folder> folders)
     {
         _folders = folders;
     }

@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using BL;
+using Common;
 
 namespace Logic.Dumping
 {
@@ -28,11 +29,15 @@ namespace Logic.Dumping
 
         internal DtoFolderWrapper(IFolder folder)
         {
+            Guid = folder.Guid;
             Name = folder.Name;
             Notes = folder.Notes.Select(n => new DtoNoteWrapper(n));
+            FolderType = folder.FolderType;
         }
         
+        public string Guid { get; set; }
         public string Name { get; set; }
+        public Constants.FolderType FolderType { get; set; }
         public IEnumerable<DtoNoteWrapper> Notes { get; set; }
     }
 

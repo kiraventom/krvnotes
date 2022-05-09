@@ -8,4 +8,8 @@
         <AssemblyVersion>1.1</AssemblyVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Common\Common.csproj" />
+    </ItemGroup>
+
 </Project>
