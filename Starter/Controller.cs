@@ -21,7 +21,7 @@ internal class Controller : IController
 
     public IBoard Board { get; }
 
-    private IFolder CurrentFolder => Board.Folders[_viewModel.CurrentFolder.Guid];
+    private IFolder ModelCurrentFolder => Board.Folders[_viewModel.CurrentFolder.Guid];
 
     public void SetViewModel(object viewModel)
     { 
@@ -60,7 +60,7 @@ internal class Controller : IController
             case NotifyCollectionChangedAction.Add:
                 foreach (NoteWrapper newNote in e.NewItems!)
                 {
-                    var addedNote = CurrentFolder.AddNote(newNote.Header, newNote.Text);
+                    var addedNote = ModelCurrentFolder.AddNote(newNote.Header, newNote.Text);
                     newNote.Guid = addedNote.Guid; // TODO:  dis shit is ugly
                     newNote.PropertyChanged += OnViewModelNoteEdited;
                 }
@@ -69,7 +69,7 @@ internal class Controller : IController
             case NotifyCollectionChangedAction.Remove:
                 foreach (NoteWrapper oldNote in e.OldItems!)
                 {
-                    CurrentFolder.RemoveNote(oldNote.Guid);
+                    ModelCurrentFolder.RemoveNote(oldNote.Guid);
                     oldNote.PropertyChanged -= OnViewModelNoteEdited;
                 }
                 break;
@@ -84,7 +84,7 @@ internal class Controller : IController
     private void OnViewModelNoteEdited(object sender, PropertyChangedEventArgs e)
     {
         ArgumentTypeException.ThrowIfNotTypeOf<NoteWrapper>(sender, out var noteWrapper);
-        CurrentFolder.Notes[noteWrapper.Guid].Edit(noteWrapper.Header, noteWrapper.Text);
+        ModelCurrentFolder.Notes[noteWrapper.Guid].Edit(noteWrapper.Header, noteWrapper.Text);
     }
 
     // TODO: Выглядит уродливо
