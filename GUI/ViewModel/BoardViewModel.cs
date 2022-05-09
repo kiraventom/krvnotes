@@ -6,8 +6,9 @@ using Common.Utils;
 
 namespace GUI.ViewModel;
 
+// TODO: Restore from recycle bin
+// TODO: Implement moving. Maybe I should inherit FolderWrapper from IFolder and implement AddNote? idk seems really complicated
 // TODO: Write tests
-// TODO: Move to recycle bin on delete
 // TODO: Move to archive by button
 // TODO: Add custom folders
 
