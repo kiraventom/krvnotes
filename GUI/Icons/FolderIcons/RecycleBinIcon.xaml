@@ -3,17 +3,17 @@
     <Path x:Key="RecycleBinIcon">
         <Path.Data>
             <!--cover-->
-            M 1 1.5 H 15
-            M 7 1.5 V 0 H 9 V 1.5
+            M 0 1.5 H 16
+            M 7 1.5 v -1.5 h 2 v 1.5
         
             <!--bin-->
-            M 3 3 L 4 16 H 12 L 13 3
-            M 2 3 h 12
+            M 2 3 l 1 13 h 10 l 1 -13
+            M 1 3 h 14
             
             <!--lines-->
-            M 8 5 V 13
-            M 5.5 5 L 6 13
-            M 10.5 5 L 10 13
+            M 8 5.5 v 8
+            M 5 5.5 l 0.5 8
+            M 11 5.5 l -0.5 8
         </Path.Data>
     </Path>
 

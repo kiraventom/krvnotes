@@ -13,7 +13,7 @@ namespace GUI.Icons.FolderIcons
         {
             var path = type switch
             {
-                Constants.FolderType.Custom => Application.Current.FindResource("NoteIcon"),
+                Constants.FolderType.Custom => Application.Current.FindResource("CustomIcon"),
                 Constants.FolderType.Unsorted => Application.Current.FindResource("NoteIcon"),
                 Constants.FolderType.Archive => Application.Current.FindResource("ArchiveIcon"),
                 Constants.FolderType.RecycleBin => Application.Current.FindResource("RecycleBinIcon"),

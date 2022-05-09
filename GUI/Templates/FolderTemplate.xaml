@@ -18,21 +18,22 @@
             </ContentControl>
 
             <Border 
-                Grid.Row="1">
+                Grid.Row="1"
+                Margin="0"
+                Padding="0">
                 <TextBlock 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
                     TextAlignment="Center"
                     TextWrapping="Wrap"
-                    Margin="0, 0, 0, 3"
+                    VerticalAlignment="Stretch"
+                    Margin="0, 0, 0,0"
                     Padding="0"
                     FontSize="11"
                     Foreground="{Binding 
-                    RelativeSource={RelativeSource AncestorType=local:Folder},
-                    Path=Foreground}"
+                        RelativeSource={RelativeSource AncestorType=local:Folder},
+                        Path=Foreground}"
                     Text="{Binding 
-                    RelativeSource={RelativeSource AncestorType=local:Folder},
-                    Path=FolderName}" />
+                        RelativeSource={RelativeSource AncestorType=local:Folder},
+                        Path=FolderName}" />
             </Border>
             
         </Grid>

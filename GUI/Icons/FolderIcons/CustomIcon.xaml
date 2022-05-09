@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Path x:Key="CustomIcon">
+        <Path.Data>
+            M 0 0 h 3.5 l 1 1 h 8 v 9 H 0 Z
+        </Path.Data>
+    </Path>
+</ResourceDictionary>
