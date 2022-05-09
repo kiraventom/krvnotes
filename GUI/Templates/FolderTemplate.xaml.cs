@@ -8,36 +8,12 @@ using Common;
 
 namespace GUI.Templates;
 
-public class Folder : ContentControl
+public class Folder : RadioButton
 {
-    public static readonly DependencyProperty PickFolderCommandProperty =
-        DependencyProperty.Register(
-            nameof(PickFolderCommand), 
-            typeof(ICommand), 
-            typeof(Folder));
-    
-    public static readonly DependencyProperty PickFolderCommandParameterProperty =
-        DependencyProperty.Register(
-            nameof(PickFolderCommandParameter), 
-            typeof(object), 
-            typeof(Folder));
-
-    public static readonly DependencyProperty GroupNameProperty =
-        DependencyProperty.Register(
-            nameof(GroupName),
-            typeof(string),
-            typeof(Folder));
-
     public static readonly DependencyProperty FolderTypeProperty =
         DependencyProperty.Register(
             nameof(FolderType),
             typeof(Constants.FolderType),
-            typeof(Folder));
-
-    public static readonly DependencyProperty IsCheckedProperty =
-        DependencyProperty.Register(
-            nameof(IsChecked),
-            typeof(bool),
             typeof(Folder));
 
     public static readonly DependencyProperty FolderNameProperty =
@@ -46,34 +22,10 @@ public class Folder : ContentControl
             typeof(string),
             typeof(Folder));
 
-    public ICommand PickFolderCommand
-    {
-        get => (ICommand)GetValue(PickFolderCommandProperty);
-        set => SetValue(PickFolderCommandProperty, value);
-    }
-    
-    public object PickFolderCommandParameter
-    {
-        get => GetValue(PickFolderCommandParameterProperty);
-        set => SetValue(PickFolderCommandParameterProperty, value);
-    }
-
-    public string GroupName
-    {
-        get => (string)GetValue(GroupNameProperty);
-        set => SetValue(GroupNameProperty, value);
-    }
-
     public Constants.FolderType FolderType
     {
         get => (Constants.FolderType)GetValue(FolderTypeProperty);
         set => SetValue(FolderTypeProperty, value);
-    }
-
-    public bool IsChecked
-    {
-        get => (bool)GetValue(IsCheckedProperty);
-        set => SetValue(IsCheckedProperty, value);
     }
 
     public string FolderName

@@ -6,7 +6,6 @@ using Common.Utils;
 
 namespace GUI.ViewModel;
 
-// TODO: Fix folder names display
 // TODO: Write tests
 // TODO: Move to recycle bin on delete
 // TODO: Move to archive by button

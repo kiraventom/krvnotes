@@ -53,10 +53,10 @@
                         FolderType="{Binding FolderType}"
                         GroupName="LeftPanel"
                         FolderName="{Binding Name}"
-                        PickFolderCommand="{Binding 
+                        Command="{Binding 
                             RelativeSource={RelativeSource AncestorType=ItemsControl},
                             Path=DataContext.PickFolderCommand}"
-                        PickFolderCommandParameter="{Binding}">
+                        CommandParameter="{Binding}">
 
                         <!-- костыль для того, чтобы на старте приложение была выбрана папка, которая лежит в CurrentFolder -->
                         <cts:Folder.IsChecked>
