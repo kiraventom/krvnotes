@@ -8,9 +8,11 @@ public interface IFolder
     string Name { get; }
     Constants.FolderType FolderType { get; }
     INotesCollection Notes { get; }
-    
-    INote AddNote(string header, string text);
 
+    event Action<INote, IFolder> NoteMoved;
+
+    INote AddNote(string header, string text);
+    void MoveNote(string noteGuid, string folderGuid);
     // ReSharper disable once UnusedMethodReturnValue.Global
     bool RemoveNote(string guid);
 }

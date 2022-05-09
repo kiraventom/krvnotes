@@ -15,8 +15,10 @@ internal class Controller : IController
     public Controller(IBoard board)
     {
         Board = board;
+
+        Board.Folders.ForEach(f => f.NoteMoved += OnModelNoteMoved);
     }
-    
+
     public IBoard Board { get; }
 
     private IFolder CurrentFolder => Board.Folders[_viewModel.CurrentFolder.Guid];
@@ -29,28 +31,29 @@ internal class Controller : IController
             throw new NotSupportedException("ViewModel is already set");
         
         _viewModel = boardViewModel;
-        _viewModel.Folders.CollectionChanged += OnFoldersCollectionChanged;
-        _viewModel.ActiveFolderChanged += OnActiveFolderChanged;
+        _viewModel.Folders.CollectionChanged += OnViewModelFoldersCollectionChanged;
+        _viewModel.ActiveFolderChanged += OnViewModelActiveFolderChanged;
     }
 
-    private void OnFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void OnViewModelFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        // TODO
+        // TODO: On custom folders 
+        // TODO: Do not forget to subscribe to OnModelNoteMoved
     }
 
-    private void OnActiveFolderChanged(FolderWrapper oldFolder, FolderWrapper newFolder)
+    private void OnViewModelActiveFolderChanged(FolderWrapper oldFolder, FolderWrapper newFolder)
     {
         if (oldFolder is not null) // first run
         {
-            oldFolder.Notes.CollectionChanged -= OnNotesCollectionChanged;
-            oldFolder.Notes.ForEach(n => n.PropertyChanged -= OnNoteEdited);
+            oldFolder.Notes.CollectionChanged -= OnViewModelNotesCollectionChanged;
+            oldFolder.Notes.ForEach(n => n.PropertyChanged -= OnViewModelNoteEdited);
         }
 
-        newFolder.Notes.CollectionChanged += OnNotesCollectionChanged;
-        newFolder.Notes.ForEach(n => n.PropertyChanged += OnNoteEdited);
+        newFolder.Notes.CollectionChanged += OnViewModelNotesCollectionChanged;
+        newFolder.Notes.ForEach(n => n.PropertyChanged += OnViewModelNoteEdited);
     }
 
-    private void OnNotesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void OnViewModelNotesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         switch (e.Action)
         {
@@ -59,7 +62,7 @@ internal class Controller : IController
                 {
                     var addedNote = CurrentFolder.AddNote(newNote.Header, newNote.Text);
                     newNote.Guid = addedNote.Guid; // TODO:  dis shit is ugly
-                    newNote.PropertyChanged += OnNoteEdited;
+                    newNote.PropertyChanged += OnViewModelNoteEdited;
                 }
                 break;
 
@@ -67,7 +70,7 @@ internal class Controller : IController
                 foreach (NoteWrapper oldNote in e.OldItems!)
                 {
                     CurrentFolder.RemoveNote(oldNote.Guid);
-                    oldNote.PropertyChanged -= OnNoteEdited;
+                    oldNote.PropertyChanged -= OnViewModelNoteEdited;
                 }
                 break;
 
@@ -78,9 +81,20 @@ internal class Controller : IController
         }
     }
 
-    private void OnNoteEdited(object sender, PropertyChangedEventArgs e)
+    private void OnViewModelNoteEdited(object sender, PropertyChangedEventArgs e)
     {
         ArgumentTypeException.ThrowIfNotTypeOf<NoteWrapper>(sender, out var noteWrapper);
         CurrentFolder.Notes[noteWrapper.Guid].Edit(noteWrapper.Header, noteWrapper.Text);
+    }
+
+    // TODO: Выглядит уродливо
+    private void OnModelNoteMoved(INote movedNote, IFolder folderMovedTo)
+    {
+        var viewModelFolder = _viewModel.Folders.First(f => f.Guid == folderMovedTo.Guid);
+        viewModelFolder.Notes.CollectionChanged -= OnViewModelNotesCollectionChanged;
+
+        viewModelFolder.Notes.Add(NoteWrapper.FromNote(movedNote));
+
+        viewModelFolder.Notes.CollectionChanged += OnViewModelNotesCollectionChanged;
     }
 }

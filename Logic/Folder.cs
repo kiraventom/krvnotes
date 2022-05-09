@@ -56,6 +56,8 @@ internal class Folder : IFolder
 
     public Constants.FolderType FolderType { get; }
 
+    public event Action<INote, IFolder> NoteMoved;
+
     public INote AddNote(string header, string text)
     {
         var note = new Note(header, text);
@@ -63,9 +65,27 @@ internal class Folder : IFolder
         return note;
     }
 
+    public void MoveNote(string noteGuid, string folderGuid)
+    {
+        var note = _notes[noteGuid];
+        _notes.Remove(noteGuid);
+        var folder = _board.Folders[folderGuid] as Folder;
+        folder!.AddNote(note);
+        NoteMoved?.Invoke(note, folder);
+    }
+
     public bool RemoveNote(string guid)
     {
-        return _notes.Remove(guid);
+        if (FolderType == Constants.FolderType.RecycleBin)
+            return _notes.Remove(guid);
+
+        MoveNote(guid, Constants.DefaultFolders[Constants.FolderType.RecycleBin].Guid);
+        return true;
+    }
+
+    private void AddNote(Note note)
+    {
+        _notes.Add(note.Guid, note);
     }
 
     private void OnNotesCollectionChanged(object sender, DictChangedEventArgs<string, Note> e)

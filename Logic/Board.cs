@@ -25,7 +25,7 @@ public class Board : IBoard
         _folders.Changed += (_, _) => _dumper.Save(this);
 
         Folders = new FoldersCollection(_folders);
-        Constants.DefaultFolders.ForEach(AddDefaultFolder);
+        Constants.DefaultFolders.Values.ForEach(AddDefaultFolder);
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class Board : IBoard
         var folders = loadedBoard.Folders
             .ToDictionary(dto => dto.Guid, dto => Folder.Load(_dumper, this, dto));
 
-        if (Constants.DefaultFolders.Any(df => folders.Values.All(f => f.FolderType != df.FolderType)))
+        if (Constants.DefaultFolders.Keys.Any(type => folders.Values.All(f => f.FolderType != type)))
             throw new NotSupportedException("Default folders were not found");
 
         _folders = new ObservableDict<string, Folder>(folders);

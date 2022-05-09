@@ -28,19 +28,19 @@ namespace Common
             RecycleBin
         }
 
-        private static IEnumerable<DefaultFolder> _defaultFolders;
-        public static IEnumerable<DefaultFolder> DefaultFolders => _defaultFolders ??= CreateDefaultFolders();
+        private static IDictionary<FolderType, DefaultFolder> _defaultFolders;
+        public static IDictionary<FolderType, DefaultFolder> DefaultFolders => _defaultFolders ??= CreateDefaultFolders();
 
-        private static IEnumerable<DefaultFolder> CreateDefaultFolders()
+        private static IDictionary<FolderType, DefaultFolder> CreateDefaultFolders()
         {
-            var list = new []
+            var dict = new Dictionary<FolderType, DefaultFolder>()
             {
-                new DefaultFolder(FolderType.Unsorted, @"unsorted-guid", "Unsorted"),
-                new DefaultFolder(FolderType.Archive, @"archive-guid", "Archive"),
-                new DefaultFolder(FolderType.RecycleBin, @"recycle-bin-guid", "Recycle bin")
+                {FolderType.Unsorted, new DefaultFolder(FolderType.Unsorted, @"unsorted-guid", "Unsorted")},
+                {FolderType.Archive, new DefaultFolder(FolderType.Archive, @"archive-guid", "Archive")},
+                {FolderType.RecycleBin, new DefaultFolder(FolderType.RecycleBin, @"recycle-bin-guid", "Recycle bin")}
             };
 
-            return list;
+            return dict;
         }
     }
 
