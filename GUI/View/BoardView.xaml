@@ -19,6 +19,7 @@
     <Window.Resources>
         <folderIcons:FolderTypeToIcon x:Key="FolderTypeToIcon" />
         <cts:AreFoldersEqual x:Key="AreFoldersEqual" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
     </Window.Resources>
 
     <Grid>
@@ -50,8 +51,10 @@
                 <DataTemplate DataType="{x:Type local:FolderWrapper}">
                     <cts:Folder
                         Template="{StaticResource FolderTemplate}"
+                        Style="{StaticResource FolderStyle}"
                         FolderType="{Binding FolderType}"
                         GroupName="LeftPanel"
+                        FolderName="{Binding Name}"
                         PickFolderCommand="{Binding 
                             RelativeSource={RelativeSource AncestorType=ItemsControl},
                             Path=DataContext.PickFolderCommand}"
@@ -80,7 +83,10 @@
             Style="{StaticResource HeaderStyle}">
             <Button
                 Command="{Binding CreateNoteCommand}"
-                Content="{StaticResource AddIcon}"/>
+                Content="{StaticResource AddIcon}"
+                Visibility="{Binding 
+                    Path=CurrentFolder.CanUserAdd, 
+                    Converter={StaticResource BoolToVisibility}}"/>
         </StackPanel>
 
         <!-- board -->

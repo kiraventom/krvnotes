@@ -6,7 +6,6 @@ using Common.Utils;
 
 namespace GUI.ViewModel;
 
-// TODO: Disable adding in archive and recycle bin
 // TODO: Move to recycle bin on delete
 // TODO: Move to archive by button
 // TODO: Add custom folders

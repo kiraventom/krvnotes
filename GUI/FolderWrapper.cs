@@ -25,6 +25,8 @@ namespace GUI
 
         public Constants.FolderType FolderType => ParseFolderName(Name);
 
+        public bool CanUserAdd => FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
+
         public static FolderWrapper FromFolder(IFolder folder) => new(folder);
 
         public string Name

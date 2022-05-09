@@ -40,6 +40,12 @@ public class Folder : ContentControl
             typeof(bool),
             typeof(Folder));
 
+    public static readonly DependencyProperty FolderNameProperty =
+        DependencyProperty.Register(
+            nameof(FolderName),
+            typeof(string),
+            typeof(Folder));
+
     public ICommand PickFolderCommand
     {
         get => (ICommand)GetValue(PickFolderCommandProperty);
@@ -68,6 +74,12 @@ public class Folder : ContentControl
     {
         get => (bool)GetValue(IsCheckedProperty);
         set => SetValue(IsCheckedProperty, value);
+    }
+
+    public string FolderName
+    {
+        get => (string)GetValue(FolderNameProperty);
+        set => SetValue(FolderNameProperty, value);
     }
 }
 
