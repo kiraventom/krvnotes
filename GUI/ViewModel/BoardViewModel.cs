@@ -7,6 +7,7 @@ using Common.Utils;
 namespace GUI.ViewModel;
 
 // TODO: Fix folder names display
+// TODO: Write tests
 // TODO: Move to recycle bin on delete
 // TODO: Move to archive by button
 // TODO: Add custom folders
@@ -45,7 +46,7 @@ public partial class BoardViewModel : Notifiable
     public FolderWrapper CurrentFolder
     {
         get => _currentFolder;
-        internal set
+        private set
         {
             var oldFolder = _currentFolder;
             SetAndRaise(ref _currentFolder, value);
@@ -56,7 +57,7 @@ public partial class BoardViewModel : Notifiable
     public NoteWrapper CurrentNote
     {
         get => _currentNote;
-        internal set
+        private set
         {
             SetAndRaise(ref _currentNote, value);
             OnPropertyChanged(nameof(IsNoteEditActive));

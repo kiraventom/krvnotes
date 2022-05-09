@@ -3,7 +3,6 @@
 public interface IBoard
 {
     bool AddFolder(string name);
-    //bool EditFolder(string oldName, string newName);
     bool RemoveFolder(string name);
     IFoldersCollection Folders { get; }
 }

@@ -1,4 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿// Public setters are required by STJ
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+
+using System.Text.Json.Serialization;
 using BL;
 using Common;
 

@@ -1,9 +1,8 @@
-﻿using System.Windows;
-using BL;
+﻿using BL;
 
 namespace GUI
 {
-    public partial class App : Application
+    public partial class App
     {
         internal App()
         {

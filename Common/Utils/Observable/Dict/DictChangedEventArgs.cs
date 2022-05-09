@@ -1,4 +1,7 @@
-﻿namespace Common.Utils.Observable.Dict;
+﻿// Public API
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+namespace Common.Utils.Observable.Dict;
 
 public class DictChangedEventArgs<TKey, TValue> : EventArgs
 {

@@ -11,11 +11,6 @@ namespace GUI
     {
         private string _name;
 
-        public FolderWrapper()
-        {
-            throw new NotImplementedException();
-        }
-
         private FolderWrapper(IFolder folder)
         {
             Guid = folder.Guid;

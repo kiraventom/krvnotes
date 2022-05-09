@@ -11,6 +11,7 @@ public interface IFolder
     
     INote AddNote(string header, string text);
 
+    // ReSharper disable once UnusedMethodReturnValue.Global
     bool RemoveNote(string guid);
 }
 

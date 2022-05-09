@@ -54,7 +54,7 @@ public class Note : BaseNote, INote
     {
     }
 
-    public static Note FromBaseNote(BaseNote baseNote) => new Note(baseNote);
+    public static Note FromBaseNote(BaseNote baseNote) => new(baseNote);
 
     public void Edit(string header, string text)
     {

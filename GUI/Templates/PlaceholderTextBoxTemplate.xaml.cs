@@ -40,6 +40,9 @@ public class LengthToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        if (value is null)
+            return DependencyProperty.UnsetValue;
+
         int length = (int) value;
         return length == 0 ? Visibility.Visible : Visibility.Hidden;
     }

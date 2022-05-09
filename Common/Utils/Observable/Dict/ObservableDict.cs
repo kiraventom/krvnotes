@@ -1,11 +1,9 @@
-﻿using System.Collections;
+﻿// Public API
+// ReSharper disable UnusedMember.Global
+
+using System.Collections;
 
 namespace Common.Utils.Observable.Dict;
-
-interface IObservableDict<TKey, TValue>
-{
-    public event EventHandler<DictChangedEventArgs<TKey, TValue>> Changed;
-}
 
 public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue> where TKey : notnull
 {

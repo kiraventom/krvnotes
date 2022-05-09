@@ -20,8 +20,6 @@ namespace Common
             PropertyNameCaseInsensitive = true
         };
 
-        public static readonly Random Random = new();
-
         public enum FolderType
         {
             Custom,

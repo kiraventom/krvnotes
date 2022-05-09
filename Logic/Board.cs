@@ -25,7 +25,7 @@ public class Board : IBoard
         _folders.Changed += (_, _) => _dumper.Save(this);
 
         Folders = new FoldersCollection(_folders);
-        Constants.DefaultFolders.ForEach(df => AddDefaultFolder(df));
+        Constants.DefaultFolders.ForEach(AddDefaultFolder);
     }
 
     /// <summary>
@@ -55,14 +55,13 @@ public class Board : IBoard
         return true;
     }
 
-    private bool AddDefaultFolder(DefaultFolder defaultFolder)
+    private void AddDefaultFolder(DefaultFolder defaultFolder)
     {
         if (_folders.ContainsKey(defaultFolder.Guid))
             throw new NotSupportedException();
 
         var folder = Folder.CreateDefault(_dumper, this, defaultFolder);
         _folders.Add(folder.Guid, folder);
-        return true;
     }
 
     public bool RemoveFolder(string guid)

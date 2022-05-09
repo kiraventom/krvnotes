@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using GUI.Commands;
-using GUI.Templates;
 
 namespace GUI.ViewModel
 {

@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:GUI"
         xmlns:cts="clr-namespace:GUI.Templates"
         xmlns:viewModel="clr-namespace:GUI.ViewModel"
-        xmlns:folderIcons="clr-namespace:GUI.Icons.FolderIcons"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
@@ -17,7 +16,6 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <folderIcons:FolderTypeToIcon x:Key="FolderTypeToIcon" />
         <cts:AreFoldersEqual x:Key="AreFoldersEqual" />
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
     </Window.Resources>

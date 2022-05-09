@@ -1,4 +1,8 @@
-﻿namespace Common.Utils.Observable.List;
+﻿// Public API
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace Common.Utils.Observable.List;
 
 public class ListChangedEventArgs<T> : EventArgs
 {

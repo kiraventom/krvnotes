@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿// Public API
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable EventNeverSubscribedTo.Global
+
+using System.Collections;
 
 namespace Common.Utils.Observable.List;
 

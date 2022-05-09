@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace GUI.View
+﻿namespace GUI.View
 {
     /// <summary>
     /// Interaction logic for BoardView.xaml
     /// </summary>
-    public partial class BoardView : Window
+    public partial class BoardView
     {
         public BoardView()
         {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Public API
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+
+using System;
 using System.Windows.Input;
 
 namespace GUI.Commands;
