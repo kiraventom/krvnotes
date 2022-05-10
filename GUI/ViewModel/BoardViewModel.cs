@@ -39,7 +39,7 @@ public partial class BoardViewModel : Notifiable
         CurrentFolder = Folders.First();
     }
 
-    public event Action<FolderWrapper, FolderWrapper> ActiveFolderChanged;
+    public event Action<FolderWrapper, FolderWrapper> CurrentFolderChanged;
 
     public ObservableCollection<FolderWrapper> Folders { get; }
 
@@ -50,7 +50,7 @@ public partial class BoardViewModel : Notifiable
         {
             var oldFolder = _currentFolder;
             SetAndRaise(ref _currentFolder, value);
-            ActiveFolderChanged?.Invoke(oldFolder, value);
+            CurrentFolderChanged?.Invoke(oldFolder, value);
         }
     }
 

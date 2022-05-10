@@ -32,7 +32,7 @@ internal class Controller : IController
         
         _viewModel = boardViewModel;
         _viewModel.Folders.CollectionChanged += OnViewModelFoldersCollectionChanged;
-        _viewModel.ActiveFolderChanged += OnViewModelActiveFolderChanged;
+        _viewModel.CurrentFolderChanged += OnViewModelCurrentFolderChanged;
     }
 
     private void OnViewModelFoldersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -41,7 +41,7 @@ internal class Controller : IController
         // TODO: Do not forget to subscribe to OnModelNoteMoved
     }
 
-    private void OnViewModelActiveFolderChanged(FolderWrapper oldFolder, FolderWrapper newFolder)
+    private void OnViewModelCurrentFolderChanged(FolderWrapper oldFolder, FolderWrapper newFolder)
     {
         if (oldFolder is not null) // first run
         {
