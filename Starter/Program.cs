@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using GUI;
+using Logic;
 using Logic.Dumping;
 using Starter;
 
@@ -14,11 +15,10 @@ const int swHide = 0;
 var handle = GetConsoleWindow();
 var thread = new Thread(() =>
 {
-    var dumper = new Dumper();
-    var board = dumper.CreateBoard();
-    var controller = new Controller(board);
+    var model = new Model();
+    var eventManager = new EventManager(model);
 
-    var app = App.Create(controller);
+    var app = App.Create(eventManager);
     app.InitializeComponent();
     app.Run();
 });

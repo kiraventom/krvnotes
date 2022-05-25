@@ -1,23 +1,21 @@
 ﻿using Common;
 
-namespace BL;
+namespace BL.Model;
 
-public interface IFolder
+public interface IFolderModel
 {
     string Guid { get; }
     string Name { get; }
     Constants.FolderType FolderType { get; }
     INotesCollection Notes { get; }
 
-    event Action<INote, IFolder> NoteMoved;
-
-    INote AddNote(string header, string text);
+    INoteModel AddNote(string header, string text);
     void MoveNote(string noteGuid, string folderGuid);
     // ReSharper disable once UnusedMethodReturnValue.Global
     bool RemoveNote(string guid);
 }
 
-public interface INotesCollection : IEnumerable<INote>
+public interface INotesCollection : IEnumerable<INoteModel>
 {
-    INote this[string key] { get; }
+    INoteModel this[string key] { get; }
 }

@@ -3,6 +3,7 @@
 
 using System.Text.Json.Serialization;
 using BL;
+using BL.Model;
 using Common;
 
 namespace Logic.Dumping
@@ -15,9 +16,9 @@ namespace Logic.Dumping
         {
         }
 
-        internal DtoBoardWrapper(IBoard board)
+        internal DtoBoardWrapper(IBoardModel boardModel)
         {
-            Folders = board.Folders.Select(f => new DtoFolderWrapper(f));
+            Folders = boardModel.Folders.Select(f => new DtoFolderWrapper(f));
         }
 
         public IEnumerable<DtoFolderWrapper> Folders { get; set; }
@@ -30,28 +31,28 @@ namespace Logic.Dumping
         {
         }
 
-        internal DtoFolderWrapper(IFolder folder)
+        internal DtoFolderWrapper(IFolderModel folderModel)
         {
-            Guid = folder.Guid;
-            Name = folder.Name;
-            Notes = folder.Notes.Select(n => new DtoNoteWrapper(n));
-            FolderType = folder.FolderType;
+            Guid = folderModel.Guid;
+            Name = folderModel.Name;
+            Notes = folderModel.Notes.Select(n => new DtoNoteModelWrapper(n));
+            FolderType = folderModel.FolderType;
         }
         
         public string Guid { get; set; }
         public string Name { get; set; }
         public Constants.FolderType FolderType { get; set; }
-        public IEnumerable<DtoNoteWrapper> Notes { get; set; }
+        public IEnumerable<DtoNoteModelWrapper> Notes { get; set; }
     }
 
-    internal class DtoNoteWrapper : BaseNote
+    internal class DtoNoteModelWrapper : BaseNoteModel
     {
         [JsonConstructor] // ctor for STJ
-        public DtoNoteWrapper(string guid, string header, string text, DateTime editedAt) : base(guid, header, text, editedAt)
+        public DtoNoteModelWrapper(string guid, string header, string text, DateTime editedAt) : base(guid, header, text, editedAt)
         {
         }
 
-        internal DtoNoteWrapper(INote note) : base(note.Guid, note.Header, note.Text, note.EditedAt)
+        internal DtoNoteModelWrapper(INoteModel noteModel) : base(noteModel.Guid, noteModel.Header, noteModel.Text, noteModel.EditedAt)
         {
         }
     }

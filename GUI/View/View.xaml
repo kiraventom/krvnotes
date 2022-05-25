@@ -1,4 +1,4 @@
-﻿<Window x:Class="GUI.View.BoardView"
+﻿<Window x:Class="GUI.View.View"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,7 @@
         Width="850" Height="600">
 
     <Window.DataContext>
-        <viewModel:BoardViewModel />
+        <viewModel:ViewModel />
     </Window.DataContext>
 
     <Window.Resources>
@@ -46,7 +46,7 @@
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:FolderWrapper}">
+                <DataTemplate DataType="{x:Type local:FolderViewModel}">
                     <cts:Folder
                         Template="{StaticResource FolderTemplate}"
                         Style="{StaticResource FolderStyle}"
@@ -101,7 +101,7 @@
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="local:NoteWrapper">
+                    <DataTemplate DataType="local:NoteViewModel">
                         <cts:Note
                             Template="{StaticResource NoteTemplate}"
                             Header="{Binding Path=Header}"

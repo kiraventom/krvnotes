@@ -1,27 +1,29 @@
 ﻿using System;
 using BL;
+using BL.Model;
+using BL.ViewModel;
 using Common.Utils;
 
 namespace GUI;
 
-public class NoteWrapper : Notifiable
+public class NoteViewModel : Notifiable, INoteViewModel
 {
     private string _guid;
     private string _header;
     private string _text;
 
-    public NoteWrapper()
+    public NoteViewModel()
     {
     }
 
-    private NoteWrapper(INote note)
+    private NoteViewModel(INoteModel noteModel)
     {
-        Guid = note.Guid;
-        Header = note.Header;
-        Text = note.Text;
+        Guid = noteModel.Guid;
+        Header = noteModel.Header;
+        Text = noteModel.Text;
     }
 
-    public static NoteWrapper FromNote(INote note) => new(note);
+    public static NoteViewModel FromNote(INoteModel noteModel) => new(noteModel);
 
     public string Guid
     {

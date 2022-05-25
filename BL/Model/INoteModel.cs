@@ -1,6 +1,6 @@
-﻿namespace BL;
+﻿namespace BL.Model;
 
-public interface INote
+public interface INoteModel
 {
     void Edit(string header, string text);
 

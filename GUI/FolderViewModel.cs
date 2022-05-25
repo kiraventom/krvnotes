@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using BL;
+using BL.Model;
+using BL.ViewModel;
 using Common;
 using Common.Utils;
 
 namespace GUI
 {
-    public class FolderWrapper : Notifiable
+    public class FolderViewModel : Notifiable, IFolderViewModel
     {
         private string _name;
 
-        private FolderWrapper(IFolder folder)
+        private FolderViewModel(IFolderModel folderModel)
         {
-            Guid = folder.Guid;
-            Name = folder.Name;
-            var notes = folder.Notes.Select(NoteWrapper.FromNote);
-            Notes = new ObservableCollection<NoteWrapper>(notes);
-            FolderType = folder.FolderType;
+            Guid = folderModel.Guid;
+            Name = folderModel.Name;
+            var notes = folderModel.Notes.Select(NoteViewModel.FromNote);
+            Notes = new ObservableCollection<INoteViewModel>(notes);
+            FolderType = folderModel.FolderType;
         }
 
         public bool CanUserAdd => FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
 
-        public static FolderWrapper FromFolder(IFolder folder) => new(folder);
+        public static FolderViewModel FromFolder(IFolderModel folderModel) => new(folderModel);
 
         public string Guid { get; }
 
@@ -40,6 +41,6 @@ namespace GUI
             }
         }
 
-        public ObservableCollection<NoteWrapper> Notes { get; }
+        public ObservableCollection<INoteViewModel> Notes { get; }
     }
 }

@@ -1,15 +1,16 @@
 ﻿using BL;
+using BL.Model;
 using Common.Utils;
 
 namespace Logic;
 
-public class BaseNote : Notifiable
+public class BaseNoteModel : Notifiable
 {
     private string _header;
     private string _text;
     private DateTime _editedAt;
     
-    internal BaseNote(string guid, string header, string text, DateTime editedAt)
+    internal BaseNoteModel(string guid, string header, string text, DateTime editedAt)
     {
         Guid = guid;
         Header = header;
@@ -17,7 +18,7 @@ public class BaseNote : Notifiable
         EditedAt = editedAt;
     }
 
-    internal BaseNote(BaseNote baseNote) : this(baseNote.Guid, baseNote.Header, baseNote.Text, baseNote.EditedAt)
+    internal BaseNoteModel(BaseNoteModel baseNoteModel) : this(baseNoteModel.Guid, baseNoteModel.Header, baseNoteModel.Text, baseNoteModel.EditedAt)
     {
 
     }
@@ -43,18 +44,18 @@ public class BaseNote : Notifiable
     }
 }
 
-public class Note : BaseNote, INote
+public class NoteModelModel : BaseNoteModel, INoteModel
 {
-    public Note(string header, string text)
+    public NoteModelModel(string header, string text)
         : base(System.Guid.NewGuid().ToString(), header, text, DateTime.Now)
     {
     }
 
-    private Note(BaseNote baseNote) : base(baseNote)
+    private NoteModelModel(BaseNoteModel baseNoteModel) : base(baseNoteModel)
     {
     }
 
-    public static Note FromBaseNote(BaseNote baseNote) => new(baseNote);
+    public static NoteModelModel FromBaseNote(BaseNoteModel baseNoteModel) => new(baseNoteModel);
 
     public void Edit(string header, string text)
     {

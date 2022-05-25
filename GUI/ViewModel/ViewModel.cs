@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using BL;
+using BL.ViewModel;
 using Common.Utils;
 
 namespace GUI.ViewModel;
@@ -12,26 +14,27 @@ namespace GUI.ViewModel;
 // TODO: Move to archive by button
 // TODO: Add custom folders
 
-public partial class BoardViewModel : Notifiable
+public partial class ViewModel : Notifiable, IViewModel
 {
-    private static App App => Application.Current as App;
+    private static IEventManager EventManager => ((App)Application.Current).EventManager;
 
-    private NoteWrapper _currentNote;
-    private FolderWrapper _currentFolder;
+    private INoteViewModel _currentNote;
+    private IFolderViewModel _currentFolder;
 
-    public BoardViewModel()
+    public ViewModel()
     {
-        if (App!.Controller is null)
+        if (EventManager is null)
             throw new NotSupportedException("Wrong app entry point");
 
-        SetCommands();
-        var board = App.Controller.Board;
+        EventManager.SetViewModel(this);
 
-        var folders = board.Folders.Select(FolderWrapper.FromFolder);
-        Folders = new ObservableCollection<FolderWrapper>(folders);
-        
-        App.Controller.SetViewModel(this);
-        AfterLoad();
+        SetCommands();
+        //var board = EventManager.Board;
+
+        //var folders = board.Folders.Select(FolderViewModel.FromFolder);
+        //Folders = new ObservableCollection<FolderViewModel>(folders);
+
+        //AfterLoad();
     }
 
     private void AfterLoad()
@@ -39,22 +42,22 @@ public partial class BoardViewModel : Notifiable
         CurrentFolder = Folders.First();
     }
 
-    public event Action<FolderWrapper, FolderWrapper> CurrentFolderChanged;
+    //public event Action<FolderViewModel, FolderViewModel> CurrentFolderChanged;
 
-    public ObservableCollection<FolderWrapper> Folders { get; }
+    public ObservableCollection<IFolderViewModel> Folders { get; }
 
-    public FolderWrapper CurrentFolder
+    public IFolderViewModel CurrentFolder
     {
         get => _currentFolder;
         private set
         {
             var oldFolder = _currentFolder;
             SetAndRaise(ref _currentFolder, value);
-            CurrentFolderChanged?.Invoke(oldFolder, value);
+            //CurrentFolderChanged?.Invoke(oldFolder, value);
         }
     }
 
-    public NoteWrapper CurrentNote
+    public INoteViewModel CurrentNote
     {
         get => _currentNote;
         private set
