@@ -7,6 +7,7 @@ using Common.Utils;
 
 namespace GUI.ViewModels;
 
+// TODO: Пофиксить невозможность нажать кнопку удаления из-за "неоткрываемости" заметок в корзине
 // TODO: Restore from recycle bin
 // TODO: Implement moving. Maybe I should inherit FolderWrapper from IFolder and implement AddNote? idk seems really complicated
 // TODO: Write tests
@@ -23,9 +24,9 @@ public interface IAppViewModel : IViewModel
     event Action<INote> NoteRemoveRequest;
     event Action<INote> NoteEditRequest;
 
-    IEnumerable<FolderViewModel> Folders { get; set; }
-    FolderViewModel CurrentFolder { get; set; }
-    NoteViewModel CurrentNote { get; set; }
+    IKeyedCollection<FolderViewModel> Folders { get; set; }
+    string CurrentFolderGuid { get; set; }
+    string CurrentNoteGuid { get; set; }
 }
 
 internal partial class AppViewModel : Notifiable, IAppViewModel
@@ -34,7 +35,9 @@ internal partial class AppViewModel : Notifiable, IAppViewModel
 
     private NoteViewModel _currentNote;
     private FolderViewModel _currentFolder;
-    private IEnumerable<FolderViewModel> _folders;
+    private IKeyedCollection<FolderViewModel> _folders;
+    private string _currentFolderGuid;
+    private string _currentNoteGuid;
 
     public AppViewModel()
     {
@@ -57,27 +60,39 @@ internal partial class AppViewModel : Notifiable, IAppViewModel
     public event Action<INote> NoteEditRequest;
     //public event Action<NoteViewModel> NoteMoveRequest;
 
-    public IEnumerable<FolderViewModel> Folders
+    public IKeyedCollection<FolderViewModel> Folders
     {
         get => _folders;
-        set => SetAndRaise(ref _folders, value);
-    }
-
-    public FolderViewModel CurrentFolder
-    {
-        get => _currentFolder;
-        set => SetAndRaise(ref _currentFolder, value);
-    }
-
-    public NoteViewModel CurrentNote
-    {
-        get => _currentNote;
         set
         {
-            SetAndRaise(ref _currentNote, value);
+            SetAndRaise(ref _folders, value);
+            OnPropertyChanged(nameof(CurrentFolder));
+        }
+    }
+
+    public string CurrentFolderGuid
+    {
+        get => _currentFolderGuid;
+        set
+        {
+            _currentFolderGuid = value;
+            OnPropertyChanged(nameof(CurrentFolder));
+        }
+    }
+
+    public string CurrentNoteGuid
+    {
+        get => _currentNoteGuid;
+        set
+        {
+            _currentNoteGuid = value;
+            OnPropertyChanged(nameof(CurrentNote));
             OnPropertyChanged(nameof(IsEditorOpen));
         }
     }
+
+    public FolderViewModel CurrentFolder => Folders[CurrentFolderGuid];
+    public NoteViewModel CurrentNote => CurrentNoteGuid is not null ? CurrentFolder.Notes[CurrentNoteGuid] : null;
 
     public bool IsEditorOpen => CurrentNote is not null;
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using BL;
 using Common;
 using Common.Utils;
@@ -17,12 +15,12 @@ namespace GUI.ViewModels
         {
             Guid = folder.Guid;
             Name = folder.Name;
-            Notes = folder.Notes.Select(NoteViewModel.FromINote);
+            Notes = folder.Notes.Cast(NoteViewModel.FromINote);
             FolderType = folder.FolderType;
         }
 
-        internal bool CanUserAdd => FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
-        internal bool CanUserEdit => FolderType is not Constants.FolderType.RecycleBin;
+        public bool CanUserAdd => FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
+        public bool CanUserEdit => FolderType is not Constants.FolderType.RecycleBin;
 
         public string Guid { get; }
 
@@ -40,8 +38,8 @@ namespace GUI.ViewModels
             }
         }
 
-        IEnumerable<INote> IFolder.Notes => Notes;
+        IKeyedCollection<INote> IFolder.Notes => Notes;
 
-        public IEnumerable<NoteViewModel> Notes { get; }
+        public IKeyedCollection<NoteViewModel> Notes { get; }
     }
 }

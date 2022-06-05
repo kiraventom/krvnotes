@@ -53,7 +53,7 @@ public class FolderModel : IFolder
 
     public Constants.FolderType FolderType { get; }
 
-    IEnumerable<INote> IFolder.Notes => Notes;
+    IKeyedCollection<INote> IFolder.Notes => Notes;
 
     public IKeyedCollection<INoteModel> Notes { get; }
 

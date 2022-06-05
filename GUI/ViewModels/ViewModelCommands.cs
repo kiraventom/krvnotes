@@ -26,7 +26,7 @@ namespace GUI.ViewModels
 
         private bool AddNoteCondition() => CurrentFolder.CanUserAdd;
 
-        private void OpenNoteAction(NoteViewModel note) => CurrentNote = note;
+        private void OpenNoteAction(NoteViewModel note) => CurrentNoteGuid = note.Guid;
 
         private bool OpenNoteCondition(NoteViewModel note) => note is not null && CurrentFolder.CanUserEdit;
 

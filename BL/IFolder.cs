@@ -12,6 +12,6 @@ namespace BL
         string Guid { get; }
         string Name { get; }
         Constants.FolderType FolderType { get; }
-        IEnumerable<INote> Notes { get; }
+        IKeyedCollection<INote> Notes { get; }
     }
 }
