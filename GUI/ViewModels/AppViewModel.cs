@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using BL;
@@ -7,9 +6,11 @@ using Common.Utils;
 
 namespace GUI.ViewModels;
 
+// TODO: всё-таки попробовать убрать FolderViewModel и NoteViewModel. CanAdd и CanEdit можно убрать в AppVM и проверять в них CurrentFolder
+// TODO: Подумать, как оптимизировать тупое копирование всех папок на каждый чих
 // TODO: Пофиксить невозможность нажать кнопку удаления из-за "неоткрываемости" заметок в корзине
 // TODO: Restore from recycle bin
-// TODO: Implement moving. Maybe I should inherit FolderWrapper from IFolder and implement AddNote? idk seems really complicated
+// TODO: Implement moving
 // TODO: Write tests
 // TODO: Move to archive by button
 // TODO: Add custom folders
