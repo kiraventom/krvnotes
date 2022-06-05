@@ -58,7 +58,7 @@
                             Path=DataContext.PickFolderCommand}"
                         CommandParameter="{Binding}">
 
-                        <!-- костыль для того, чтобы на старте приложение была выбрана папка, которая лежит в CurrentFolder -->
+                        <!-- костыль для того, чтобы на старте приложения была выбрана папка, которая лежит в CurrentFolder -->
                         <cts:Folder.IsChecked>
                             <MultiBinding 
                                 Converter="{StaticResource AreFoldersEqual}"
@@ -80,10 +80,10 @@
             Orientation="Horizontal"
             Style="{StaticResource HeaderStyle}">
             <Button
-                Command="{Binding CreateNoteCommand}"
+                Command="{Binding AddNoteCommand}"
                 Content="{StaticResource AddIcon}"
                 Visibility="{Binding 
-                    Path=CurrentFolder.CanUserAdd, 
+                    Path=CurrentFolder.CanUserEdit, 
                     Converter={StaticResource BoolToVisibility}}"/>
         </StackPanel>
 
@@ -129,6 +129,6 @@
             Header="{Binding CurrentNote.Header, Mode=TwoWay}"
             Text="{Binding CurrentNote.Text, Mode=TwoWay}"
             CloseNoteCommand="{Binding CloseNoteCommand}"
-            IsActive="{Binding IsNoteEditActive}" />
+            IsActive="{Binding IsEditorOpen}" />
     </Grid>
 </Window>

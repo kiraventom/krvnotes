@@ -11,7 +11,7 @@ internal class Dumper : IDumper
         Directory.CreateDirectory(Constants.FolderPath);
     }
 
-    internal IBoardModel CreateBoard()
+    internal BoardModel CreateBoard()
     {
         if (!File.Exists(Constants.FilePath)) 
             return new BoardModel(this);
@@ -24,9 +24,9 @@ internal class Dumper : IDumper
         return new BoardModel(this, loadedBoard);
     }
 
-    void IDumper.Save(IBoardModel boardModel) => Save(boardModel);
+    void IDumper.Save(BoardModel boardModel) => Save(boardModel);
 
-    private static void Save(IBoardModel boardModel)
+    private static void Save(BoardModel boardModel)
     {
         var dumpBoard = new DtoBoardWrapper(boardModel);
         string json = JsonSerializer.Serialize(dumpBoard, Constants.SerializerOptions);
@@ -36,5 +36,5 @@ internal class Dumper : IDumper
 
 public interface IDumper
 {
-    internal void Save(IBoardModel boardModel);
+    internal void Save(BoardModel boardModel);
 }

@@ -5,7 +5,7 @@ namespace GUI.ViewModels
 {
     internal partial class AppViewModel
     {
-        public ICommand CreateNoteCommand { get; private set; }
+        public ICommand AddNoteCommand { get; private set; }
         public ICommand OpenNoteCommand { get; private set; }
         public ICommand CloseNoteCommand { get; private set; }
         public ICommand DeleteNoteCommand { get; private set; }
@@ -14,7 +14,7 @@ namespace GUI.ViewModels
 
         private void SetCommands()
         {
-            CreateNoteCommand = new Command(CreateNoteAction);
+            AddNoteCommand = new Command(AddNoteAction, AddNoteCondition);
             OpenNoteCommand = new Command<NoteViewModel>(OpenNoteAction, OpenNoteCondition);
             CloseNoteCommand = new Command(CloseNoteAction);
             DeleteNoteCommand = new Command<NoteViewModel>(DeleteNoteAction, DeleteNoteCondition);
@@ -22,11 +22,13 @@ namespace GUI.ViewModels
             PickFolderCommand = new Command<FolderViewModel>(PickFolderAction, PickFolderCondition);
         }
 
-        private void CreateNoteAction() => NoteAddRequest!.Invoke(new NoteViewModel());
+        private void AddNoteAction() => NoteAddRequest!.Invoke(new NoteViewModel());
+
+        private bool AddNoteCondition() => CurrentFolder.CanUserAdd;
 
         private void OpenNoteAction(NoteViewModel note) => CurrentNote = note;
 
-        private static bool OpenNoteCondition(NoteViewModel note) => note is not null;
+        private bool OpenNoteCondition(NoteViewModel note) => note is not null && CurrentFolder.CanUserEdit;
 
         private void CloseNoteAction() => NoteEditRequest!.Invoke(CurrentNote);
 

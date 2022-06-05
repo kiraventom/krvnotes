@@ -2,21 +2,16 @@
 
 namespace Logic
 {
-    public interface IModel
+    public class Model
     {
-        IBoardModel BoardModel { get; }
+        public static Model Instance { get; } = new();
 
-        static IModel Instance { get; } = new Model();
-    }
-
-    internal class Model : IModel
-    {
-        public Model()
+        private Model()
         {
             var dumper = new Dumper();
             BoardModel = dumper.CreateBoard();
         }
-        
-        public IBoardModel BoardModel { get; }
+
+        public BoardModel BoardModel { get; }
     }
 }

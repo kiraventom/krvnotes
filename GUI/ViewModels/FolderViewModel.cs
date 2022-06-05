@@ -7,25 +7,23 @@ using Common.Utils;
 
 namespace GUI.ViewModels
 {
-    public interface IFolderViewModel : IFolder
-    {
-        static IFolderViewModel FromIFolder(IFolder folder) => new FolderViewModel(folder);
-    }
-
-    internal class FolderViewModel : Notifiable, IFolderViewModel
+    public class FolderViewModel : Notifiable, IFolder
     {
         private string _name;
 
-        internal FolderViewModel(IFolder folder)
+        public static FolderViewModel FromIFolder(IFolder folder) => new(folder);
+
+        private FolderViewModel(IFolder folder)
         {
             Guid = folder.Guid;
             Name = folder.Name;
-            Notes = folder.Notes.Select(INoteViewModel.FromINote);
+            Notes = folder.Notes.Select(NoteViewModel.FromINote);
             FolderType = folder.FolderType;
         }
 
-        public bool CanUserAdd => FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
-        
+        internal bool CanUserAdd => FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
+        internal bool CanUserEdit => FolderType is not Constants.FolderType.RecycleBin;
+
         public string Guid { get; }
 
         public Constants.FolderType FolderType { get; }
@@ -44,6 +42,6 @@ namespace GUI.ViewModels
 
         IEnumerable<INote> IFolder.Notes => Notes;
 
-        public IEnumerable<INoteViewModel> Notes { get; }
+        public IEnumerable<NoteViewModel> Notes { get; }
     }
 }

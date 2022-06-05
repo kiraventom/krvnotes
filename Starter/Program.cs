@@ -14,7 +14,7 @@ const int swHide = 0;
 var handle = GetConsoleWindow();
 var thread = new Thread(() =>
 {
-    var model = IModel.Instance;
+    var model = Model.Instance;
     var eventManager = new EventManager(model);
 
     var app = App.Create(eventManager);

@@ -6,14 +6,7 @@ using Logic.Dumping;
 
 namespace Logic;
 
-public interface IBoardModel
-{
-    bool AddFolder(string name);
-    bool RemoveFolder(string name);
-    IKeyedCollection<IFolderModel> Folders { get; }
-}
-
-internal class BoardModel : IBoardModel
+public class BoardModel
 {
     private readonly IDumper _dumper;
 
@@ -29,7 +22,7 @@ internal class BoardModel : IBoardModel
         _folders = new ObservableDict<string, FolderModel>();
         _folders.Changed += (_, _) => _dumper.Save(this);
 
-        Folders = new KeyedCollection<FolderModel, IFolderModel>(_folders);
+        Folders = new KeyedCollection<FolderModel>(_folders);
         Constants.DefaultFolders.Values.ForEach(AddDefaultFolder);
     }
 
@@ -48,10 +41,10 @@ internal class BoardModel : IBoardModel
 
         _folders = new ObservableDict<string, FolderModel>(folders);
         _folders.Changed += (_, _) => _dumper.Save(this);
-        Folders = new KeyedCollection<FolderModel, IFolderModel>(_folders);
+        Folders = new KeyedCollection<FolderModel>(_folders);
     }
 
-    public IKeyedCollection<IFolderModel> Folders { get; }
+    public IKeyedCollection<FolderModel> Folders { get; }
 
     public bool AddFolder(string name)
     {

@@ -1,27 +1,20 @@
-﻿using System;
-using System.ComponentModel;
-using BL;
+﻿using BL;
 using Common.Utils;
 
 namespace GUI.ViewModels;
 
-public interface INoteViewModel : INote
-{
-    static INoteViewModel FromINote(INote note) => new NoteViewModel(note);
-
-    event PropertyChangedEventHandler PropertyChanged;
-}
-
-internal class NoteViewModel : Notifiable, INoteViewModel
+public class NoteViewModel : Notifiable, INote
 {
     private string _header;
     private string _text;
 
-    public NoteViewModel()
+    public static NoteViewModel FromINote(INote note) => new(note);
+
+    internal NoteViewModel()
     {
     }
 
-    internal NoteViewModel(INote note)
+    private NoteViewModel(INote note)
     {
         Guid = note.Guid;
         Header = note.Header;

@@ -15,7 +15,7 @@ namespace Logic.Dumping
         {
         }
 
-        internal DtoBoardWrapper(IBoardModel boardModel)
+        internal DtoBoardWrapper(BoardModel boardModel)
         {
             Folders = boardModel.Folders.Select(f => new DtoFolderWrapper(f));
         }
@@ -30,11 +30,11 @@ namespace Logic.Dumping
         {
         }
 
-        internal DtoFolderWrapper(IFolderModel folderModel)
+        internal DtoFolderWrapper(FolderModel folderModel)
         {
             Guid = folderModel.Guid;
             Name = folderModel.Name;
-            Notes = folderModel.Notes.Select(n => new DtoNoteModelWrapper((INoteModel)n));
+            Notes = folderModel.Notes.Select(n => new DtoNoteModelWrapper(n));
             FolderType = folderModel.FolderType;
         }
         
