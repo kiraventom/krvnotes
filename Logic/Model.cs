@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BL;
-using BL.Model;
-using Logic.Dumping;
+﻿using Logic.Dumping;
 
 namespace Logic
 {
-    public class Model : IModel
+    public interface IModel
+    {
+        IBoardModel BoardModel { get; }
+
+        static IModel Instance { get; } = new Model();
+    }
+
+    internal class Model : IModel
     {
         public Model()
         {

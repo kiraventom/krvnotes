@@ -1,71 +1,34 @@
-﻿using BL;
-using Common.Utils.Exceptions;
-using GUI.ViewModels;
-using Logic;
+﻿using System.Collections.ObjectModel;
+using BL;
+using BL.Model;
+using BL.ViewModel;
 
-namespace Starter
+namespace EventManagement
 {
-    internal class EventManager : IEventManager
+    public class EventManager : IEventManager
     {
-        private IAppViewModel _viewModel;
+        private IViewModel _viewModel;
         private readonly IModel _model;
-
-        private IFolderModel CurrentFolderModel => (IFolderModel)_model.BoardModel.Folders[_viewModel.CurrentFolder.Guid];
 
         public EventManager(IModel model)
         {
             _model = model;
         }
-        
+
         public void SetViewModel(IViewModel viewModel)
         {
-            ArgumentTypeException.ThrowIfNotTypeOf<IAppViewModel>(viewModel, out var boardViewModel);
-
             if (_viewModel is not null)
                 throw new NotSupportedException("ViewModel is already set");
 
-            _viewModel = boardViewModel;
+            _viewModel = viewModel;
 
-            _viewModel.ViewModelLoaded += OnModelLoaded;
-            _viewModel.FolderPickRequest += OnFolderPickRequest;
-
-            _viewModel.NoteAddRequest += OnNoteAddRequest;
-            _viewModel.NoteRemoveRequest += OnNoteRemoveRequest;
-            _viewModel.NoteEditRequest += OnNoteEditRequest;
+            _viewModel.ViewModelLoaded += OnViewModelLoaded;
         }
 
-        private void OnModelLoaded()
+        private void OnViewModelLoaded()
         {
-            var modelFolders = _model.BoardModel.Folders;
-            var viewModelFolders = modelFolders.Select(IFolderViewModel.FromIFolder);
-            _viewModel.Folders = viewModelFolders;
-        }
-
-        private void OnFolderPickRequest(IFolder pickedFolder)
-        {
-            var modelFolder = _model.BoardModel.Folders[pickedFolder.Guid];
-            _viewModel.CurrentFolder = IFolderViewModel.FromIFolder(modelFolder);
-        }
-
-        private void OnNoteAddRequest(INote noteToAdd)
-        {
-            var modelNote = CurrentFolderModel.AddNote(noteToAdd.Header, noteToAdd.Text);
-            _viewModel.CurrentFolder = IFolderViewModel.FromIFolder(CurrentFolderModel);
-            _viewModel.CurrentNote = INoteViewModel.FromINote(modelNote);
-        }
-
-        private void OnNoteRemoveRequest(INote noteToDelete)
-        {
-            var wasDeleted = CurrentFolderModel.RemoveNote(noteToDelete.Guid);
-            _viewModel.CurrentFolder = IFolderViewModel.FromIFolder(CurrentFolderModel);
-        }
-
-        private void OnNoteEditRequest(INote noteToEdit)
-        {
-            var noteModel = ((IKeyedCollection<INoteModel>)CurrentFolderModel.Notes)[noteToEdit.Guid];
-            noteModel.Edit(noteToEdit.Header, noteToEdit.Text);
-            _viewModel.CurrentFolder = IFolderViewModel.FromIFolder(CurrentFolderModel);
-            _viewModel.CurrentNote = null;
+            var folders = _model.BoardModel.Folders.Select(FolderViewModel.FromFolder);
+            _viewModel.Folders = new ObservableCollection<IFolderViewModel>(folders);
         }
     }
 

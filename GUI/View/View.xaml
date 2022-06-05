@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         xmlns:cts="clr-namespace:GUI.Templates"
-        xmlns:viewModel="clr-namespace:GUI.ViewModel"
+        xmlns:viewModels="clr-namespace:GUI.ViewModels"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
         Width="850" Height="600">
 
     <Window.DataContext>
-        <viewModel:ViewModel />
+        <viewModels:AppViewModel />
     </Window.DataContext>
 
     <Window.Resources>
@@ -46,7 +46,7 @@
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:FolderViewModel}">
+                <DataTemplate DataType="{x:Type viewModels:FolderViewModel}">
                     <cts:Folder
                         Template="{StaticResource FolderTemplate}"
                         Style="{StaticResource FolderStyle}"
@@ -101,7 +101,7 @@
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="local:NoteViewModel">
+                    <DataTemplate DataType="viewModels:NoteViewModel">
                         <cts:Note
                             Template="{StaticResource NoteTemplate}"
                             Header="{Binding Path=Header}"

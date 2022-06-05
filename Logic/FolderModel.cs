@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using BL;
-using BL.Model;
 using Common;
 using Common.Utils;
 using Common.Utils.Observable;
@@ -10,11 +8,18 @@ using Logic.Dumping;
 
 namespace Logic;
 
+public interface IFolderModel : IFolder
+{
+    INoteModel AddNote(string header, string text);
+    void MoveNote(string noteGuid, string folderGuid);
+    bool RemoveNote(string guid);
+}
+
 internal class FolderModel : IFolderModel
 {
     private readonly IDumper _dumper;
     private readonly IBoardModel _boardModel;
-    private readonly ObservableDict<string, NoteModelModel> _notes;
+    private readonly ObservableDict<string, NoteModel> _notes;
     
     public static FolderModel CreateCustom(IDumper dumper, IBoardModel boardModel, string name)
     {
@@ -36,32 +41,32 @@ internal class FolderModel : IFolderModel
         _dumper = dumper;
         _boardModel = boardModel;
 
-        var rawNotes = loadedNotes.ToDictionary(dto => dto.Guid, NoteModelModel.FromBaseNote);
+        var rawNotes = loadedNotes.ToDictionary(dto => dto.Guid, NoteModel.FromBaseNote);
 
         Guid = guid;
         Name = name;
         FolderType = folderType;
 
-        _notes = new ObservableDict<string, NoteModelModel>(rawNotes);
+        _notes = new ObservableDict<string, NoteModel>(rawNotes);
         _notes.Changed += OnNotesCollectionChanged;
         _notes.Values.ForEach(n => n.PropertyChanged += OnNoteEdited);
         
-        Notes = new NotesCollection(_notes);
+        Notes = new KeyedCollection<NoteModel, INoteModel>(_notes);
     }
 
     public string Guid { get; }
 
     public string Name { get; }
 
-    public INotesCollection Notes { get; }
+    IEnumerable<INote> IFolder.Notes => Notes;
+
+    public IKeyedCollection<INoteModel> Notes { get; }
 
     public Constants.FolderType FolderType { get; }
 
-    public event Action<INoteModel, IFolderModel> NoteMoved;
-
     public INoteModel AddNote(string header, string text)
     {
-        var note = new NoteModelModel(header, text);
+        var note = new NoteModel(header, text);
         _notes.Add(note.Guid, note);
         return note;
     }
@@ -72,7 +77,6 @@ internal class FolderModel : IFolderModel
         _notes.Remove(noteGuid);
         var folder = _boardModel.Folders[folderGuid] as FolderModel;
         folder!.AddNote(note);
-        NoteMoved?.Invoke(note, folder);
     }
 
     public bool RemoveNote(string guid)
@@ -84,12 +88,12 @@ internal class FolderModel : IFolderModel
         return true;
     }
 
-    private void AddNote(NoteModelModel noteModelModel)
+    private void AddNote(NoteModel noteModel)
     {
-        _notes.Add(noteModelModel.Guid, noteModelModel);
+        _notes.Add(noteModel.Guid, noteModel);
     }
 
-    private void OnNotesCollectionChanged(object sender, DictChangedEventArgs<string, NoteModelModel> e)
+    private void OnNotesCollectionChanged(object sender, DictChangedEventArgs<string, NoteModel> e)
     {
         var note = e.Value;
         switch (e.Change)
@@ -109,20 +113,4 @@ internal class FolderModel : IFolderModel
     }
     
     private void OnNoteEdited(object o, PropertyChangedEventArgs propertyChangedEventArgs) => _dumper.Save(_boardModel);
-}
-
-internal class NotesCollection : INotesCollection
-{
-    private readonly ObservableDict<string, NoteModelModel> _notes;
-
-    public NotesCollection(ObservableDict<string, NoteModelModel> notes)
-    {
-        _notes = notes;
-    }
-
-    public INoteModel this[string key] => _notes[key];
-
-    public IEnumerator<INoteModel> GetEnumerator() => _notes.Values.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

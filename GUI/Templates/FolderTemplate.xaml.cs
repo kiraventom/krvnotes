@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Common;
+using GUI.ViewModels;
 
 namespace GUI.Templates;
 

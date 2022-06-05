@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using BL.Model;
+﻿using BL;
 using Common;
 using Common.Utils;
 using Common.Utils.Observable.Dict;
@@ -7,9 +6,14 @@ using Logic.Dumping;
 
 namespace Logic;
 
-using BL;
+public interface IBoardModel
+{
+    bool AddFolder(string name);
+    bool RemoveFolder(string name);
+    IKeyedCollection<IFolderModel> Folders { get; }
+}
 
-public class BoardModel : IBoardModel
+internal class BoardModel : IBoardModel
 {
     private readonly IDumper _dumper;
 
@@ -25,7 +29,7 @@ public class BoardModel : IBoardModel
         _folders = new ObservableDict<string, FolderModel>();
         _folders.Changed += (_, _) => _dumper.Save(this);
 
-        Folders = new FoldersCollection(_folders);
+        Folders = new KeyedCollection<FolderModel, IFolderModel>(_folders);
         Constants.DefaultFolders.Values.ForEach(AddDefaultFolder);
     }
 
@@ -44,10 +48,10 @@ public class BoardModel : IBoardModel
 
         _folders = new ObservableDict<string, FolderModel>(folders);
         _folders.Changed += (_, _) => _dumper.Save(this);
-        Folders = new FoldersCollection(_folders);
+        Folders = new KeyedCollection<FolderModel, IFolderModel>(_folders);
     }
 
-    public IFoldersCollection Folders { get; }
+    public IKeyedCollection<IFolderModel> Folders { get; }
 
     public bool AddFolder(string name)
     {
@@ -72,20 +76,4 @@ public class BoardModel : IBoardModel
 
         return _folders.Remove(guid);
     }
-}
-
-internal class FoldersCollection : IFoldersCollection
-{
-    private readonly ObservableDict<string, FolderModel> _folders;
-
-    public FoldersCollection(ObservableDict<string, FolderModel> folders)
-    {
-        _folders = folders;
-    }
-
-    public IFolderModel this[string key] => _folders[key];
-
-    public IEnumerator<IFolderModel> GetEnumerator() => _folders.Values.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

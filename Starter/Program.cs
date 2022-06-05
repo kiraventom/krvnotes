@@ -1,7 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using GUI;
 using Logic;
-using Logic.Dumping;
 using Starter;
 
 [DllImport("kernel32.dll")]
@@ -15,7 +14,7 @@ const int swHide = 0;
 var handle = GetConsoleWindow();
 var thread = new Thread(() =>
 {
-    var model = new Model();
+    var model = IModel.Instance;
     var eventManager = new EventManager(model);
 
     var app = App.Create(eventManager);

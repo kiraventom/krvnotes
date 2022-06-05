@@ -3,7 +3,6 @@
 
 using System.Text.Json.Serialization;
 using BL;
-using BL.Model;
 using Common;
 
 namespace Logic.Dumping
@@ -35,7 +34,7 @@ namespace Logic.Dumping
         {
             Guid = folderModel.Guid;
             Name = folderModel.Name;
-            Notes = folderModel.Notes.Select(n => new DtoNoteModelWrapper(n));
+            Notes = folderModel.Notes.Select(n => new DtoNoteModelWrapper((INoteModel)n));
             FolderType = folderModel.FolderType;
         }
         

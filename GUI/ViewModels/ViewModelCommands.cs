@@ -1,9 +1,9 @@
 ﻿using System.Windows.Input;
 using GUI.Commands;
 
-namespace GUI.ViewModel
+namespace GUI.ViewModels
 {
-    public partial class ViewModel
+    internal partial class AppViewModel
     {
         public ICommand CreateNoteCommand { get; private set; }
         public ICommand OpenNoteCommand { get; private set; }
@@ -22,24 +22,19 @@ namespace GUI.ViewModel
             PickFolderCommand = new Command<FolderViewModel>(PickFolderAction, PickFolderCondition);
         }
 
-        private void CreateNoteAction()
-        {
-            var note = new NoteViewModel();
-            CurrentFolder.Notes.Add(note);
-            CurrentNote = note;
-        }
+        private void CreateNoteAction() => NoteAddRequest!.Invoke(new NoteViewModel());
 
         private void OpenNoteAction(NoteViewModel note) => CurrentNote = note;
 
         private static bool OpenNoteCondition(NoteViewModel note) => note is not null;
 
-        private void CloseNoteAction() => CurrentNote = null;
+        private void CloseNoteAction() => NoteEditRequest!.Invoke(CurrentNote);
 
-        private void DeleteNoteAction(NoteViewModel note) => CurrentFolder.Notes.Remove(note);
+        private void DeleteNoteAction(NoteViewModel note) => NoteRemoveRequest!.Invoke(note);
 
         private static bool DeleteNoteCondition(NoteViewModel note) => note is not null;
 
-        private void PickFolderAction(FolderViewModel f) => CurrentFolder = f;
+        private void PickFolderAction(FolderViewModel f) => FolderPickRequest!.Invoke(f);
 
         private static bool PickFolderCondition(FolderViewModel f) => f is not null;
     }
