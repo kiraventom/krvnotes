@@ -1,18 +1,18 @@
-﻿<Window x:Class="GUI.View.BoardView"
+﻿<Window x:Class="GUI.View.View"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GUI"
         xmlns:cts="clr-namespace:GUI.Templates"
-        xmlns:viewModel="clr-namespace:GUI.ViewModel"
+        xmlns:viewModels="clr-namespace:GUI.ViewModels"
+        xmlns:bl="clr-namespace:BL;assembly=BL"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
         Width="850" Height="600">
 
     <Window.DataContext>
-        <viewModel:BoardViewModel />
+        <viewModels:AppViewModel />
     </Window.DataContext>
 
     <Window.Resources>
@@ -46,7 +46,7 @@
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:FolderWrapper}">
+                <DataTemplate DataType="{x:Type bl:IFolder}">
                     <cts:Folder
                         Template="{StaticResource FolderTemplate}"
                         Style="{StaticResource FolderStyle}"
@@ -58,7 +58,7 @@
                             Path=DataContext.PickFolderCommand}"
                         CommandParameter="{Binding}">
 
-                        <!-- костыль для того, чтобы на старте приложение была выбрана папка, которая лежит в CurrentFolder -->
+                        <!-- костыль для того, чтобы на старте приложения была выбрана папка, которая лежит в CurrentFolder -->
                         <cts:Folder.IsChecked>
                             <MultiBinding 
                                 Converter="{StaticResource AreFoldersEqual}"
@@ -83,7 +83,7 @@
                 Command="{Binding CreateNoteCommand}"
                 Content="{StaticResource AddIcon}"
                 Visibility="{Binding 
-                    Path=CurrentFolder.CanUserAdd, 
+                    Path=CanUserCreate, 
                     Converter={StaticResource BoolToVisibility}}"/>
         </StackPanel>
 
@@ -101,7 +101,7 @@
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="local:NoteWrapper">
+                    <DataTemplate DataType="bl:INote">
                         <cts:Note
                             Template="{StaticResource NoteTemplate}"
                             Header="{Binding Path=Header}"
@@ -129,6 +129,6 @@
             Header="{Binding CurrentNote.Header, Mode=TwoWay}"
             Text="{Binding CurrentNote.Text, Mode=TwoWay}"
             CloseNoteCommand="{Binding CloseNoteCommand}"
-            IsActive="{Binding IsNoteEditActive}" />
+            IsActive="{Binding IsEditorOpen}" />
     </Grid>
 </Window>

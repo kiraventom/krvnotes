@@ -3,8 +3,5 @@
                     xmlns:cts="clr-namespace:GUI.Templates">
     <Style x:Key="NotesPanelStyle" TargetType="{x:Type WrapPanel}">
         <Setter Property="Background" Value="OldLace" />
-        <Style.Resources>
-            <Style TargetType="{x:Type cts:Note}" BasedOn="{StaticResource NoteStyle}"/>
-        </Style.Resources>
     </Style>
 </ResourceDictionary>

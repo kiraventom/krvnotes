@@ -9,11 +9,11 @@ namespace GUI
 
         }
 
-        public static App Create(IController controller)
+        public static App Create(IEventManager eventManager)
         {
-            return new App {Controller = controller};
+            return new App {EventManager = eventManager};
         }
 
-        internal IController Controller { get; private init; }
+        internal IEventManager EventManager { get; private init; }
     }
 }

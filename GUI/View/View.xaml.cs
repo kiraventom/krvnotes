@@ -1,11 +1,11 @@
 ﻿namespace GUI.View
 {
     /// <summary>
-    /// Interaction logic for BoardView.xaml
+    /// Interaction logic for View.xaml
     /// </summary>
-    public partial class BoardView
+    public partial class View
     {
-        public BoardView()
+        public View()
         {
             InitializeComponent();
         }
