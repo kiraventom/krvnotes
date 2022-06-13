@@ -2,38 +2,49 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:GUI.Templates">
     <ControlTemplate x:Key="NoteTemplate" TargetType="{x:Type local:Note}">
-        <Button
-            Command="{TemplateBinding OpenNoteCommand}"
-            CommandParameter="{TemplateBinding OpenNoteCommandParameter}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="12*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="30" />
-                </Grid.ColumnDefinitions>
+        <Grid 
+            Width="230" Height="180">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
 
-                <Label
-                    Grid.Row="0" Grid.Column="0"
-                    Grid.RowSpan="2" Grid.ColumnSpan="2"
+            <Button
+                Grid.Row="0" Grid.Column="0"
+                Grid.RowSpan="2" Grid.ColumnSpan="2"
+                Style="{StaticResource NoteButtonStyle}"
+                Command="{TemplateBinding OpenNoteCommand}"
+                CommandParameter="{TemplateBinding OpenNoteCommandParameter}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                    Grid.Row="0"
                     Content="{TemplateBinding Header}"/>
 
-                <TextBlock
-                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    <TextBlock
+                    Grid.Row="1"
                     Text="{TemplateBinding Text}" />
+                </Grid>
+            </Button>
 
-                <Button
-                    Grid.Row="0" Grid.Column="1"
+            <Button
+                Grid.Row="0" Grid.Column="1"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
+                    Style="{StaticResource NoteDeleteButtonStyle}"
                     Command="{TemplateBinding DeleteNoteCommand}"
                     CommandParameter="{TemplateBinding DeleteNoteCommandParameter}">
-                    <StaticResource ResourceKey="CloseIcon" />
-                </Button>
-            </Grid>
-        </Button>
+                <StaticResource ResourceKey="CloseIcon" />
+            </Button>
+
+        </Grid>
     </ControlTemplate>
 </ResourceDictionary>

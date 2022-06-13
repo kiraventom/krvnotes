@@ -7,7 +7,6 @@ using Common.Utils;
 
 namespace GUI.ViewModels;
 
-// TODO: Пофиксить невозможность нажать кнопку удаления из-за "неоткрываемости" заметок в корзине
 // TODO: Restore from recycle bin
 // TODO: Implement moving
 // TODO: Write tests
