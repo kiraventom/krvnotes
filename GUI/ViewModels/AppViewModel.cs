@@ -7,8 +7,6 @@ using Common.Utils;
 
 namespace GUI.ViewModels;
 
-// TODO: если получится, то не забыть убрать и DTO? или хотя бы переименовать методы типа FromBaseNote
-
 // TODO: Пофиксить невозможность нажать кнопку удаления из-за "неоткрываемости" заметок в корзине
 // TODO: Restore from recycle bin
 // TODO: Implement moving

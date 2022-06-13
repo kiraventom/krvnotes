@@ -8,7 +8,7 @@ public interface INoteModel : INote
     DateTime EditedAt { get; }
 }
 
-internal class BaseNoteModel : Notifiable
+internal class BaseNoteModel : Notifiable, INote
 {
     private string _header;
     private string _text;
