@@ -32,6 +32,7 @@
                     </Grid.RowDefinitions>
 
                     <local:PlaceholderTextBox
+                        IsTabStop="False"
                         Style="{StaticResource EditorHeaderStyle}"
                         Template="{StaticResource PlaceholderTextBoxTemplate}"
                         Grid.Row="0"
@@ -43,6 +44,7 @@
                     Mode=TwoWay}" />
 
                     <local:PlaceholderTextBox
+                        IsTabStop="False"
                         Style="{StaticResource EditorTextStyle}"
                         Template="{StaticResource PlaceholderTextBoxTemplate}"
                         Grid.Row="1"
