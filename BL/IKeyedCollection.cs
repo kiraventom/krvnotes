@@ -1,8 +1,8 @@
-﻿namespace BL;
+﻿using System.Collections.Specialized;
 
-public interface IKeyedCollection<out T> : IEnumerable<T>
+namespace BL;
+
+public interface IKeyedCollection<out T> : INotifyCollectionChanged, IEnumerable<T>
 {
     T this[string key] { get; }
-
-    IKeyedCollection<TN> Cast<TN>(Func<T, TN> valueCaster);
 }

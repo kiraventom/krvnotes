@@ -14,22 +14,17 @@ public class FolderModel : IFolder
     private readonly BoardModel _boardModel;
     private readonly ObservableDict<string, NoteModel> _notes;
     
-    internal static FolderModel CreateCustom(IDumper dumper, BoardModel boardModel, string name)
-    {
-        return new FolderModel(dumper, boardModel, System.Guid.NewGuid().ToString(), name, Constants.FolderType.Custom, Enumerable.Empty<DtoNoteModelWrapper>());
-    }
+    internal static FolderModel CreateCustom(IDumper dumper, BoardModel boardModel, string name) => 
+        new(dumper, boardModel, System.Guid.NewGuid().ToString(), name, Constants.FolderType.Custom, Enumerable.Empty<DtoNoteModelWrapper>());
 
-    internal static FolderModel CreateDefault(IDumper dumper, BoardModel boardModel, DefaultFolder defaultFolder)
-    {
-        return new FolderModel(dumper, boardModel, defaultFolder.Guid, defaultFolder.Name, defaultFolder.FolderType, Enumerable.Empty<DtoNoteModelWrapper>());
-    }
+    internal static FolderModel CreateDefault(IDumper dumper, BoardModel boardModel, DefaultFolder defaultFolder) => 
+        new(dumper, boardModel, defaultFolder.Guid, defaultFolder.Name, defaultFolder.FolderType, Enumerable.Empty<DtoNoteModelWrapper>());
 
-    internal static FolderModel Load(IDumper dumper, BoardModel boardModel, DtoFolderWrapper loadedFolder)
-    {
-        return new FolderModel(dumper, boardModel, loadedFolder.Guid, loadedFolder.Name, loadedFolder.FolderType, loadedFolder.Notes);
-    }
+    internal static FolderModel Load(IDumper dumper, BoardModel boardModel, DtoFolderWrapper loadedFolder) => 
+        new(dumper, boardModel, loadedFolder.Guid, loadedFolder.Name, loadedFolder.FolderType, loadedFolder.Notes);
 
-    private FolderModel(IDumper dumper, BoardModel boardModel, string guid, string name, Constants.FolderType folderType, IEnumerable<DtoNoteModelWrapper> loadedNotes)
+    private FolderModel(IDumper dumper, BoardModel boardModel, string guid, string name, 
+        Constants.FolderType folderType, IEnumerable<DtoNoteModelWrapper> loadedNotes)
     {
         _dumper = dumper;
         _boardModel = boardModel;
@@ -57,10 +52,10 @@ public class FolderModel : IFolder
 
     public IKeyedCollection<INoteModel> Notes { get; }
 
-    public INoteModel AddNote(string header, string text)
+    public INoteModel CreateNote()
     {
-        var note = new NoteModel(header, text);
-        _notes.Add(note.Guid, note);
+        var note = new NoteModel(null, null);
+        AddNote(note);
         return note;
     }
 
@@ -68,7 +63,7 @@ public class FolderModel : IFolder
     {
         var note = _notes[noteGuid];
         _notes.Remove(noteGuid);
-        var folder = (FolderModel)_boardModel.Folders[folderGuid];
+        var folder = _boardModel.Folders[folderGuid];
         folder!.AddNote(note);
     }
 
@@ -88,14 +83,13 @@ public class FolderModel : IFolder
 
     private void OnNotesCollectionChanged(object sender, DictChangedEventArgs<string, NoteModel> e)
     {
-        var note = e.Value;
         switch (e.Change)
         {
             case CollectionChangeType.Add:
-                note.PropertyChanged += OnNoteEdited;
+                e.NewValue.PropertyChanged += OnNoteEdited;
                 break;
             case CollectionChangeType.Remove:
-                note.PropertyChanged -= OnNoteEdited;
+                e.OldValue.PropertyChanged -= OnNoteEdited;
                 break;
 
             default:

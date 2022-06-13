@@ -1,11 +1,12 @@
 ﻿using System.Windows.Input;
+using BL;
 using GUI.Commands;
 
 namespace GUI.ViewModels
 {
     internal partial class AppViewModel
     {
-        public ICommand AddNoteCommand { get; private set; }
+        public ICommand CreateNoteCommand { get; private set; }
         public ICommand OpenNoteCommand { get; private set; }
         public ICommand CloseNoteCommand { get; private set; }
         public ICommand DeleteNoteCommand { get; private set; }
@@ -14,30 +15,30 @@ namespace GUI.ViewModels
 
         private void SetCommands()
         {
-            AddNoteCommand = new Command(AddNoteAction, AddNoteCondition);
-            OpenNoteCommand = new Command<NoteViewModel>(OpenNoteAction, OpenNoteCondition);
+            CreateNoteCommand = new Command(CreateNoteAction, CreateNoteCondition);
+            OpenNoteCommand = new Command<INote>(OpenNoteAction, OpenNoteCondition);
             CloseNoteCommand = new Command(CloseNoteAction);
-            DeleteNoteCommand = new Command<NoteViewModel>(DeleteNoteAction, DeleteNoteCondition);
+            DeleteNoteCommand = new Command<INote>(DeleteNoteAction, DeleteNoteCondition);
 
-            PickFolderCommand = new Command<FolderViewModel>(PickFolderAction, PickFolderCondition);
+            PickFolderCommand = new Command<IFolder>(PickFolderAction, PickFolderCondition);
         }
 
-        private void AddNoteAction() => NoteAddRequest!.Invoke(new NoteViewModel());
+        private void CreateNoteAction() => NoteCreateRequest!.Invoke();
 
-        private bool AddNoteCondition() => CurrentFolder.CanUserAdd;
+        private bool CreateNoteCondition() => CanUserCreate;
 
-        private void OpenNoteAction(NoteViewModel note) => CurrentNoteGuid = note.Guid;
+        private void OpenNoteAction(INote note) => CurrentNoteGuid = note.Guid;
 
-        private bool OpenNoteCondition(NoteViewModel note) => note is not null && CurrentFolder.CanUserEdit;
+        private bool OpenNoteCondition(INote note) => note is not null && CanUserEdit;
 
-        private void CloseNoteAction() => NoteEditRequest!.Invoke(CurrentNote);
+        private void CloseNoteAction() => CurrentNoteGuid = null;
 
-        private void DeleteNoteAction(NoteViewModel note) => NoteRemoveRequest!.Invoke(note);
+        private void DeleteNoteAction(INote note) => NoteRemoveRequest!.Invoke(note);
 
-        private static bool DeleteNoteCondition(NoteViewModel note) => note is not null;
+        private static bool DeleteNoteCondition(INote note) => note is not null;
 
-        private void PickFolderAction(FolderViewModel f) => FolderPickRequest!.Invoke(f);
+        private void PickFolderAction(IFolder f) => CurrentFolderGuid = f.Guid; 
 
-        private static bool PickFolderCondition(FolderViewModel f) => f is not null;
+        private static bool PickFolderCondition(IFolder f) => f is not null;
     }
 }

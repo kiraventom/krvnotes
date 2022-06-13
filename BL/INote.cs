@@ -4,7 +4,7 @@ public interface INote
 {
     string Guid { get; }
 
-    string Header { get; }
+    string Header { get; set; }
 
-    string Text { get; }
+    string Text { get; set; }
 }

@@ -3,9 +3,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
+using BL;
 using Common;
-using GUI.ViewModels;
 
 namespace GUI.Templates;
 
@@ -36,12 +35,12 @@ public class Folder : RadioButton
     }
 }
 
-[ValueConversion(typeof(FolderViewModel), typeof(bool))]
+[ValueConversion(typeof(IFolder), typeof(bool))]
 public class AreFoldersEqual : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        return values[0] is FolderViewModel f0 && values[1] is FolderViewModel f1 && f0 == f1;
+        return values[0] is IFolder f0 && values[1] is IFolder f1 && f0 == f1;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

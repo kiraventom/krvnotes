@@ -29,8 +29,9 @@ public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue> where TKey
         get => _items[key];
         set
         {
+            var oldValue = _items[key];
             _items[key] = value;
-            var eventArgs = new DictChangedEventArgs<TKey, TValue>(CollectionChangeType.Replace, key, value);
+            var eventArgs = DictChangedEventArgs<TKey, TValue>.OnReplace(key, oldValue, value);
             Changed?.Invoke(this, eventArgs);
         }
     }
@@ -39,7 +40,7 @@ public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue> where TKey
     {
         _items.Add(key, value);
 
-        var eventArgs = new DictChangedEventArgs<TKey, TValue>(CollectionChangeType.Add, key, value);
+        var eventArgs = DictChangedEventArgs<TKey, TValue>.OnAdd(key, value);
         Changed?.Invoke(this, eventArgs);
     }
 
@@ -49,9 +50,10 @@ public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue> where TKey
         if (doesExist)
         {
             var value = _items[key];
+            var oldIndex = Array.IndexOf(_items.Keys.ToArray(), key); // не прикольно но wpf требует индекс
             _items.Remove(key);
 
-            var eventArgs = new DictChangedEventArgs<TKey, TValue>(CollectionChangeType.Remove, key, value);
+            var eventArgs = DictChangedEventArgs<TKey, TValue>.OnRemove(key, value, oldIndex);
             Changed?.Invoke(this, eventArgs);
         }
 
@@ -60,9 +62,10 @@ public class ObservableDict<TKey, TValue> : IDictionary<TKey, TValue> where TKey
 
     public void Clear()
     {
+        var clearedItems = _items.ToDictionary(pair => pair.Key, pair => pair.Value);
         _items.Clear();
 
-        var eventArgs = new DictChangedEventArgs<TKey, TValue>(CollectionChangeType.Clear, default, default);
+        var eventArgs = DictChangedEventArgs<TKey, TValue>.OnClear(clearedItems);
         Changed?.Invoke(this, eventArgs);
     }
 

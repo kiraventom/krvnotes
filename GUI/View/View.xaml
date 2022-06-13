@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GUI"
         xmlns:cts="clr-namespace:GUI.Templates"
         xmlns:viewModels="clr-namespace:GUI.ViewModels"
+        xmlns:bl="clr-namespace:BL;assembly=BL"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="krvnotes"
@@ -46,7 +46,7 @@
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type viewModels:FolderViewModel}">
+                <DataTemplate DataType="{x:Type bl:IFolder}">
                     <cts:Folder
                         Template="{StaticResource FolderTemplate}"
                         Style="{StaticResource FolderStyle}"
@@ -80,10 +80,10 @@
             Orientation="Horizontal"
             Style="{StaticResource HeaderStyle}">
             <Button
-                Command="{Binding AddNoteCommand}"
+                Command="{Binding CreateNoteCommand}"
                 Content="{StaticResource AddIcon}"
                 Visibility="{Binding 
-                    Path=CurrentFolder.CanUserEdit, 
+                    Path=CanUserCreate, 
                     Converter={StaticResource BoolToVisibility}}"/>
         </StackPanel>
 
@@ -101,7 +101,7 @@
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="viewModels:NoteViewModel">
+                    <DataTemplate DataType="bl:INote">
                         <cts:Note
                             Template="{StaticResource NoteTemplate}"
                             Header="{Binding Path=Header}"

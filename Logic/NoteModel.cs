@@ -5,8 +5,6 @@ namespace Logic;
 
 public interface INoteModel : INote
 {
-    void Edit(string header, string text);
-    
     DateTime EditedAt { get; }
 }
 
@@ -14,17 +12,19 @@ internal class BaseNoteModel : Notifiable
 {
     private string _header;
     private string _text;
-    private DateTime _editedAt;
-    
+
     internal BaseNoteModel(string guid, string header, string text, DateTime editedAt)
     {
         Guid = guid;
         Header = header;
         Text = text;
         EditedAt = editedAt;
+
+        PropertyChanged += (_, _) => EditedAt = DateTime.Now;
     }
 
-    internal BaseNoteModel(BaseNoteModel baseNoteModel) : this(baseNoteModel.Guid, baseNoteModel.Header, baseNoteModel.Text, baseNoteModel.EditedAt)
+    internal BaseNoteModel(BaseNoteModel baseNoteModel) 
+        : this(baseNoteModel.Guid, baseNoteModel.Header, baseNoteModel.Text, baseNoteModel.EditedAt)
     {
 
     }
@@ -34,20 +34,16 @@ internal class BaseNoteModel : Notifiable
     public string Header
     {
         get => _header;
-        protected set => SetAndRaise(ref _header, value);
+        set => SetAndRaise(ref _header, value);
     }
 
     public string Text
     {
         get => _text;
-        protected set => SetAndRaise(ref _text, value);
+        set => SetAndRaise(ref _text, value);
     }
 
-    public DateTime EditedAt
-    {
-        get => _editedAt;
-        protected set => SetAndRaise(ref _editedAt, value);
-    }
+    public DateTime EditedAt { get; private set; }
 }
 
 internal class NoteModel : BaseNoteModel, INoteModel
@@ -62,11 +58,4 @@ internal class NoteModel : BaseNoteModel, INoteModel
     }
 
     public static NoteModel FromBaseNote(BaseNoteModel baseNoteModel) => new(baseNoteModel);
-
-    public void Edit(string header, string text)
-    {
-        Header = header;
-        Text = text;
-        EditedAt = DateTime.Now;
-    }
 }

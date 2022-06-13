@@ -18,9 +18,12 @@ namespace Common.Utils
         }
 
         // ReSharper disable once RedundantAssignment
-        protected void SetAndRaise<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
+        protected void SetAndRaise<T>(ref T field, T newValue, bool ignoreEqualityCheck = false, [CallerMemberName] string propertyName = null)
         {
             ArgumentNullException.ThrowIfNull(propertyName);
+            if (!ignoreEqualityCheck && (field != null && field.Equals(newValue) || newValue != null && newValue.Equals(field)))
+                return;
+            
             field = newValue;
             OnPropertyChanged(propertyName);
         }

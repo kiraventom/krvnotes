@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Windows;
 using BL;
+using Common;
 using Common.Utils;
 
 namespace GUI.ViewModels;
 
-// TODO: всё-таки попробовать убрать FolderViewModel и NoteViewModel. CanAdd и CanEdit можно убрать в AppVM и проверять в них CurrentFolder
-// TODO: Подумать, как оптимизировать тупое копирование всех папок на каждый чих
+// TODO: если получится, то не забыть убрать и DTO? или хотя бы переименовать методы типа FromBaseNote
+
 // TODO: Пофиксить невозможность нажать кнопку удаления из-за "неоткрываемости" заметок в корзине
 // TODO: Restore from recycle bin
 // TODO: Implement moving
@@ -19,13 +20,11 @@ namespace GUI.ViewModels;
 public interface IAppViewModel : IViewModel
 {
     event Action ViewModelLoaded;
-    event Action<IFolder> FolderPickRequest;
 
-    event Action<INote> NoteAddRequest;
+    event Action NoteCreateRequest;
     event Action<INote> NoteRemoveRequest;
-    event Action<INote> NoteEditRequest;
-
-    IKeyedCollection<FolderViewModel> Folders { get; set; }
+    
+    Func<IKeyedCollection<IFolder>> FoldersGetter { get; set; }
     string CurrentFolderGuid { get; set; }
     string CurrentNoteGuid { get; set; }
 }
@@ -33,10 +32,7 @@ public interface IAppViewModel : IViewModel
 internal partial class AppViewModel : Notifiable, IAppViewModel
 {
     private static IEventManager EventManager => ((App)Application.Current).EventManager;
-
-    private NoteViewModel _currentNote;
-    private FolderViewModel _currentFolder;
-    private IKeyedCollection<FolderViewModel> _folders;
+    
     private string _currentFolderGuid;
     private string _currentNoteGuid;
 
@@ -54,22 +50,14 @@ internal partial class AppViewModel : Notifiable, IAppViewModel
 
     public event Action ViewModelLoaded;
 
-    public event Action<IFolder> FolderPickRequest;
-
-    public event Action<INote> NoteAddRequest;
+    public event Action NoteCreateRequest;
     public event Action<INote> NoteRemoveRequest;
-    public event Action<INote> NoteEditRequest;
+
+    public Func<IKeyedCollection<IFolder>> FoldersGetter { get; set; }
+
     //public event Action<NoteViewModel> NoteMoveRequest;
 
-    public IKeyedCollection<FolderViewModel> Folders
-    {
-        get => _folders;
-        set
-        {
-            SetAndRaise(ref _folders, value);
-            OnPropertyChanged(nameof(CurrentFolder));
-        }
-    }
+    public IKeyedCollection<IFolder> Folders => FoldersGetter.Invoke();
 
     public string CurrentFolderGuid
     {
@@ -78,6 +66,8 @@ internal partial class AppViewModel : Notifiable, IAppViewModel
         {
             _currentFolderGuid = value;
             OnPropertyChanged(nameof(CurrentFolder));
+            OnPropertyChanged(nameof(CanUserCreate));
+            OnPropertyChanged(nameof(CanUserEdit));
         }
     }
 
@@ -92,8 +82,11 @@ internal partial class AppViewModel : Notifiable, IAppViewModel
         }
     }
 
-    public FolderViewModel CurrentFolder => Folders[CurrentFolderGuid];
-    public NoteViewModel CurrentNote => CurrentNoteGuid is not null ? CurrentFolder.Notes[CurrentNoteGuid] : null;
+    public IFolder CurrentFolder => Folders[CurrentFolderGuid];
+    public INote CurrentNote => CurrentNoteGuid is not null ? CurrentFolder.Notes[CurrentNoteGuid] : null;
 
     public bool IsEditorOpen => CurrentNote is not null;
+
+    public bool CanUserCreate => CurrentFolder.FolderType is not Constants.FolderType.Archive and not Constants.FolderType.RecycleBin;
+    private bool CanUserEdit => CurrentFolder.FolderType is not Constants.FolderType.RecycleBin;
 }

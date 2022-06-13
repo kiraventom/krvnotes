@@ -2,7 +2,6 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 using System.Text.Json.Serialization;
-using BL;
 using Common;
 
 namespace Logic.Dumping

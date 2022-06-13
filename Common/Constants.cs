@@ -35,9 +35,9 @@ namespace Common
         {
             var dict = new Dictionary<FolderType, DefaultFolder>()
             {
-                {FolderType.Unsorted, new DefaultFolder(FolderType.Unsorted, @"unsorted-guid", "Unsorted")},
+                {FolderType.Unsorted, new DefaultFolder(FolderType.Unsorted, "unsorted-guid", "Unsorted")},
                 //{FolderType.Archive, new DefaultFolder(FolderType.Archive, @"archive-guid", "Archive")},
-                {FolderType.RecycleBin, new DefaultFolder(FolderType.RecycleBin, @"recycle-bin-guid", "Recycle bin")}
+                {FolderType.RecycleBin, new DefaultFolder(FolderType.RecycleBin, "recycle-bin-guid", "Recycle bin")}
             };
 
             return dict;

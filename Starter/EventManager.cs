@@ -27,51 +27,25 @@ namespace Starter
             _viewModel = boardViewModel;
 
             _viewModel.ViewModelLoaded += OnModelLoaded;
-            _viewModel.FolderPickRequest += OnFolderPickRequest;
 
-            _viewModel.NoteAddRequest += OnNoteAddRequest;
+            _viewModel.NoteCreateRequest += OnNoteCreateRequest;
             _viewModel.NoteRemoveRequest += OnNoteRemoveRequest;
-            _viewModel.NoteEditRequest += OnNoteEditRequest;
         }
 
         private void OnModelLoaded()
         {
-            var modelFolders = _model.BoardModel.Folders;
-            var viewModelFolders = modelFolders.Cast(FolderViewModel.FromIFolder);
-            _viewModel.Folders = viewModelFolders;
+            _viewModel.FoldersGetter = () => _model.BoardModel.Folders;
         }
 
-        private void OnFolderPickRequest(IFolder pickedFolder)
+        private void OnNoteCreateRequest()
         {
-            // maybe obsolete
-            var folderModel = _model.BoardModel.Folders[pickedFolder.Guid];
-            _viewModel.CurrentFolderGuid = folderModel.Guid;
-        }
-
-        private void OnNoteAddRequest(INote noteToAdd)
-        {
-            var noteModel = CurrentFolderModel.AddNote(noteToAdd.Header, noteToAdd.Text);
-            UpdateFolders();
+            var noteModel = CurrentFolderModel.CreateNote();
             _viewModel.CurrentNoteGuid = noteModel.Guid;
         }
 
         private void OnNoteRemoveRequest(INote noteToDelete)
         {
             var wasDeleted = CurrentFolderModel.RemoveNote(noteToDelete.Guid);
-            UpdateFolders();
-        }
-
-        private void OnNoteEditRequest(INote noteToEdit)
-        {
-            var noteModel = CurrentFolderModel.Notes[noteToEdit.Guid];
-            noteModel.Edit(noteToEdit.Header, noteToEdit.Text);
-            UpdateFolders();
-            _viewModel.CurrentNoteGuid = null;
-        }
-
-        private void UpdateFolders()
-        {
-            _viewModel.Folders = _model.BoardModel.Folders.Cast(FolderViewModel.FromIFolder);
         }
     }
 }
