@@ -65,7 +65,7 @@
         <Setter Property="FontSize" Value="17" />
     </Style>
 
-    <Style x:Key="NoteDeleteButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource NoDefaultHoverButtonStyle}">
+    <Style x:Key="NoteMenuButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource NoDefaultHoverButtonStyle}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Cursor" Value="Hand"/>

@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Icons/AddIcon.xaml"/>
                 <ResourceDictionary Source="Icons/CloseIcon.xaml"/>
+                <ResourceDictionary Source="Icons/MenuIcon.xaml"/>
                 <ResourceDictionary Source="Icons/FolderIcons/NoteIcon.xaml"/>
                 <ResourceDictionary Source="Icons/FolderIcons/RecycleBinIcon.xaml"/>
                 <ResourceDictionary Source="Icons/FolderIcons/ArchiveIcon.xaml"/>
@@ -26,7 +27,6 @@
                 <ResourceDictionary Source="Styles/Editor/EditorTextStyle.xaml"/>
                 <ResourceDictionary Source="Styles/Editor/EditorButtonStyle.xaml"/>
                 <ResourceDictionary Source="Styles/Editor/EditorOverlayStyle.xaml"/>
-                <ResourceDictionary Source="Styles/Editor/EditorBackgroundStyle.xaml"/>
 
                 <ResourceDictionary Source="Templates/PlaceholderTextBoxTemplate.xaml"/>
                 <ResourceDictionary Source="Templates/FolderTemplate.xaml"/>

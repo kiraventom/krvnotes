@@ -18,12 +18,17 @@
             <Button
                 Grid.Row="0" Grid.Column="0"
                 Grid.RowSpan="3" Grid.ColumnSpan="3"
-                Style="{StaticResource EditorBackgroundStyle}"
+                Background="Black"
+                BorderThickness="0"
+                Opacity="0.5"
+                Style="{StaticResource NoDefaultHoverButtonStyle}"
                 Command="{TemplateBinding CloseNoteCommand}">
             </Button>
 
             <Border
-                Grid.Row="1" Grid.Column="1">
+                Grid.Row="1" Grid.Column="1"
+                CornerRadius="7"
+                Background="White">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60" />
@@ -55,7 +60,12 @@
                     Path=Text,
                     Mode=TwoWay}" />
 
-                    <StackPanel Grid.Row="2">
+                    <StackPanel 
+                        Grid.Row="2"
+                        Orientation="Horizontal"
+                        FlowDirection="RightToLeft"
+                        HorizontalAlignment="Stretch"
+                        Margin="20, 5, 20, 10">
                         <Button
                             Command="{TemplateBinding CloseNoteCommand}"
                             Style="{StaticResource EditorButtonStyle}"

@@ -20,6 +20,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Page Update="Icons\MenuIcon.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
       <Page Update="Icons\FolderIcons\CustomIcon.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>

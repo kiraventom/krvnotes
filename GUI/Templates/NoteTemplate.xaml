@@ -35,16 +35,11 @@
                 </Grid>
             </Button>
 
-            <Button
-                Grid.Row="0" Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    Style="{StaticResource NoteDeleteButtonStyle}"
-                    Command="{TemplateBinding DeleteNoteCommand}"
-                    CommandParameter="{TemplateBinding DeleteNoteCommandParameter}">
-                <StaticResource ResourceKey="CloseIcon" />
-            </Button>
-
+            <Grid.ContextMenu>
+                <ContextMenu.ItemTemplate>
+                    <DataTemplate DataType="{x:Type}"></DataTemplate>
+                </ContextMenu.ItemTemplate>
+            </Grid.ContextMenu>
         </Grid>
     </ControlTemplate>
 </ResourceDictionary>

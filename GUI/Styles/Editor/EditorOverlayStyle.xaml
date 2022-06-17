@@ -15,6 +15,10 @@
                                 Storyboard.TargetProperty="Opacity"
                                 From="0.0" To="1.0"
                                 Duration="0:0:0.1" />
+                            <!--<DoubleAnimation
+                                Storyboard.TargetProperty="Width"
+                                From="100" To="Auto"
+                                Duration="0:0:0.5" />-->
                         </Storyboard>
                     </BeginStoryboard>
                 </DataTrigger.EnterActions>
@@ -44,27 +48,5 @@
         </Style.Triggers>
 
         <Setter Property="Opacity" Value="0.0" />
-        <Style.Resources>
-            <Style TargetType="{x:Type Grid}">
-                <Style.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="7" />
-                        <Setter Property="Background" Value="White" />
-                        <Style.Resources>
-                            <Style TargetType="{x:Type Grid}">
-                                <Style.Resources>
-                                    <Style TargetType="{x:Type StackPanel}">
-                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                        <Setter Property="Margin" Value="20, 5, 20, 10" />
-                                        <Setter Property="Orientation" Value="Horizontal" />
-                                        <Setter Property="FlowDirection" Value="RightToLeft" />
-                                    </Style>
-                                </Style.Resources>
-                            </Style>
-                        </Style.Resources>
-                    </Style>
-                </Style.Resources>
-            </Style>
-        </Style.Resources>
     </Style>
 </ResourceDictionary>
